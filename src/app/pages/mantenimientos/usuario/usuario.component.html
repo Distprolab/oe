@@ -1,0 +1,127 @@
+<div class="container w-75 rg- mt-3 rounded shadow">
+  <div class="row align-items-stretch">
+    <div class="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-6 rounded">
+      <div class="logoimg">
+        <img
+          src="./assets/msp.png"
+          class="img-fluid"
+          width="400"
+          height="400"
+        />
+      </div>
+    </div>
+
+    <div class="register-page col-6">
+      <div class="register-box">
+        <div class="card card-outline card-primary">
+          <div class="card-body">
+            <h2 class="login-box-msg">Registro de usuarios</h2>
+
+            <form
+              autocomplete="off"
+              [formGroup]="registerform"
+              (ngSubmit)="crearUsuario()"
+              id="registerform"
+            >
+              <div class="form-group col-md-12">
+                <label for="text" class="form-label">Rol</label>
+                <div class="col">
+                  <select
+                    class="form-control"
+                    formControlName="rol"
+                    [class.is-invalid]="rolNoValido"
+                  >
+                    <option value="">--Seleccione una opcion--</option>
+                    <option *ngFor="let rol of listaroles" [value]="rol.rol">
+                      {{ rol.rol }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <small *ngIf="doctorNoValido" class="text-danger"
+                >Escoge una opcion</small
+              >
+
+              <div
+                *ngIf="this.registerform.value.rol === 'DOCTOR'"
+                class="form-group col-md-12"
+              >
+                <label class="form-label">Doctor</label>
+                <div class="col">
+                  <select
+                    name=""
+                    class="form-control"
+                    formControlName="doctor"
+                    [class.is-invalid]="doctorNoValido"
+                  >
+                    <option ngValue="">-Seleccione</option>
+                    <option *ngFor="let lista of listadoctor" [ngValue]="lista">
+                      {{ lista.Description }}
+                    </option>
+                  </select>
+                  <small *ngIf="doctorNoValido" class="text-danger"
+                    >Escoge una opcion</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="text" class="form-label">Usuario</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="usuario"
+                  [class.is-invalid]=""
+                  placeholder="Ingrese un nombre de usuario"
+                />
+                <small *ngIf="usuarioNoValido" class="text-danger"
+                  >Ingrese un caracter</small
+                >
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="text" class="form-label">Contrasena</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="password"
+                  [class.is-invalid]="passwordNoValido"
+                  placeholder="Ingrese una contraseña"
+                />
+                <small *ngIf="passwordNoValido" class="text-danger"
+                  >Ingrese una contraseña</small
+                >
+              </div>
+              <div class="form-group col-md-12">
+                <label for="text" class="form-label"
+                  >Confirmar Contraseña</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  formControlName="password2"
+                  [class.is-invalid]="password2NoValido"
+                  placeholder="Repita constrasena"
+                />
+                <small *ngIf="password2NoValido" class="text-danger">
+                  Las contraseña no son iguales</small
+                >
+              </div>
+
+              <div class="row">
+                <div class="col-8"></div>
+
+                <div class="social-auth-links text-center">
+                  <button type="submit" class="btn btn-block btn-primary">
+                    <i class="fa fa-save"></i>
+                    Guardar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

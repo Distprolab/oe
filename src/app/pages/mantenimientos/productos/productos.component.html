@@ -1,0 +1,175 @@
+<div class="container-fluid rounded shadow">
+  <div class="row py-4 animated fadeIn fast">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="exampleInputFile">File input</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  (change)="readExcel($event)"
+                  class="custom-file-input"
+                  id="exampleInputFile"
+                />
+                <label class="custom-file-label" for="exampleInputFile"
+                  >Choose file</label
+                >
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text">Upload</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row animated fadeIn fast">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="title">Ordenes registrados</h6>
+
+          <div class="col-md-3 button"></div>
+
+          <div class="table-responsive">
+            <form [formGroup]="productoForm">
+              <button (click)="addRow()" class="btn btn-primary">
+                Add Item
+              </button>
+              <table border="1">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Lote</th>
+                    <th>Caducidad</th>
+                    <th>Recibido</th>
+                    <th>Aceptada</th>
+                    <th>Fabricante</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <ng-container
+                    formArrayName="tableRows"
+                    *ngFor="
+                      let group of getFormControls.controls;
+                      let i = index
+                    "
+                  >
+                    <tr [formGroupName]="i">
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'id'"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'referenciaInterna'"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'Nombre'"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'Lote'"
+                        />
+                      </td>
+
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'caducidad'"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'cantidadPedida'"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'realizado'"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          [formControlName]="'fabricante'"
+                        />
+                      </td>
+                      <td>
+                        <button (click)="deleteRow(i)" class="btn btn-danger">
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <!--     <tr *ngFor="let group of getFormControls.controls; let i = index;"
+                                        [formGroupName]="i">
+                                        <td>{{i+1}}</td>
+                                        <td> <input type="number" formControlName="referenciaInterna"
+                                                class="form-control"></td>
+                                        <td>
+                                            <input type="text" formControlName="Nombre" class="form-control">
+                                        </td>
+                                        <td> <input formControlName="lote" class="form-control"></td>
+                                        <td> <input formControlName="caducidad" class="form-control"> </td>
+                                        <td> <input formControlName="cantidadPedida" class="form-control"></td>
+                                        <td> <input formControlName="realizado" class="form-control"></td>
+                                        <td> <input formControlName="fabricante" class="form-control"></td>
+                                        <td>
+                                            <button class="btn btn-danger">Delete</button>
+                                        </td>
+
+
+
+                                    </tr> -->
+                </tbody>
+
+                <tr>
+                  <td></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </div>
+        <pre>{{ productoForm.value | json }}</pre>
+        <!-- <pre>
+    Estado del formulario: {{ .valid }}
+    <br>
+    Status: {{ .status }}
+    </pre>
+
+    <pre>
+
+    {{ OrdenForm.value | json }}
+
+    </pre>   -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="container w-75 bg- mt-5 rounded shadow">
+  <div class="row align-items-stretch">
+    <div class="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-6 rounded">
+      <img
+        src="./assets/foto-01.png"
+        class="logoimg img-fluid"
+        width="400"
+        height="400"
+      />
+    </div>
+    <div class="col bg-white p-5 rounded-end">
+      <div class="text-end">
+        <img
+          src="./assets/IESS logo horizontal-01.png"
+          class="img-thumbnail"
+          alt=""
+          width="300"
+          height="300"
+        />
+      </div>
+
+      <h2 class="fw-bold text-center pt-3 mb-32">INICIAR SESIÓN</h2>
+      <form
+        autocomplete="off"
+        [formGroup]="loginforma"
+        (ngSubmit)="login()"
+        id="loginform"
+      >
+        <div class="mb-4">
+          <label for="text" class="form-label">Usuario</label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ingrese su cédula"
+            formControlName="usuario"
+            [class.is-invalid]="usuarioNoValido"
+          />
+        </div>
+
+        <small *ngIf="usuarioNoValido" class="text-danger"
+          >Ingrese mínimo 10 caracteres</small
+        >
+
+        <div class="mb-4">
+          <label for="text" class="form-label">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+            [class.is-invalid]="passwordNoValido"
+          />
+          <small *ngIf="passwordNoValido" class="text-danger"
+            >ingrese mínimo 10 caracteres</small
+          >
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">
+            <i class="bx bxs-save"></i> Iniciar Sesión
+          </button>
+        </div>
+        <div class="my-3">
+          <!--  <span>No tienes cuenta ?</span><a href="register"> Regístrate</a> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

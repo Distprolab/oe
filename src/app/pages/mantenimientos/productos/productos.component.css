@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+}
+
+.bg-pen {
+  background-color: #eee52b;
+  background-position: center;
+  padding: 5px 5px;
+}
+
+.espacio {
+  margin: 10 auto;
+  margin-left: 30px;
+}
+
+.esboton {
+  margin: 0 auto;
+  margin-left: 80px;
+}

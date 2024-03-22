@@ -1,0 +1,267 @@
+<div class="container-fluid rounded shadow">
+  <div class="row py-4 animated fadeIn fast">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form autocomplete="off" class="form-inline">
+            <div class="form-group">
+              <!-- <input type="text" class="form-control" placeholder="Buscar numero de cedula ..." (keyup)="buscar(txtTermino.value.toUpperCase() )" #txtTermino /> -->
+
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Identificador</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar numero de cédula ..."
+                  #IDENTIFICADOR
+                />
+              </div>
+
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Apellidos</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar por apellidos ..."
+                  #APELLIDO
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="text " class="form-ItemName">Estado</label>
+                <div class="col-12">
+                  <select class="form-control" #ESTADO>
+                    <option value="">--Seleccione--</option>
+                    <option value="1">Creada</option>
+                    <option value="2">Procesada</option>
+                    <option value="3">Pendiente</option>
+                  </select>
+                </div>
+
+                <!--    <input type="text" class="form-control" placeholder="Buscar estado..." #ESTADO /> -->
+              </div>
+
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName"># ORDEN SAIS</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar his..."
+                  #HIS
+                />
+              </div>
+
+              <!-- 
+                            <div class="form-group col-md-2 espacio">
+
+
+
+                                <label for="text " class="form-ItemName ">Fecha registro</label>
+
+                                <div class="input-group date" id="reservationdate">
+                                    <input type="date" class="form-control datetimepicker-input"
+                                        #FECHAORDEN
+                                        data-target="#reservationdate" />
+
+                                </div>
+                              
+                            </div> -->
+
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Sala</label>
+                <div class="col-12">
+                  <select class="form-control" #SALA>
+                    <option value="">--Seleccione--</option>
+                    <option value="1">CONSULTA EXTERNA</option>
+                    <option value="2">EMERGENCIA</option>
+                    <option value="14">LABOR DE PARTO</option>
+                    <option value="10">H. CIRUGIA GENERAL</option>
+                    <option value="11">H. MEDICINA INTERNA</option>
+                    <option value="12">H. PEDIATRIA</option>
+                    <option value="13">H. GINECO-OBSTETRICIA</option>
+                    <option value="15">CENTRO QUIRURGICO</option>
+                  </select>
+                </div>
+                <!--    <input type="text" class="form-control" placeholder="Buscar estado..." #ESTADO /> -->
+              </div>
+
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Prioridad</label>
+                <div class="col-12">
+                  <select class="form-control" #PRIORIDAD>
+                    <option value="">--Seleccione--</option>
+                    <option value="2">RUTINA</option>
+                    <option value="1">URGENTE</option>
+                    <option value="3">CONTROL</option>
+                  </select>
+                </div>
+
+                <!--    <input type="text" class="form-control" placeholder="Buscar estado..." #ESTADO /> -->
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-md rounded shadow"
+              (click)="
+                buscar(
+                  IDENTIFICADOR.value,
+                  ESTADO.value,
+                  HIS.value,
+                  SALA.value,
+                  PRIORIDAD.value,
+                  APELLIDO.value
+                )
+              "
+            >
+              CONSULTAR
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="cargando"
+    class="alert alert-info text-center mt-3 animated fadeIn faster"
+  >
+    <h4 class="alert-heading">Cargando</h4>
+    <p>
+      <i class="fas fa-sync-alt fa-spin fa-2x"></i>
+    </p>
+    <p class="mb-0">Espere por favor</p>
+  </div>
+
+  <div class="row animated fadeIn fast" *ngIf="!cargando">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="title">Listado de ordenes registradas</h6>
+
+          <div class="col-md-3 button"></div>
+
+          <!--  <div *ngIf="ordenes.length === 0" class="row py-2">
+                        <div class="col-12">
+                            <div class="alert alert-info" role="alert">
+                                <h3 class="text-center"> No existe registros  </h3>
+                            </div>
+                        </div>
+                    </div> -->
+
+          <div class="table-responsive">
+            <table *ngIf="!cargando && ordenes.length > 0" class="table">
+              <thead>
+                <tr>
+                  <th>Cédula</th>
+                  <th class="text-table3">Paciente</th>
+                  <th class="text-table2">F. Registro Sais</th>
+                  <th class="text-table2">Doctor</th>
+                  <th class="text-table"># Orden Sais</th>
+                  <th class="text-table1">Sexo</th>
+                  <th class="text-table"># Infinity</th>
+                  <th class="text-table">Prioridad</th>
+                  <th class="text-table2">Fecha. Nacimiento</th>
+                  <th class="text-table2">Sala</th>
+                  <th class="text-table">Estado</th>
+                  <th class="text-table">Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="
+                    let orden of ordenes
+                      | paginate: { itemsPerPage: 5, currentPage: page }
+                  "
+                >
+                  <td>{{ orden.IDENTIFICADOR }}</td>
+                  <td>{{ orden.APELLIDO }} {{ orden.NOMBRES }}</td>
+                  <td>{{ orden.FECHACREACIONSAIS }}</td>
+                  <td>{{ orden.APELLIDODOCTOR }} {{ orden.NOMBREDOCTOR }}</td>
+                  <td>{{ orden.admi_id }}</td>
+                  <td>{{ orden.SEXO }}</td>
+                  <td>{{ orden.NUMEROORDEN }}</td>
+                  <td>{{ orden.PRIORIDAD }}</td>
+                  <td>{{ orden.FECHANACIMIENTO | date: "dd-MM-yyyy" }}</td>
+                  <td>{{ orden.NOMBRETIPOORDEN }}</td>
+
+                  <!-- <td>{{orden.FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
+                  <td>
+                    <span
+                      *ngIf="orden.ESTADO == '1'"
+                      class="rounded shadow bg-pen"
+                      >Creada</span
+                    >
+                    <span
+                      *ngIf="orden.ESTADO == '2'"
+                      class="rounded shadow bg-pen"
+                      >Procesada</span
+                    >
+                    <span
+                      *ngIf="orden.ESTADO == '3'"
+                      class="rounded shadow bg-pen"
+                      >pendiente</span
+                    >
+                  </td>
+
+                  <td class="text-nowrap">
+                    <a
+                      [ngClass]="{ 'disabled-icon': orden.ESTADO == '2' }"
+                      [routerLink]="['/dashboard', 'orden', orden.id]"
+                      data-toggle="tooltip"
+                      data-original-title="Editar"
+                    >
+                      <i class="bx bx-edit-alt bx-sm"></i>
+                    </a>
+                    <!--  <span (click)="imprimirOrden(orden)">
+                                            <i class="bx bxs-printer bx-sm  "></i>
+                                        </span>
+                                        &nbsp; -->
+                    <!--                                <a data-toggle="tooltip" data-original-title="Borrar"
+                                            (click)="eliminarOrden(orden)" class="cursor">
+
+                                            <i [ngClass]="{ 'disabled-icon': orden.ESTADO != '1' }"
+                                             class="bx bx-trash bx-sm text-danger"></i></a> -->
+
+                    <span class="rounded shadow cursor" (click)="pdf2(orden)">
+                      <i class="bx bxs-file-pdf bx-sm text-danger"></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+    ></pagination-controls>
+  </div>
+
+  <div class="modal fade show" id="modal-default">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">+ Cargar pruebas</h4>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <!--    <button type="button" class="btn btn-default" data-dismiss="modal"></button> 
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Guardar</button> -->
+      </div>
+    </div>
+  </div>
+</div>
