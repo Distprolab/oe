@@ -30,6 +30,7 @@ import { OrdenManualComponent } from './mantenimientos/orden-manual/orden-manual
 import { EstadisticaMicroComponent } from './mantenimientos/estadistica-micro/estadistica-micro.component';
 import { RegistroComprasComponent } from './mantenimientos/registro-compras/registro-compras.component';
 import { ComprasComponent } from './mantenimientos/compras/compras.component';
+import { ConsultaComprasComponent } from './mantenimientos/consulta-compras/consulta-compras.component';
 
 const routes: Routes = [
   {
@@ -157,6 +158,11 @@ const routes: Routes = [
         path: 'compras',
         component: ComprasComponent,
         data: { titulo: 'compras' },
+      },
+      {
+        path: 'consulta-compras',
+        component: ConsultaComprasComponent,
+        data: { titulo: 'consulta-compras' },
       },
     ],
   },

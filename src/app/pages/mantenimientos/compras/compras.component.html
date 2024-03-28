@@ -21,6 +21,7 @@
                   formControlName="institucion"
                   [class.is-invalid]="institucion"
                   placeholder="Ingrese nombre de la institucion"
+                  appUppercase
                 />
                 <small *ngIf="institucion" class="text-danger"
                   >Campo obligatorio
@@ -38,6 +39,7 @@
                   placeholder="Ingrese codigos de procesos"
                   formControlName="codigo"
                   [class.is-invalid]="codigo"
+                  appUppercase
                 />
                 <small *ngIf="codigo" class="text-danger"
                   >Campo obligatorio
@@ -91,6 +93,7 @@
                   placeholder="Ingrese determinaciones "
                   formControlName="determinacion"
                   [class.is-invalid]="determinacion"
+                  appUppercase
                 />
                 <small *ngIf="codigo" class="text-danger"
                   >Campo obligatorio
@@ -827,6 +830,38 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title" for="">Adjunto</h3>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="exampleInputFile"> Doc:</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      formControlName="adjunto"
+                      class="form-control"
+                      id="exampleInputFile"
+                      (change)="upload($event)"
+                      multiple
+                    />
+                    <label class="custom-file-label" for="exampleInputFile"
+                      >Cargue los arhivos</label
+                    >
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="input-group-append">
         <button type="submit" class="btn btn-primary">Guardar</button>
         &nbsp;
@@ -838,16 +873,16 @@
   </form>
 </div>
 
-<!--  <hr>
-  <pre>
+<hr />
+<pre>
       Estado del formulario: {{ RegistroForm.valid }}
       <br>
       Status: {{ RegistroForm.status }}
       </pre>
-  
-  
-  <pre>
+
+<pre>
   
       {{ RegistroForm.value | json }}
   
-      </pre>    -->
+      </pre
+>

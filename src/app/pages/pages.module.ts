@@ -47,6 +47,7 @@ import { AgendamientoManualComponent } from './mantenimientos/agendamiento-manua
 import { OrdenManualComponent } from './mantenimientos/orden-manual/orden-manual.component';
 import { EstadisticaMicroComponent } from './mantenimientos/estadistica-micro/estadistica-micro.component';
 import { ComprasComponent } from './mantenimientos/compras/compras.component';
+import { ConsultaComprasComponent } from './mantenimientos/consulta-compras/consulta-compras.component';
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
@@ -76,6 +77,7 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     AgendamientoManualComponent,
     EstadisticaMicroComponent,
     ComprasComponent,
+    ConsultaComprasComponent,
   ],
 
   exports: [

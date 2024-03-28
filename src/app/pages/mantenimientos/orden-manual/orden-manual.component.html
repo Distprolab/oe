@@ -655,7 +655,7 @@
   </form>
 </div>
 
-<!--  <hr>
+<!-- <hr>
 <pre>
     Estado del formulario: {{ OrdenForm.valid }}
     <br>
@@ -666,7 +666,7 @@
 
     {{ OrdenForm.value | json }}
 
-    </pre>  -->
+    </pre>   -->
 
 <div class="modal fade" id="modal-info">
   <div class="modal-dialog">
@@ -837,11 +837,11 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="s.isChecked"
-                            [value]="s.CODIGO +'-'+s.NOMBRE"
+                            [value]="s.CODIGO + '-' + s.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
-                          {{s.CODIGO}}  {{ s.NOMBRE }}
+                            {{ s.CODIGO }} {{ s.NOMBRE }}
                           </label>
                         </div>
                       </div>
@@ -859,11 +859,11 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="ot.isChecked"
-                            [value]="ot.CODIGO+'-'+ot.NOMBRE"
+                            [value]="ot.CODIGO + '-' + ot.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
-                           {{ot.CODIGO}} {{ ot.NOMBRE }}
+                            {{ ot.CODIGO }} {{ ot.NOMBRE }}
                           </label>
                         </div>
                       </div>
@@ -880,11 +880,11 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="timo.isChecked"
-                            [value]="timo.CODIGO + ' - '+ timo.NOMBRE"
+                            [value]="timo.CODIGO + ' - ' + timo.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
-                            {{ timo.CODIGO }} {{timo.NOMBRE}}
+                            {{ timo.CODIGO }} {{ timo.NOMBRE }}
                           </label>
                         </div>
                       </div>
@@ -902,11 +902,11 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="ur.isChecked"
-                            [value]="ur.CODIGO + ' - ' + ur.NOMBRE "
+                            [value]="ur.CODIGO + ' - ' + ur.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
-                            {{ ur.CODIGO }}  {{ ur.NOMBRE }}
+                            {{ ur.CODIGO }} {{ ur.NOMBRE }}
                           </label>
                         </div>
                       </div>
@@ -923,7 +923,7 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="ho.isChecked"
-                            [value]="ho.CODIGO +'-'+ ho.NOMBRE"
+                            [value]="ho.CODIGO + '-' + ho.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
@@ -945,7 +945,7 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="pv.isChecked"
-                            [value]="pv.CODIGO +'-'+ pv.NOMBRE"
+                            [value]="pv.CODIGO + '-' + pv.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
@@ -1028,11 +1028,11 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="h.isChecked"
-                            [value]="h.CODIGO +'- '+ h.NOMBRE"
+                            [value]="h.CODIGO + '- ' + h.NOMBRE"
                             (change)="onchange($event)"
                           />
                           <label class="margin">
-                            {{ h.CODIGO }}  {{ h.NOMBRE }}
+                            {{ h.CODIGO }} {{ h.NOMBRE }}
                           </label>
                         </div>
                       </div>
@@ -1050,10 +1050,10 @@
                             type="checkbox"
                             name="checkbox"
                             [(ngModel)]="co.isChecked"
-                            [value]="co.CODIGO +'-'+ co.NOMBRE"
+                            [value]="co.CODIGO + '-' + co.NOMBRE"
                             (change)="onchange($event)"
                           />
-                          <label class="margin ">
+                          <label class="margin">
                             {{ co.CODIGO }} {{ co.NOMBRE }}
                           </label>
                         </div>

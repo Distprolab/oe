@@ -69,22 +69,22 @@ export class SidebarService {
         {
           titulo: 'Reporte pacientes',
           url: 'registro-Pacientes',
-          roles: ['ADMIN', 'SUPERVISOR'],
+          roles: ['ADMIN', 'CALIDAD'],
         },
         {
           titulo: 'Reporte produccion',
           url: 'reporte-produccion',
-          roles: ['ADMIN', 'SUPERVISOR'],
+          roles: ['ADMIN', 'CALIDAD'],
         },
         {
           titulo: 'Reporte Qc',
           url: 'reporte-qc',
-          roles: ['ADMIN', 'SUPERVISOR'],
+          roles: ['ADMIN', 'CALIDAD'],
         },
         {
           titulo: 'Reporte Micro',
           url: 'report-micro',
-          roles: ['ADMIN', 'SUPERVISOR'],
+          roles: ['ADMIN', 'MICRO'],
         },
       ],
     },
@@ -122,8 +122,13 @@ export class SidebarService {
         {
           titulo: 'Compras',
           url: 'compras',
-          roles: ['ADMIN', 'DOCTOR', 'OPERADOR', 'MEDICO'],
+          roles: ['ADMIN', 'COMPRAS',],
         },
+        {
+          titulo:'consulta-compras',
+          url:'consulta-compras',
+          roles: ['ADMIN', 'COMPRAS'],
+        }
       ],
     },
     {
@@ -133,7 +138,7 @@ export class SidebarService {
         {
           titulo: 'Consulta Web',
           url: 'consulta-web',
-          roles: ['ADMIN', 'SUPERVISOR', 'DOCTOR', 'OPERADOR', 'MEDICO'],
+          roles: ['ADMIN', 'MICRO', 'DOCTOR', 'OPERADOR', 'MEDICO'],
         },
       ],
     },

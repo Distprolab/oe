@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 import { RegistroService } from 'src/app/services/registro.service';
 
 import Swal from 'sweetalert2';
@@ -17,6 +18,7 @@ import Swal from 'sweetalert2';
 })
 export class ComprasComponent implements OnInit {
   title = 'formulario-Compras';
+  private tempFile: any;
   licencia = [
     {
       ItemName: 'Parametros reportables modo fluido corporal',
@@ -116,6 +118,9 @@ export class ComprasComponent implements OnInit {
   }
   get licenciaEquiposHematologicos() {
     return this.RegistroForm.get('licenciaEquiposHematologicos') as FormArray;
+  }
+  get adjunto() {
+    return this.RegistroForm.get('adjunto') as FormArray;
   }
   get licenciaEquiposHematologico() {
     return (
@@ -276,6 +281,7 @@ export class ComprasComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private registroServices: RegistroService,
+    private router: Router,
   ) {
     this.crearformulario();
   }
@@ -333,7 +339,9 @@ export class ComprasComponent implements OnInit {
           valbkmicrobiologia: ['', [Validators.required]],
         }),
         observacion: ['', [Validators.required]],
-        correo: ['', [Validators.required]],
+        correo: [''],
+        adjunto: this.fb.array([]),
+
         licenciaEquiposHematologicos: this.fb.array([]),
       },
       { validators: this.validatePruebas },
@@ -352,6 +360,7 @@ export class ComprasComponent implements OnInit {
       this.RegistroForm.markAllAsTouched();
       return;
     }
+
     Swal.fire({
       input: 'textarea',
       inputLabel: 'Adjunte los correos',
@@ -374,12 +383,17 @@ export class ComprasComponent implements OnInit {
             this.registroServices
               .getRegistro(this.RegistroForm.value)
               .subscribe((res: any) => {
+                const { msg } = res;
                 Swal.fire({
                   icon: 'success',
-                  title: 'Your work has been saved',
+                  title: `${msg}`,
                   showConfirmButton: false,
-                  timer: 1500,
+                  /*  timer: 1500, */
                 });
+                this.RegistroForm.reset();
+                this.areas.clear();
+                this.licenciaEquiposHematologicos.clear();
+                this.router.navigateByUrl('dashboard/consulta-compras');
               });
           }
         }
@@ -435,5 +449,20 @@ export class ComprasComponent implements OnInit {
     this.RegistroForm.reset();
     this.areas.clear();
     this.licenciaEquiposHematologicos.clear();
+    //this.rout
+  }
+
+  upload(event: any) {
+    const [file] = event.target.files;
+    const adjuntos = this.RegistroForm.get('adjunto') as FormArray;
+
+    // Iterar sobre los archivos seleccionados y agregarlos al FormArray
+    const fi = file;
+    console.log(`fi`, fi);
+   
+    console.log(`fi2`, fi);
+    adjuntos.push(this.fb.group({
+      fi
+    }));
   }
 }
