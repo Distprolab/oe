@@ -79,7 +79,7 @@ export class UsuarioService {
   login(List: List) {
     return this.http.post(`${baseUrl}/api/auth/login`, List).pipe(
       tap((resp: any) => {
-        console.log(resp);
+      
         localStorage.setItem('token', resp.token);
       }),
     );

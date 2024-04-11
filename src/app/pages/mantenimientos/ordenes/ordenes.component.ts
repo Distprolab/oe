@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AfterViewInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+
 import { Router } from '@angular/router';
 import { Orden } from 'src/app/models/orden.module';
 import { OrdenesService } from 'src/app/services/ordenes.service';
 import Swal from 'sweetalert2';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
 import { AgendamientoService } from 'src/app/services/agendamiento.service';
 @Component({
   selector: 'app-ordenes',
@@ -50,13 +47,7 @@ export class OrdenesComponent implements OnInit {
       });
   }
 
-  /* buscar(termino: string) {
-    return (termino.length === 0) ? this.ordenes = this.ordenesTemp : this.ordenServicie.buscarFiltroOrdenes(termino)
-      .subscribe(resultados => {
-        this.ordenes = resultados; 
-      });
-  
-    } */
+
   buscar(
     IDENTIFICADOR: string,
     ESTADO: string,
@@ -67,10 +58,7 @@ export class OrdenesComponent implements OnInit {
   ) {
     this.cargando = true;
     console.log({ IDENTIFICADOR, ESTADO, HIS, SALA, PRIORIDAD, APELLIDO });
-    /* return (termino.length === 0) ? this.ordenes = this.ordenesTemp : this.ordenServicie.buscarFiltroOrdenes(termino)
-      .subscribe(resultados => {string
-        this.ordenes = resultados; 
-      }); */
+  
     this.ordenServicie
       .buscarFiltroOrdenes(
         IDENTIFICADOR,
@@ -85,19 +73,7 @@ export class OrdenesComponent implements OnInit {
         this.cargando = false;
       });
   }
-  /*   cambinarPaginaOrden(valor: number) {
-      this.desde += valor;
-      console.log('primer desde', this.desde)
-      if (this.desde < 0) {
-        this.desde = 0
-        console.log('segundo desde', this.desde)
-      } else if (this.desde === this.totalOrdenes) {
-        console.log('tercero desde', this.totalOrdenes)
-        this.desde -= valor;
-        console.log('cuarto desde', this.desde)
-      }
-      this.cargarOrdenes();
-    } */
+  
 
   eliminarOrden(orden: Orden) {
     if (orden.ESTADO != '1') {
@@ -105,11 +81,7 @@ export class OrdenesComponent implements OnInit {
     }
     console.log(orden.id);
 
-    /*    if (orden.ESTADO === '1') {
-         Swal.fire({
-           title: 'No puedes actualizar esta orden',
-         })
-       } */
+   
 
     Swal.fire({
       title: 'Eliminar Orden?',
@@ -196,14 +168,7 @@ export class OrdenesComponent implements OnInit {
         console.log(ordenSais);
         this.ordenes = ordenSais;
 
-        /*  this.calendarEvents = this.ordencalendar.map((order: any) => ({
-          title: order.count, // O cualquier otro campo necesario
-          start: order.FECHA,
-        })); */
-
-        // Actualizar el calendario con las órdenes recientes
-        /*    this.fullCalendarRef.nativeElement.fullCalendar('removeEventSources');
-        this.fullCalendarRef.nativeElement.fullCalendar('addEventSource', this.calendarEvents); */
+        
       });
   }
 }

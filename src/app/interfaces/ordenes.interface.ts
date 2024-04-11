@@ -43,7 +43,5 @@ export interface Listaordene {
   PA_LASTNAME: string;
   PA_SESURNAME: string;
 
-  //PA_AGE:string;
-
   PA_SEX: string;
 }

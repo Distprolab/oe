@@ -10,6 +10,7 @@ export interface micro {
   Servicio?: string;
   Paciente?: string;
   Sexo?: string;
+  Age?:string;
   Historia?: string;
   Tipomuestra?: string;
   Microorganismo?: string;

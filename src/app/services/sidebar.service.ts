@@ -25,7 +25,6 @@ export class SidebarService {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
-        /*   {titulo:'Crear Ordenes',url:'orden/Nuevo',roles: ['ADMIN','DOCTOR','OPERADOR']}, */
         {
           titulo: 'Crear Orden Manual',
           url: 'orden-manual',
@@ -122,13 +121,13 @@ export class SidebarService {
         {
           titulo: 'Compras',
           url: 'compras',
-          roles: ['ADMIN', 'COMPRAS',],
+          roles: ['ADMIN', 'COMPRAS'],
         },
         {
-          titulo:'consulta-compras',
-          url:'consulta-compras',
+          titulo: 'consulta-compras',
+          url: 'consulta-compras',
           roles: ['ADMIN', 'COMPRAS'],
-        }
+        },
       ],
     },
     {
@@ -142,6 +141,71 @@ export class SidebarService {
         },
       ],
     },
+    {
+      titulo: 'IMPORTACION',
+      icono: 'right fas fa-angle-left',
+      submenu: [
+        {
+          titulo: 'Solicitud de Pedido',
+          url: 'pedido-importacion',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'Pedidos',
+          url: 'pedidos',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'Total pedidos',
+          url: 'total-pedidos',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+      ],
+    },
+
+    {
+      titulo: 'PRODUCTOS',
+      icono: 'right fas fa-angle-left',
+      submenu: [
+        {
+          titulo: 'PRODUCTOS',
+          url: 'productos',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+      ],
+    },
+
+    {
+      titulo: 'MANTENIMIENTOS',
+      icono: 'right fas fa-angle-left',
+      submenu: [
+        {
+          titulo: 'MARCA',
+          url: 'marca',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'CLIENTE',
+          url: 'cliente',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'PANEL PRUEBAS',
+          url: 'panelPruebas',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'IMPRESORA',
+          url: 'impresora',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'Equipos',
+          url: 'equipos',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+      ],
+    },
   ];
 
   getMenuWithPermissions(): any[] {
@@ -149,20 +213,18 @@ export class SidebarService {
     console.log(`**********ROL DE SERVICES***************`, userRoles);
 
     return this.menu.filter((item) => {
-      //console.log(`existe rol`,item.titulo)
-
       if (item.submenu) {
         item.submenu = item.submenu.filter((subitem) => {
           if (subitem.roles) {
             return subitem.roles.some((role) => userRoles.includes(role));
           } else {
-            return true; // Si no se especifican roles, se muestra para todos los usuarios
+            return true;
           }
         });
 
-        return item.submenu.length > 0; // Mostrar el elemento del menú solo si tiene submenú después de aplicar el filtro
+        return item.submenu.length > 0;
       } else {
-        return true; // Si no hay submenú, mostrar el elemento del menú sin restricciones
+        return true;
       }
     });
   }

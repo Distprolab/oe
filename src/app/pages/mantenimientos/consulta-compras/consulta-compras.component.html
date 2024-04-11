@@ -1,215 +1,129 @@
-
 <div class="container-fluid rounded shadow">
-    <div class="row py-4 animated fadeIn fast">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <input
+  <div class="row py-4 animated fadeIn fast">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <input
             type="text"
             class="form-control"
             placeholder="Buscar institucion..."
-            (keyup)="buscar(txtTermino.value)"
+            (keyup)="buscar(txtTermino.value.toUpperCase())"
             #txtTermino
           />
-          <!--   <form autocomplete="off" class="form-inline">
-              <div class="form-group"> -->
-  
-             <!--    <div class="form-group col-md-2">
-                  <label for="text " class="form-ItemName">Identificador</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Buscar numero de cédula ..."
-                    #IDENTIFICADOR
-                  />
-                </div>
-  
-                <div class="form-group col-md-2">
-                  <label for="text " class="form-ItemName">Apellidos</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Buscar por apellidos ..."
-                    #APELLIDO
-                  />
-                </div>
-  
-                <div class="form-group">
-                  <label for="text " class="form-ItemName">Estado</label>
-                  <div class="col-12">
-                    <select class="form-control" #ESTADO>
-                      <option value="">--Seleccione--</option>
-                      <option value="1">Creada</option>
-                      <option value="2">Procesada</option>
-                      <option value="3">Pendiente</option>
-                    </select>
-                  </div>
-  
-                </div>
-  
-                <div class="form-group col-md-2">
-                  <label for="text " class="form-ItemName"># ORDEN SAIS</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Buscar his..."
-                    #HIS
-                  />
-                </div>
-  
-              
-                <div class="form-group col-md-2">
-                  <label for="text " class="form-ItemName">Sala</label>
-                  <div class="col-12">
-                    <select class="form-control" #SALA>
-                      <option value="">--Seleccione--</option>
-                      <option value="1">CONSULTA EXTERNA</option>
-                      <option value="2">EMERGENCIA</option>
-                      <option value="14">LABOR DE PARTO</option>
-                      <option value="10">H. CIRUGIA GENERAL</option>
-                      <option value="11">H. MEDICINA INTERNA</option>
-                      <option value="12">H. PEDIATRIA</option>
-                      <option value="13">H. GINECO-OBSTETRICIA</option>
-                      <option value="15">CENTRO QUIRURGICO</option>
-                    </select>
-                  </div>
-                </div>
-  
-                <div class="form-group col-md-2">
-                  <label for="text " class="form-ItemName">Prioridad</label>
-                  <div class="col-12">
-                    <select class="form-control" #PRIORIDAD>
-                      <option value="">--Seleccione--</option>
-                      <option value="2">RUTINA</option>
-                      <option value="1">URGENTE</option>
-                      <option value="3">CONTROL</option>
-                    </select>
-                  </div>
-  
-                </div> -->
-
-            <!--   </div>
-  
-              
-            </form> -->
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div
-      *ngIf="cargando"
-      class="alert alert-info text-center mt-3 animated fadeIn faster"
-    >
-      <h4 class="alert-heading">Cargando</h4>
-      <p>
-        <i class="fas fa-sync-alt fa-spin fa-2x"></i>
-      </p>
-      <p class="mb-0">Espere por favor</p>
-    </div>
-  
-    <div class="row animated fadeIn fast" *ngIf="!cargando">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="title">Listado de procesos </h6>
-  
-            <div class="col-md-3 button"></div>
-  
-  
-            <div class="table-responsive">
-              <table *ngIf="!cargando && listaproceso.length > 0" class="table">
-                <thead>
-                  <tr>
-                   
-                    <th class="text-table">Fecha</th>
-                    <th class="text-table3">Institucion</th>
-                    <th class="text-table2">Codigo</th>
-                    <th class="text-table">presupuesto</th>
-                    <th class="text-table2">responsable</th>                  
-                    <th class="text-table2">Estado</th>
-                    <th class="text-table">Acciones</th>
-                  </tr>
-                </thead>
-  
-                <tbody>
-                  <tr
-                    *ngFor="
-                      let proceso of listaproceso
-                        | paginate: { itemsPerPage: 5, currentPage: page }
-                    "
-                  >
-                    <td>{{proceso.entregacarpeta}}</td>
-                    <td>{{proceso.institucion}}</td>
-                    <td>{{proceso.codigo}}</td>                    
-                    <td>{{proceso.presupuesto}}</td>          
-                    <td>{{proceso.usuarioId}}</td>
-  
-                    <!-- <td>{{FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
-                    <td>
-                      <span
-                        *ngIf="proceso.ESTADO == 1"
-                        class="rounded shadow bg-pen"
-                        >Generado </span
-                      >
-                      <span
-                        *ngIf="proceso.ESTADO == 2"
-                        class="rounded shadow bg-pen"
-                        >Procesada</span
-                      >
-                     
-                    </td> 
-  
-                   <td class="text-nowrap">
-                     <!--  <a
-                        [ngClass]="{ 'disabled-icon': proceso.ESTADO == 2 }"
-                        [routerLink]="['/dashboard', 'proceso']"
-                        data-toggle="tooltip"
-                        data-original-title="Editar"
-                      >
-                      <i class='bx bx-mail-send bx-sm'></i>
-                      </a> -->
-                     
-  
-                      <span class="rounded shadow cursor" (click)="pdf2(proceso)">
-                        <i class="bx bxs-file-pdf bx-sm text-danger"></i>
-                      </span>
-                    </td> 
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <pagination-controls
-        (pageChange)="page = $event"
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-      ></pagination-controls>
-    </div>
-  
-    <div class="modal fade show" id="modal-default">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">+ Cargar pruebas</h4>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              Guardar
-            </button>
-          </div>
-        </div>
-  
-        <div class="modal-footer justify-content-between">
-          <!--    <button type="button" class="btn btn-default" data-dismiss="modal"></button> 
-                      <button type="button" data-dismiss="modal" class="btn btn-primary">Guardar</button> -->
         </div>
       </div>
     </div>
   </div>
-  
+
+  <div
+    *ngIf="cargando"
+    class="alert alert-info text-center mt-3 animated fadeIn faster"
+  >
+    <h4 class="alert-heading">Cargando</h4>
+    <p>
+      <i class="fas fa-sync-alt fa-spin fa-2x"></i>
+    </p>
+    <p class="mb-0">Espere por favor</p>
+  </div>
+
+  <div class="row animated fadeIn fast" *ngIf="!cargando">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="title">Listado de procesos</h6>
+
+          <div class="col-md-3 button"></div>
+
+          <div class="table-responsive">
+            <table *ngIf="!cargando && proceso.length > 0" class="table">
+              <thead>
+                <tr>
+                  <th class="text-table">Fecha</th>
+                  <th class="text-table3">Institucion</th>
+                  <th class="text-table2">Codigo</th>
+                  <th class="text-table">presupuesto</th>
+                  <th class="text-table2">responsable</th>
+                  <th class="text-table2">Estado</th>
+                  <th class="text-table">Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="
+                    let proces of proceso
+                      | paginate: { itemsPerPage: 5, currentPage: page }
+                  "
+                >
+                  <td>{{ proces.entregacarpeta }}</td>
+                  <td>{{ proces.institucion }}</td>
+                  <td>{{ proces.codigo }}</td>
+                  <td>{{ proces.presupuesto }}</td>
+                  <td>{{ proces.usuarioId }}</td>
+
+                  <!-- <td>{{FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
+                  <td>
+                    <span
+                      *ngIf="proces.ESTADO == 1"
+                      class="rounded shadow bg-pen"
+                      >Generado
+                    </span>
+                    <span
+                      *ngIf="proces.ESTADO == 2"
+                      class="rounded shadow bg-pen"
+                      >Enviado</span
+                    >
+                  </td>
+
+                  <td class="text-nowrap">
+
+
+
+                     <span>
+                      <i class='bx bx-edit-alt bx-sm'></i>
+                     </span>
+                    <span (click)="EnvioCorreo(proces)">
+                      <i class="bx bx-mail-send bx-sm"></i>
+                    </span>
+
+                    <span class=" cursor" (click)="pdf2(proces)">
+                      <i class="bx bxs-file-pdf bx-sm text-danger"></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+    ></pagination-controls>
+  </div>
+
+  <div class="modal fade show" id="modal-default">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">+ Cargar pruebas</h4>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <!--    <button type="button" class="btn btn-default" data-dismiss="modal"></button> 
+                      <button type="button" data-dismiss="modal" class="btn btn-primary">Guardar</button> -->
+      </div>
+    </div>
+  </div>
+</div>

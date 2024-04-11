@@ -31,6 +31,16 @@ import { EstadisticaMicroComponent } from './mantenimientos/estadistica-micro/es
 import { RegistroComprasComponent } from './mantenimientos/registro-compras/registro-compras.component';
 import { ComprasComponent } from './mantenimientos/compras/compras.component';
 import { ConsultaComprasComponent } from './mantenimientos/consulta-compras/consulta-compras.component';
+import { ImportacionComponent } from './mantenimientos/importacion/importacion.component';
+import { ImportadosComponent } from './mantenimientos/importados/importados.component';
+import { ListaproductosComponent } from './mantenimientos/listaproductos/listaproductos.component';
+import { TotalPedidosComponent } from './mantenimientos/total-pedidos/total-pedidos.component';
+import { ImpresoraComponent } from './mantenimientos/impresora/impresora.component';
+import { MarcaComponent } from './mantenimientos/marca/marca.component';
+import { ClienteComponent } from './mantenimientos/cliente/cliente.component';
+import { panelPrueba } from '../models/panelPruebas.module';
+import { PanelPruebasComponent } from './mantenimientos/panel-pruebas/panel-pruebas.component';
+import { EquiposComponent } from './mantenimientos/equipos/equipos.component';
 
 const routes: Routes = [
   {
@@ -163,6 +173,51 @@ const routes: Routes = [
         path: 'consulta-compras',
         component: ConsultaComprasComponent,
         data: { titulo: 'consulta-compras' },
+      },
+      {
+        path: 'pedido-importacion',
+        component: ImportacionComponent,
+        data: { titulo: 'pedido-importacion' },
+      },
+      {
+        path: 'pedidos',
+        component: ImportadosComponent,
+        data: { titulo: 'pedidos' },
+      },
+      {
+        path: 'lista-productos',
+        component: ListaproductosComponent,
+        data: { titulo: 'lista-productos' },
+      },
+      {
+        path: 'total-pedidos',
+        component: TotalPedidosComponent,
+        data: { titulo: 'total-pedidos' },
+      },
+      {
+        path: 'impresora',
+        component: ImpresoraComponent,
+        data: { titulo: 'impresora' },
+      },
+      {
+        path: 'marca',
+        component: MarcaComponent,
+        data: { titulo: 'marca' },
+      },
+      {
+        path: 'cliente',
+        component: ClienteComponent,
+        data: { titulo: 'cliente' },
+      },
+      {
+        path: 'panelPruebas',
+        component: PanelPruebasComponent,
+        data: { titulo: 'panelPruebas' },
+      },
+      {
+        path: 'equipos',
+        component: EquiposComponent,
+        data: { titulo: 'equipos' },
       },
     ],
   },

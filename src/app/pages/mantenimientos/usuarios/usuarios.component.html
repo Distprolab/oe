@@ -32,12 +32,7 @@
         <div class="card-body">
           <h6 class="title">Usuarios registrados</h6>
 
-          <div class="col-md-3 button">
-            <!--  <button [routerLink]="['/dashboard/usuario']" class="btn btn-secondary">
-                <i class="fa fa-plus"></i>
-                Registrar Usuario
-              </button> -->
-          </div>
+          <div class="col-md-3 button"></div>
 
           <div *ngIf="usuarios.length === 0" class="row py-2">
             <div class="col-12">
@@ -102,13 +97,7 @@
                       <i class="bx bx-trash bx-md text-danger"></i
                     ></a>
                     &nbsp;
-                    <!--   <a data-toggle="tooltip" data-original-title="Reset" 
-                        class="cursor">
-                        <i class=" fa fa-key fa-2x "></i></a> -->
-                    <!--  <button type="button" class="btn btn-default btn-sm btn " data-toggle="modal"
-                        data-target="#modal-default">
-                        Cargar pruebas
-                    </button> -->
+
                     <a
                       data-toggle="tooltip"
                       data-original-title="Borrar"
@@ -125,16 +114,7 @@
             </table>
           </div>
 
-          <div *ngIf="txtTermino.value.length === 0" class="paginacion">
-            <!--   <button 
-               [disabled]="this.desde ===0" (click)="cambinarPagina(-10)" class="btn btn-secondary btn--paginacion"><i class="fa fa-arrow-left"
-                  aria-hidden="true"></i> Anterior</button>
-              &nbsp;
-              <button (click)="cambinarPagina(10)" 
-             [disabled]="usuarios.length == 0"
-              class="btn btn-secondary btn--paginacion"> Siguiente <i
-                  class="fa fa-arrow-right" aria-hidden="true"></i></button>  -->
-          </div>
+          <div *ngIf="txtTermino.value.length === 0" class="paginacion"></div>
         </div>
       </div>
     </div>
@@ -145,9 +125,6 @@
       nextLabel="Siguiente"
     ></pagination-controls>
   </div>
-  <!--  <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls> -->
-
-  <!-- <div *ngIf="cargando"  > -->
 </div>
 
 <div class="modal fade" id="modal-default">

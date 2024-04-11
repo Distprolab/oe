@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import Inputmask from 'inputmask';
+
 import { finalize, map } from 'rxjs';
-import { PanelPruebas } from 'src/app/interfaces/cargarPanelPruebas.interface';
+
 import { Listaordene } from 'src/app/interfaces/orden.interface';
 import { Lista } from 'src/app/models/doctor.module';
 import { Impresora } from 'src/app/models/impresora.module';
@@ -39,227 +39,8 @@ export class OrdenManualComponent implements OnInit {
 
   selectedItemsList = [];
   checkedIDs = [];
-  data = [];
-  data1 = [];
-  data2 = [];
-  data3 = [];
-  data4 = [];
-  data5 = [];
-  data6 = [];
-  data7 = [];
-  data8 = [];
-  data9 = [];
-  // selectedItemsList = [];
-  /* checkedIDs = []; */
 
-  OrdenForm!: FormGroup; /* agregar codigo a lado de ItemName */
-
- /*  quimica = [
-    { ItemName: '1001 GLU', ItemID: '1001-GLU' },
-    { ItemName: '1021 GLUCCPP', ItemID: '1021-GLUCPP' },
-    { ItemName: '1033 UREA', isChecked: false, ItemID: '1033-UREA' },
-    { ItemName: '1036 CREA', isChecked: false, ItemID: '1036-CREA' },
-    { ItemName: '504 BILIRRUBINA', isChecked: false, ItemID: '504-BILIRRUBIN' },
-    { ItemName: '1072 AURIC', isChecked: false, ItemID: '1072-AURIC' },
-    { ItemName: '1112 PROTT', isChecked: false, ItemID: '1112-PROTT' },
-    { ItemName: '1114 ALB', isChecked: false, ItemID: '1114-ALB' },
-    { ItemName: '4016 PCR', isChecked: false, ItemID: '4016-GLOB' },
-    { ItemName: '1081 TGP', isChecked: false, ItemID: '1081-TGP' },
-    { ItemName: '1078 TGO', isChecked: false, ItemID: '1078-TGO' },
-    { ItemName: '1096 FALK', isChecked: false, ItemID: '1096-FALK' },
-
-    { ItemName: '1057 COLT', isChecked: false, ItemID: '1057-COLT' },
-    { ItemName: '1063 TG', isChecked: false, ItemID: '1063-TG' },
-    { ItemName: '1242 FE', isChecked: false, ItemID: '1242-FE' },
-    { ItemName: '1133 AMY', isChecked: false, ItemID: '1133-AMY' },
-
-    { ItemName: '1130 LIPASA', isChecked: false, ItemID: '1130-LIPASA' },
-    {
-      ItemName: '507 GASES ARTERI..',
-      isChecked: false,
-      ItemID: '507-GASES ARTERI',
-    },
-    {
-      ItemName: '519 ELECTROLITOS',
-      isChecked: false,
-      ItemID: '519-ELECTROLITOS',
-    },
-    { ItemName: '1115 GLOB', isChecked: false, ItemID: '1029-GLOB' },
-    { ItemName: '1029  HBA1C', isChecked: false, ItemID: '1029-HBA1C' },
-
-    { ItemName: '1099 LDH', isChecked: false, ItemID: '1099-LDH' },
-    { ItemName: '1109 CKMB', isChecked: false, ItemID: '1109-CKMB' },
-    { ItemName: '1106 CK', isChecked: false, ItemID: '1106-CK' },
-
-    { ItemName: '1084 GGT', isChecked: false, ItemID: '1084-GGT' },
-
-    {
-      ItemName: '598 DEPURACION D',
-      isChecked: false,
-      ItemID: '598-DEPURACION D',
-    },
-    { ItemName: '4020 FACTOR R', isChecked: false, ItemID: '4020-FACTOR R' },
-    { ItemName: '1145 CA', isChecked: false, ItemID: '1145-CA' },
-    { ItemName: '1154 P', isChecked: false, ItemID: '1154-P' },
-    { ItemName: '3470 TRF', isChecked: false, ItemID: '3470-TRF' },
-
-    { ItemName: '1103 COLIN', isChecked: false, ItemID: '1103-COLIN' },
-    { ItemName: '3619 C3', isChecked: false, ItemID: '3619-C3' },
-    { ItemName: '3621 C4', isChecked: false, ItemID: '3621-C4' },
-  ]; */
-
-  /* hema = [
-    {
-      ItemName: '500 BIOMETRIA',
-      isChecked: false,
-      ItemID: '500-BIOMETRIA HEMATICA',
-    },
-    { ItemName: '2003 PLT', isChecked: false, ItemID: '2003-PLT' },
-    {
-      ItemName: '544 G.SANGUI..',
-      isChecked: false,
-      ItemID: '544-GRUPO SANGUINEO Y FACTOR RH',
-    },
-    { ItemName: '2066 TCOAG', isChecked: false, ItemID: '2066-TCOAG' },
-    { ItemName: '2069 TP', isChecked: false, ItemID: '2069-TP' },
-    { ItemName: '2082 TPT', isChecked: false, ItemID: '2082-TPT' },
-    { ItemName: '2048 CDTO', isChecked: false, ItemID: '2048-CDTO' },
-    { ItemName: '2051 COMND', isChecked: false, ItemID: '2051-COMIND' },
-    { ItemName: '2087 TSANGR', isChecked: false, ItemID: '2087-TSANGR' },
-    { ItemName: '2090 DIMER D', isChecked: false, ItemID: '2090-DIMER D' },
-    { ItemName: '1004 GLUCTEST', isChecked: false, ItemID: '1004-GLUCTEST' },
-    { ItemName: '2050 PPRETRAN', isChecked: false, ItemID: '2050-PPRETRAN' },
-    { ItemName: '6410 PDCOOMBD', isChecked: false, ItemID: '6410-PDCOOMBD' },
-    { ItemName: '6412 PCOOMBID', isChecked: false, ItemID: '6412-PCOOMBID' },
-  ];
-
-  
-  hormonal = [
-    { ItemName: '3009 FT3', ItemID: '3009-FT3', isChecked: false },
-    { ItemName: '3017 FT4', ItemID: '3017-FT4', isChecked: false },
-    { ItemName: '3001 TSH', ItemID: '3001-TSH', isChecked: false },
-    { ItemName: '3031 FSH', ItemID: '3031-FSH', isChecked: false },
-    { ItemName: '3035 E2', ItemID: '3035-E2', isChecked: false },
-  
-    { ItemName: '3027 PRL', ItemID: '3027-PRL', isChecked: false },
-    { ItemName: '3033 PROG', ItemID: '3033-PROG', isChecked: false },
-    { ItemName: '3081 INSULINA', ItemID: '3081-INSULINA', isChecked: false },
-    { ItemName: '3201 HCG', ItemID: '3201-HCG', isChecked: false },
-    { ItemName: '3203 TEST EMB', ItemID: '3203-TEST EMB', isChecked: false },
-    { ItemName: '3029 LH', ItemID: '3029-LH', isChecked: false },
-    { ItemName: '3250 NSE', ItemID: '3250-NSE', isChecked: false },
-    { ItemName: '525 INDICE ROMA', ItemID: '525-INDICE  R', isChecked: false },
-    { ItemName: '3052 TROP I', ItemID: '3052-TROP I', isChecked: false },
-    { ItemName: '3706 IL6', ItemID: '3706-IL6', isChecked: false },
-    { ItemName: '3087 INS120', ItemID: '3087-INS 120', isChecked: false },
-  ];
-
-  sero = [
-    { ItemName: '1191 ANT PE C', ItemID: '1191-PEPT ANT', isChecked: false },
-    {
-      ItemName: '518 AGLUTINACION',      ItemID: '518-AGLUTINACIONES',      isChecked: false,
-    },
-    { ItemName: '4010 VDRL', ItemID: '4010-VDR', isChecked: false },
-    { ItemName: '4025 ASTO ', ItemID: '4025-ASTO', isChecked: false },
-    { ItemName: '3301 HIV RAPI', ItemID: '3301-HIV RAPID', isChecked: false },
-    { ItemName: '3304 HIV1/2', ItemID: '3304-HIV 1/2', isChecked: false },
-    { ItemName: '3310 SIF.ANT', ItemID: '3310-SIF.ANT', isChecked: false },
-    { ItemName: '3352 HAVM', ItemID: '3352-HAVM', isChecked: false },
-    { ItemName: '3355 HBsAg', ItemID: '3355-HBSAG', isChecked: false },
-    { ItemName: '3373 HVC AC', ItemID: '3373-HVC', isChecked: false },
-    { ItemName: '549 TORCH', ItemID: '549-TORCH', isChecked: false },
-    { ItemName: '3419 NS1', ItemID: '3419-NS', isChecked: false },
-    { ItemName: '3412 DENGM', ItemID: '3412-DENGM', isChecked: false },
-    { ItemName: '3421 LEPTOS', ItemID: '3421-LEPTOS', isChecked: false },
-    { ItemName: '3079 PEP C', ItemID: '3421-PEP C', isChecked: false },
-  ];
-
- 
-  tumorales = [
-    { ItemName: '3205 PSAT', ItemID: '3205-PSAT', isChecked: false },
-    { ItemName: '3210 PSAL', ItemID: '3210-PSAL', isChecked: false },
-    { ItemName: '3220 ACE', ItemID: '3220-ACE', isChecked: false },
-    { ItemName: '3225 AFP', ItemID: '3225-AFP', isChecked: false },
-    { ItemName: '3230 CA125', ItemID: '3230-CA125', isChecked: false },
-    { ItemName: '3235 CA199', ItemID: '3235-CA199', isChecked: false },
-    { ItemName: '3240 CA153', ItemID: '3240-CA153', isChecked: false },
-    { ItemName: '3245 CA724', ItemID: '3245-CA724', isChecked: false },
-  ];
-
-
-  otros = [
-    {
-      ItemName: '558 LABOR PARTO',
-      ItemID: '558-LABOR PARTO',
-      isChecked: false,
-    },
-    { ItemName: '557 NEONATOS', ItemID: '557-NEONATOS', isChecked: false },
-    {
-      ItemName: '545 PANEL DROGAS',
-      ItemID: '545-PANEL DROGAS',
-      isChecked: false,
-    },
-    {
-      ItemName: '528 CITOQUIMICO.',
-      ItemID: '528-CITOQUIMICO DE LIQ. CEFALORAQ.',
-      isChecked: false,
-    },
-    { ItemName: '8501 TOXICOLO', ItemID: '8501-TOXICOLO', isChecked: false },
-    { ItemName: '591 HANSEN', ItemID: '591-HANSEN', isChecked: false },
-    { ItemName: '8001 BACILOS', ItemID: '8001-BACILOS', isChecked: false },
-    { ItemName: '2046 COMPATIB', ItemID: '2046-COMPATIB', isChecked: false },
-    { ItemName: '8215 LEISH', ItemID: '8215-LEISH', isChecked: false },
-    { ItemName: '1091 C.TB', ItemID: '1091-C.TB', isChecked: false },
-  ];
- 
-
-  pruebasvirales = [
-    {
-      ItemName: '597 PRUEBAS VIRALES',
-      ItemID: '597-PRUEBAS VIRALES',
-      isChecked: false,
-    },
-    { ItemName: '3020 CD4', ItemID: '3020-CD4', isChecked: false },
-    { ItemName: '3306 CV HIV', ItemID: '3306-CV HIV', isChecked: false },
-  ];
-
-  uro = [
-    {
-      ItemName: '513 ORINA EXAMEN',
-      ItemID: '513-ORINA EXAMEN GENERAL',
-      isChecked: false,
-    },
-    {
-      ItemName: '543 PROTEINAS EN..',
-      ItemID: '543-PROTEINAS EN ORINA 24H',
-      isChecked: false,
-    },
-    {
-      ItemName: '502 ACLARAMIENTO..',
-      ItemID: '502-ACLARAMIENTO CREATININA',
-      isChecked: false,
-    },
-    { ItemName: '4001 LAM', ItemID: '4001-LAM', isChecked: false },
-    { ItemName: '1054 DEPURAC', ItemID: '1054-DEPURAC', isChecked: false },
-  ];
-
-  copro = [
-    {
-      ItemName: '506 COPROPARASIT',
-      ItemID: '506-COPROPARASITARIO',
-      isChecked: false,
-    },
-    {
-      ItemName: '505 CITOLOGIA DE',
-      ItemID: '505-CITOLOGIA DE',
-      isChecked: false,
-    },
-    { ItemName: '6090 SANGOCU', ItemID: '6090-SANGOCU', isChecked: false },
-    { ItemName: '6115 HELYHE', ItemID: '8123-POLINU', isChecked: false },
-    { ItemName: '6095 ROTAVIRUS', ItemID: '6095-ROTAVIRU', isChecked: false },
-  ];
-
-   */
+  OrdenForm!: FormGroup;
 
   prueba = [
     {
@@ -339,9 +120,6 @@ export class OrdenManualComponent implements OnInit {
   showAge;
   showFecha;
 
-  /*   get TIPOIDENTIFICADOR() {
-      return this.OrdenForm?.get('TIPOIDENTIFICADOR')!.invalid && this.OrdenForm?.get('TIPOIDENTIFICADOR')!.touched
-    } */
   get IDENTIFICADOR() {
     return (
       this.OrdenForm?.get('IDENTIFICADOR')!.invalid &&
@@ -415,10 +193,6 @@ export class OrdenManualComponent implements OnInit {
     );
   }
 
-  /*
-    get HORACITA() {
-      return this.OrdenForm?.get('HORACITA')!.invalid && this.OrdenForm?.get('HORACITA')!.touched
-    } */
   get SEXO() {
     return (
       this.OrdenForm?.get('SEXO')!.invalid &&
@@ -526,27 +300,21 @@ export class OrdenManualComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private rolService: RolService,
   ) {
-    //this.usuario = usuarioService.usuario,
-    // console.log('datos del usuarios', this.usuario)
     this.anio = new Date().getFullYear();
     this.mes = new Date().getMonth();
     this.dia = new Date().getDay();
     this.crearformulario();
-    // this.dataFormulario();
   }
 
   ngOnInit(): void {
     const valorAlmacenado = localStorage.getItem('IMPRESORA');
-    console.log(`******`, valorAlmacenado);
+
     if (valorAlmacenado) {
-      // Establecer el valor almacenado en el formulario
       this.OrdenForm.patchValue({ CODIMPRESORA: valorAlmacenado });
     }
 
     this.doctorservice.getDoctor().subscribe((resp) => {
       this.listadoctor = resp;
-
-      console.log(`********************RT***`, this.listadoctor);
     });
 
     this.doctorservice.getOperador().subscribe((resp) => {
@@ -567,22 +335,16 @@ export class OrdenManualComponent implements OnInit {
 
     this.doctorservice.getImpresora().subscribe((resp) => {
       this.listaImpresora = resp;
-
-      console.log(`impresora`, this.listaImpresora);
     });
     this.doctorservice.getPanelPruebas().subscribe((resp) => {
-      //  this.listaPanelpruebas = resp;
       this.listaquimica = resp.filter(
         (prueba) => prueba.CATEGORIA === 'QUIMICA',
-
       );
       this.listauroanalisis = resp.filter(
         (prueba) => prueba.CATEGORIA === 'UROANALISIS',
-
       );
       this.listahematologia = resp.filter(
         (prueba) => prueba.CATEGORIA === 'HEMATOLOGIA',
-
       );
       console.log(`pruebas panel`, this.listauroanalisis);
       this.listahormonal = resp.filter(
@@ -591,22 +353,18 @@ export class OrdenManualComponent implements OnInit {
       this.listapruebasVirales = resp.filter(
         (prueba) => prueba.CATEGORIA === 'PRUEBAS VIRALES',
       );
-    
 
       this.listaserologia = resp.filter(
         (prueba) => prueba.CATEGORIA === 'SEROLOGIA',
       );
 
-      this.listaotros = resp.filter(
-        (prueba) => prueba.CATEGORIA === 'OTROS',
-      );
+      this.listaotros = resp.filter((prueba) => prueba.CATEGORIA === 'OTROS');
       this.listatumorales = resp.filter(
         (prueba) => prueba.CATEGORIA === 'TUMORALES',
       );
       this.listacoprologia = resp.filter(
         (prueba) => prueba.CATEGORIA === 'COPROLOGIA',
       );
-
     });
   }
 
@@ -628,12 +386,10 @@ export class OrdenManualComponent implements OnInit {
       .obtenerOrdenById(id)
 
       .subscribe((orden) => {
-        // this.OrdenForm.disable();
         !orden
           ? this.router.navigateByUrl('/dashboard/ordenes')
           : console.log('cabeecera', orden);
         const {
-          //  TIPOIDENTIFICADOR,
           IDENTIFICADOR,
           NOMBRES,
           APELLIDO,
@@ -641,8 +397,7 @@ export class OrdenManualComponent implements OnInit {
           DIRECCION,
           TELEFONO,
           EMAIL,
-          //  FECHACITA,
-          //   HORACITA,
+
           EDAD,
           FECHANACIMIENTO,
           SEXO,
@@ -651,28 +406,24 @@ export class OrdenManualComponent implements OnInit {
           NOMBRETIPOORDEN,
           PRIORIDAD,
           HIS,
-          //CODESPECIALIDADES,
+
           OPERADOR,
           CODFLEBOTOMISTA,
           CORRELATIVO,
           CODIMPRESORA,
           CODEMBARAZADA,
-          // CODCENTROSALUD,
 
           as400,
         } = orden;
 
         this.ordenseleccionada = orden;
 
-        //console.log('orden seleccionada', this.ordenseleccionada.pruebas)
         console.log(this.ordenseleccionada);
         this.OrdenForm.setValue({
-          //TIPOIDENTIFICADOR,
           IDENTIFICADOR,
           NOMBRES,
           APELLIDO,
-          // FECHACITA: FECHACITA == null ? '' : FECHACITA.slice(0, 10),
-          //  HORACITA,
+
           CODPROVINCIA,
           DIRECCION,
           TELEFONO,
@@ -683,11 +434,9 @@ export class OrdenManualComponent implements OnInit {
           EDAD,
           HIS,
           PRIORIDAD,
-          //CODPROCEDENCIA,
-          // CODCENTROSALUD,
+
           CODTIPOORDEN: CODTIPOORDEN,
-          //  CODSALA,
-          //CODESPECIALIDADES,
+
           OPERADOR,
           CODFLEBOTOMISTA,
           CORRELATIVO,
@@ -713,11 +462,10 @@ export class OrdenManualComponent implements OnInit {
     if (this.OrdenForm.value.FECHANACIMIENTO) {
       console.log(this.OrdenForm.value.FECHANACIMIENTO);
       const convertAge = new Date(this.OrdenForm.value.FECHANACIMIENTO);
-      // console.log(convertAge)
+
       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
 
       return (this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365));
-      //console.log(this.showAge)
     } else {
       return null;
     }
@@ -725,22 +473,18 @@ export class OrdenManualComponent implements OnInit {
   crearformulario() {
     this.OrdenForm = this.fb.group(
       {
-        // TIPOIDENTIFICADOR: ['', [Validators.required]],
         IDENTIFICADOR: ['', [Validators.required]],
         NOMBRES: ['', [Validators.required]],
         APELLIDO: ['', [Validators.required]],
         FECHANACIMIENTO: ['', [Validators.required]],
         SEXO: ['', [Validators.required]],
         CODTIPOORDEN: ['', [Validators.required]],
-        //NOMBRETIPOORDEN: [''],
         PRIORIDAD: ['', [Validators.required]],
         CODDOCTOR: ['', [Validators.required]],
         HIS: ['Manual'],
         TELEFONO: ['', [Validators.required]],
         EMAIL: [''],
-
         CODEMBARAZADA: [],
-
         CODPROVINCIA: [''],
         DIRECCION: [''],
         OPERADOR: ['', [Validators.required]],
@@ -749,34 +493,12 @@ export class OrdenManualComponent implements OnInit {
         CODIMPRESORA: ['', [Validators.required]],
         EDAD: [],
         CODCENTROSALUD: ['', [Validators.required]],
-        // HORACITA: [''],
-
-        // CODSALA: ['', [Validators.required]],
-        //CODESPECIALIDADES: ['', [Validators.required]],
-
         pruebas: this.fb.array([]),
       },
       { validators: this.validatePruebas },
     );
 
     this.changeValidators();
-    /* 
-        this.OrdenForm.get('FECHANACIMIENTO').valueChanges.subscribe((value) => {
-          if (value) {
-            const fechaNacimiento = new Date(value);
-            const hoy = new Date();
-            const edad = Math.floor((hoy.getTime() - fechaNacimiento.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
-            this.OrdenForm.get('EDAD').setValue(edad);
-          }
-        }); */
-    /*  this.OrdenForm.get('FECHANACIMIENTO').valueChanges.subscribe((value) => {
-       if (value) {
-         const fechaNacimiento = new Date(value);
-         const hoy = new Date();
-         const edad = Math.floor((hoy.getTime() - fechaNacimiento.getTime()) / (1000 * 60 * 60 * 24 * 365.25));
-         this.OrdenForm.get('EDAD').setValue(edad);
-       }
-     }); */
 
     this.OrdenForm.get('FECHANACIMIENTO').valueChanges.subscribe((value) => {
       if (value) {
@@ -809,9 +531,6 @@ export class OrdenManualComponent implements OnInit {
         );
       }
     });
-
-    //this.OrdenForm.valueChanges.subscribe(data=>{this.changeValidators()})
-    // const control = this.OrdenForm.controls['pruebas'];
   }
   validatePruebas(formGroup: FormGroup) {
     const pruebasArray = formGroup.get('pruebas') as FormArray;
@@ -820,7 +539,7 @@ export class OrdenManualComponent implements OnInit {
     }
     return null; // Devuelve null si las pruebas son válidas
   }
-  
+
   changeValidators() {
     this.usuario = this.usuarioService.usuario;
 
@@ -839,8 +558,6 @@ export class OrdenManualComponent implements OnInit {
     this.OrdenForm.get('OPERADOR').updateValueAndValidity();
   }
 
-
-
   isFormValid(): boolean {
     return this.OrdenForm.valid;
   }
@@ -848,10 +565,9 @@ export class OrdenManualComponent implements OnInit {
     if (this.OrdenForm.invalid) {
       return Object.values(this.OrdenForm.controls).forEach((control) => {
         control.markAsTouched();
-        console.log(control);
       });
     }
-    console.log('ESTADO DEL BOTON ', this.OrdenForm);
+
     if (this.ordenseleccionada) {
       const data = {
         ...this.OrdenForm.value,
@@ -861,10 +577,9 @@ export class OrdenManualComponent implements OnInit {
       this.ordenService.actualizarOrden(data).subscribe((resp: any) => {
         const { msg } = resp;
         Swal.fire('Actualizado', `${msg}`, 'success');
-        // this.router.navigateByUrl('/dashboard/ordenes')
+
         localStorage.setItem('IMPRESORA', this.OrdenForm.value.CODIMPRESORA);
-        /* localStorage.setItem('FLEBOTOMISTA', this.OrdenForm.value.FLEBOTOMISTA); */
-        console.log('IMPRESORA', this.OrdenForm.value.CODIMPRESORA);
+
         this.OrdenForm.disable();
         this.btnVal = 'Editar';
       });
@@ -890,7 +605,6 @@ export class OrdenManualComponent implements OnInit {
             this.pruebas.clear();
             this.clearFilters();
             this.OrdenForm.reset({
-              //TIPOIDENTIFICADOR: '',
               IDENTIFICADOR: '',
               NOMBRES: '',
               APELLIDO: '',
@@ -900,21 +614,17 @@ export class OrdenManualComponent implements OnInit {
               EMAIL: '',
               HIS: 'Manual',
               FECHANACIMIENTO: '',
-
               CODEMBARAZADA: '',
               SEXO: '',
               CODDOCTOR: '',
               CODTIPOORDEN: '',
               CODSALA: '',
-              // CODESPECIALIDADES: this.usuarioLogueado.doctor,
               OPERADOR: '',
               CODFLEBOTOMISTA: '',
               CORRELATIVO: '',
               CODIMPRESORA: '',
               pruebas: '',
             });
-
-            // this.router.navigateByUrl('/dashboard/ordenes');
           },
           (err) => {
             console.log('error', err);
@@ -926,10 +636,6 @@ export class OrdenManualComponent implements OnInit {
           },
         );
     }
-
-    //}
-
-    //console.log(this.OrdenForm.value)
   }
 
   enviarorden() {
@@ -943,8 +649,6 @@ export class OrdenManualComponent implements OnInit {
       ...this.OrdenForm.getRawValue(),
       id: this.ordenseleccionada.id,
     };
-
-    console.log('ENVIANDO A INIFINITY', data);
 
     this.ordenService.EnviarOrden(data).subscribe((resp: any) => {
       const { msg } = resp;
@@ -960,10 +664,9 @@ export class OrdenManualComponent implements OnInit {
   seleccionarPaciente(paciente) {
     let fecha = paciente.PA_BIRTHDATE.slice(0, 10);
     let feha = fecha.split('/');
-    console.log(`***********PACEINTE********`, paciente);
+
     $('#modal-info').modal('hide');
     this.OrdenForm.setValue({
-      // TIPOIDENTIFICADOR: '',
       IDENTIFICADOR: paciente.PA_ID1,
       NOMBRES: paciente.PA_FIRSTNAME,
       APELLIDO: paciente.PA_LASTNAME + ' ' + paciente.PA_SESURNAME,
@@ -978,7 +681,7 @@ export class OrdenManualComponent implements OnInit {
       TELEFONO: '',
       EMAIL: '',
       CODEMBARAZADA: '',
-      // CODESPECIALIDADES: this.usuarioLogueado.doctor,
+
       CODDOCTOR: this.usuarioLogueado.id,
       CODTIPOORDEN: '',
       CODSALA: '',
@@ -1003,8 +706,6 @@ export class OrdenManualComponent implements OnInit {
       });
   }
 
- 
-
   abrirModal() {
     this.modalImagenService.abrirModal();
   }
@@ -1012,11 +713,7 @@ export class OrdenManualComponent implements OnInit {
   buscarHis(cedula: string) {
     this.cargando = true;
     this.ordenService.buscarOrdenHis(cedula).subscribe((orden) => {
-      console.log('buscar HIS', orden.IDENTIFICADOR);
-      
-
       this.OrdenForm.setValue({
-        //TIPOIDENTIFICADOR,
         HIS: 'Manual',
         IDENTIFICADOR: orden.IDENTIFICADOR,
         NOMBRES: orden.NOMBRES,
@@ -1046,11 +743,7 @@ export class OrdenManualComponent implements OnInit {
   buscarSais(CEDULA: string) {
     console.log(CEDULA);
     this.ordenService.buscarOrderSais(CEDULA).subscribe((orden) => {
-    
-      console.log(`****orden23**`, orden);
-      console.log(`****orden23**`, orden[0].IDENTIFICADOR);
       this.OrdenForm.setValue({
-        //  TIPOIDENTIFICADOR:'',
         HIS: orden[0].HIS,
         IDENTIFICADOR: orden[0].IDENTIFICADOR,
         NOMBRES: orden[0].NOMBRES,
@@ -1072,7 +765,7 @@ export class OrdenManualComponent implements OnInit {
         CODCENTROSALUD: '',
         CORRELATIVO: '',
         CODIMPRESORA: '',
-        //NUMEROORDEN,
+
         pruebas: orden[0].as400.map((valor) =>
           this.pruebas.push(
             this.fb.group({
@@ -1105,7 +798,6 @@ export class OrdenManualComponent implements OnInit {
   }
 
   seleccionarCategoria(nombre: any) {
-      console.log(`********************N**`,nombre)
     const pruebasArray = this.OrdenForm.get('pruebas') as FormArray;
     if (Array.isArray(nombre)) {
       const pruebaExistente = pruebasArray.value;
@@ -1151,7 +843,7 @@ export class OrdenManualComponent implements OnInit {
 
   onchange(e: any) {
     const checkedValue = e.target.value;
-    console.log(`*********************ONCHANGE*******`,checkedValue)
+    console.log(`*********************ONCHANGE*******`, checkedValue);
     const nombre = checkedValue.split('-');
     const checked = e.target.checked;
 

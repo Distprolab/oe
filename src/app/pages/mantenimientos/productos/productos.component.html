@@ -3,25 +3,15 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <div class="form-group">
-            <label for="exampleInputFile">File input</label>
-            <div class="input-group">
-              <div class="custom-file">
-                <input
-                  type="file"
-                  (change)="readExcel($event)"
-                  class="custom-file-input"
-                  id="exampleInputFile"
-                />
-                <label class="custom-file-label" for="exampleInputFile"
-                  >Choose file</label
-                >
-              </div>
-              <div class="input-group-append">
-                <span class="input-group-text">Upload</span>
-              </div>
-            </div>
-          </div>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="input-file"
+          />
+
+          <button (click)="enviarArchivo()" class="btn btn-primary">
+            Subir archivo
+          </button>
         </div>
       </div>
     </div>
@@ -31,144 +21,170 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h6 class="title">Ordenes registrados</h6>
+          <h6 class="title">Lista de Productos</h6>
 
           <div class="col-md-3 button"></div>
 
           <div class="table-responsive">
             <form [formGroup]="productoForm">
-              <button (click)="addRow()" class="btn btn-primary">
-                Add Item
-              </button>
-              <table border="1">
-                <thead>
-                  <tr>
-                    <th>Id</th>
-                    <th>Código</th>
-                    <th>Producto</th>
-                    <th>Lote</th>
-                    <th>Caducidad</th>
-                    <th>Recibido</th>
-                    <th>Aceptada</th>
-                    <th>Fabricante</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
+              <div
+                *ngIf="cargando"
+                class="alert alert-info text-center mt-3 animated fadeIn faster"
+              >
+                <h4 class="alert-heading">Cargando</h4>
+                <p>
+                  <i class="fas fa-sync-alt fa-spin fa-2x"></i>
+                </p>
+                <p class="mb-0">Espere por favor</p>
+              </div>
 
-                <tbody>
-                  <ng-container
-                    formArrayName="tableRows"
-                    *ngFor="
-                      let group of getFormControls.controls;
-                      let i = index
-                    "
-                  >
-                    <tr [formGroupName]="i">
-                      <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'id'"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'referenciaInterna'"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'Nombre'"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'Lote'"
-                        />
-                      </td>
+              <div *ngIf="!cargando" class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Referencia</th>
+                      <th>Descripcion</th>
+                      <th>Categoria</th>
+                      <th>Unidad</th>
+                      <th>Generacion</th>
+                      <th>Estado</th>
 
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let producto of listaproductos
+                          | paginate: { itemsPerPage: 10, currentPage: page }
+                      "
+                    >
+                      <td>{{ producto.REFERENCIA }}</td>
+                      <td>{{ producto.NOMBRE }}</td>
+                      <td>{{ producto.CATEGORIA }}</td>
+                      <td>{{ producto.UNIDAD }}</td>
+                      <td>{{ producto.GENERACION }}</td>
                       <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'caducidad'"
-                        />
+                        <span
+                          *ngIf="producto.ESTADO == 1"
+                          class="rounded shadow bg-pen"
+                          >Activo
+                        </span>
                       </td>
                       <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'cantidadPedida'"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'realizado'"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          class="form-control"
-                          [formControlName]="'fabricante'"
-                        />
-                      </td>
-                      <td>
-                        <button (click)="deleteRow(i)" class="btn btn-danger">
-                          Delete
-                        </button>
+                        <span class="cursor">
+                          <i
+                            class="bx bxs-edit bx-sm"
+                            data-toggle="modal"
+                            data-target="#modal-info"
+                          ></i
+                        ></span>
+                        <span (click)="borrarProducto(producto)" class="cursor">
+                          <i class="bx bxs-trash bx-sm"></i
+                        ></span>
                       </td>
                     </tr>
-                  </ng-container>
-                  <!--     <tr *ngFor="let group of getFormControls.controls; let i = index;"
-                                        [formGroupName]="i">
-                                        <td>{{i+1}}</td>
-                                        <td> <input type="number" formControlName="referenciaInterna"
-                                                class="form-control"></td>
-                                        <td>
-                                            <input type="text" formControlName="Nombre" class="form-control">
-                                        </td>
-                                        <td> <input formControlName="lote" class="form-control"></td>
-                                        <td> <input formControlName="caducidad" class="form-control"> </td>
-                                        <td> <input formControlName="cantidadPedida" class="form-control"></td>
-                                        <td> <input formControlName="realizado" class="form-control"></td>
-                                        <td> <input formControlName="fabricante" class="form-control"></td>
-                                        <td>
-                                            <button class="btn btn-danger">Delete</button>
-                                        </td>
-
-
-
-                                    </tr> -->
-                </tbody>
-
-                <tr>
-                  <td></td>
-                </tr>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+              <pagination-controls
+                (pageChange)="page = $event"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+              ></pagination-controls>
             </form>
           </div>
         </div>
-        <pre>{{ productoForm.value | json }}</pre>
-        <!-- <pre>
-    Estado del formulario: {{ .valid }}
-    <br>
-    Status: {{ .status }}
-    </pre>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <pre>
+<div class="modal fade" id="modal-info">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-">
+        <div class="container-fluid rounded shadow">
+          
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Actualizar producto</h3>
+              </div>
 
-    {{ OrdenForm.value | json }}
+              <form>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label for="">REFERENCIA</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="exampleInputEmail1"
+                        placeholder="Ingrese referencia.."
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="">DESCRIPCION</label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="exampleInputPassword1"
+                        placeholder="Ingrese descrpcion ..."
+                      />
+                    </div>
+                  </div>
 
-    </pre>   -->
+                  <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="">CATEGORIA</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="exampleInputPassword1"
+                      placeholder="Ingrese categoria .."
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="">UNIDAD</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="exampleInputPassword1"
+                      placeholder="Ingrese unidad .."
+                    />
+                  </div>
+                </div>
+                  <div class="form-group col-md-6">
+                    <label for="">GENERACION</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="exampleInputPassword1"
+                      placeholder="Ingrese generacion..."
+                    />
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+            </div>
+          
+        </div>
       </div>
     </div>
   </div>

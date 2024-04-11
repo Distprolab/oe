@@ -5,7 +5,6 @@ export class Paciente {
     public PA_LASTNAME: string,
     public PA_SESURNAME: string,
     public PA_BIRTHDATE: string,
-
     public PA_SEX: string,
   ) {}
 }

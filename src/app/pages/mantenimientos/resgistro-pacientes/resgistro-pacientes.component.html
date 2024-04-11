@@ -5,9 +5,7 @@
         <div class="card-body">
           <form autocomplete="off" class="form-inline">
             <div class="form-group">
-              <!-- <input type="text" class="form-control" placeholder="Buscar numero de cedula ..." (keyup)="buscar(txtTermino.value.toUpperCase() )" #txtTermino /> -->
-
-              <!--    <input type="text" class="form-control" placeholder="Buscar estado..." #ESTADO /> -->
+           
 
               <div class="form-group col-md-4 espacio">
                 <label for="text" class="form-ItemName">Fecha desde</label>
@@ -20,7 +18,6 @@
                     data-target="#reservationdate"
                   />
                 </div>
-                <!--  <input type="text" class="form-control" placeholder="Buscar fecha registro..." #FECHAORDEN /> -->
               </div>
 
               <div class="form-group col-md-4 espacio">
@@ -34,7 +31,6 @@
                     data-target="#reservationdate"
                   />
                 </div>
-                <!--  <input type="text" class="form-control" placeholder="Buscar fecha registro..." #FECHAORDEN /> -->
               </div>
             </div>
 
@@ -48,8 +44,7 @@
               </button>
             </div>
 
-            <!--   <button class="btn btn-danger btn-sm mt-3" (click)="imprimirLista()">PDF</button>
-                        &nbsp; -->
+         
 
             <div class="esboton">
               <button class="btn btn-info" (click)="exportTable()">
@@ -84,13 +79,7 @@
 
           <div class="col-md-3 button"></div>
 
-          <!--  <div *ngIf="ordenes.length === 0" class="row py-2">
-                        <div class="col-12">
-                            <div class="alert alert-info" role="alert">
-                                <h3 class="text-center"> No existe registros  </h3>
-                            </div>
-                        </div>
-                    </div> -->
+     
 
           <div class="table-responsive">
             <table #table class="table">
@@ -183,28 +172,8 @@
       previousLabel="Anterior"
       nextLabel="Siguiente"
     ></pagination-controls>
-    <!--             <pagination-controls #paginationControls (pageChange)="exportTable()" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
- -->
+   
   </div>
 
-  <!--  <div class="modal fade show" id="modal-default">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">+ Cargar pruebas</h4>
-                    <button type="button" class=" btn btn-primary" data-dismiss="modal" aria-label="Close">
-           Guardar
-                    </button>
-                </div>
-    
-            
-            </div>
-    
-            <div class="modal-footer justify-content-between">
-               
-            </div>
-    
-    
-    
-        </div> -->
+ 
 </div>

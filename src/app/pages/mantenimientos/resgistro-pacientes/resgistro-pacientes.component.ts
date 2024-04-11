@@ -1,27 +1,13 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { addMinutes, format } from 'date-fns';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
 import { Listaordene } from 'src/app/interfaces/orden.interface';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
-import { OrdenesService } from 'src/app/services/ordenes.service';
-//import { saveAs } from 'file-saver';
-import * as Papa from 'papaparse';
-import { PaginationControlsComponent } from 'ngx-pagination';
 import { HasElementRef } from '@angular/material/core/common-behaviors/color';
-import { writeFile, utils } from 'xlsx';
 import { saveAs } from 'file-saver';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-// Establecer la zona horaria
-/* moment.tz.setDefault('America/Guayaquil'); // Reemplaza 'Asia/Tokyo' por la zona horaria deseada
 
-// Obtener la fecha y hora actual en la zona horaria establecida
-const currentTime = moment().format();
 
-console.log(currentTime); */
 
 @Component({
   selector: 'app-resgistro-pacientes',
@@ -54,9 +40,9 @@ export class ResgistroPacientesComponent implements AfterViewInit {
   }
 
   exportTable() {
-    // Crear un arreglo con los datos que se muestran en la tabla
+   
     const dataToExport = this.listaordene.map((orden) => {
-      //const adjustedRegisterHour = moment(orden.RegisterHour).subtract(2, 'hours').format('YYYY-MM-DD HH:mm:ss');
+    
       return {
         ' Fecha registro': orden.RegisterDate,
         'Colocar 1': 1,
@@ -93,22 +79,16 @@ export class ResgistroPacientesComponent implements AfterViewInit {
         Comentarios: '-',
       };
     });
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-
-    console.log(`*******worksheet*****`, worksheet);
-    const workbook = XLSX.utils.book_new();
-    console.log(`*******workbook*****`, workbook);
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);   
+    const workbook = XLSX.utils.book_new();   
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Ordenes');
-
     const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
+            bookType: 'xlsx',
       type: 'array',
-    });
-    console.log(`*******excelBuffer*****`, excelBuffer);
+    });    
     const blob = new Blob([excelBuffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    console.log(`*******blob*****`, blob);
+    });   
     saveAs(blob, 'ordenes.xlsx');
   }
 

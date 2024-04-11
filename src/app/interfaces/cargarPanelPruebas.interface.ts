@@ -1,7 +1,6 @@
-import { panelPrueba } from "../models/panelPruebas.module";
-
+import { panelPrueba } from '../models/panelPruebas.module';
 
 export interface PanelPruebas {
-    ok:      boolean;
-    pruebas: panelPrueba[];
+  ok: boolean;
+  pruebas: panelPrueba[];
 }

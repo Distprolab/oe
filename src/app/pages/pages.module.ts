@@ -48,6 +48,15 @@ import { OrdenManualComponent } from './mantenimientos/orden-manual/orden-manual
 import { EstadisticaMicroComponent } from './mantenimientos/estadistica-micro/estadistica-micro.component';
 import { ComprasComponent } from './mantenimientos/compras/compras.component';
 import { ConsultaComprasComponent } from './mantenimientos/consulta-compras/consulta-compras.component';
+import { ImportacionComponent } from './mantenimientos/importacion/importacion.component';
+import { ListaproductosComponent } from './mantenimientos/listaproductos/listaproductos.component';
+import { ImportadosComponent } from './mantenimientos/importados/importados.component';
+import { TotalPedidosComponent } from './mantenimientos/total-pedidos/total-pedidos.component';
+import { ImpresoraComponent } from './mantenimientos/impresora/impresora.component';
+import { EquiposComponent } from './mantenimientos/equipos/equipos.component';
+import { ClienteComponent } from './mantenimientos/cliente/cliente.component';
+import { MarcaComponent } from './mantenimientos/marca/marca.component';
+import { PanelPruebasComponent } from './mantenimientos/panel-pruebas/panel-pruebas.component';
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
@@ -78,6 +87,15 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     EstadisticaMicroComponent,
     ComprasComponent,
     ConsultaComprasComponent,
+    ImportacionComponent,
+    ListaproductosComponent,
+    ImportadosComponent,
+    TotalPedidosComponent,
+    ImpresoraComponent,
+    EquiposComponent,
+    ClienteComponent,
+    MarcaComponent,
+    PanelPruebasComponent,
   ],
 
   exports: [

@@ -1,0 +1,54 @@
+<div class="container-fluid rounded shadow">
+          
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Crear Equipos</h3>
+      </div>
+
+      <form  autocomplete="off"
+      [formGroup]="equipoForm"
+      (ngSubmit)="crearEquipo()"
+      id="panelform">
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="">NOMBRE</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="NOMBRE"
+                [class.is-invalid]="NOMBRE"
+                placeholder="Ingrese referencia.."
+              />
+              <small *ngIf="NOMBRE" class="text-danger"
+              >Ingrese un caracter</small
+            >
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">CATEGORIA</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="CATEGORIA"
+                [class.is-invalid]="CATEGORIA"
+                placeholder="Ingrese descrpcion ..."
+              />
+              <small *ngIf="CATEGORIA" class="text-danger"
+              >Ingrese un caracter</small
+            >
+            </div>
+          </div>
+
+         
+         
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  
+</div>
+

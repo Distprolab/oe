@@ -98,7 +98,7 @@
                   <th class="">orden No.</th>
                   <th class="">Origen</th>
                   <th class="text-table2">Servicio</th>
-                  <th class="text-table">Tipo paciente</th>
+                  <th class="text-table">Edad</th>
                   <th class="text-table">Paciente</th>
                   <th class="">Sexo</th>
                   <th class="text-table">Historia clínica</th>
@@ -128,7 +128,7 @@
                   <td>{{ orden.SampleID }}</td>
                   <td>{{ orden.Origen }}</td>
                   <td>{{ orden.Servicio }}</td>
-                  <td>Humano</td>
+                  <td>{{orden.Age}}</td>
                   <td>{{ orden.Paciente }}</td>
 
                   <td>{{ orden.Sexo }}</td>
@@ -187,28 +187,8 @@
       previousLabel="Anterior"
       nextLabel="Siguiente"
     ></pagination-controls>
-    <!--             <pagination-controls #paginationControls (pageChange)="exportTable()" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
- -->
+   
   </div>
 
-  <!--  <div class="modal fade show" id="modal-default">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">+ Cargar pruebas</h4>
-                    <button type="button" class=" btn btn-primary" data-dismiss="modal" aria-label="Close">
-           Guardar
-                    </button>
-                </div>
-    
-            
-            </div>
-    
-            <div class="modal-footer justify-content-between">
-               
-            </div>
-    
-    
-    
-        </div> -->
+
 </div>

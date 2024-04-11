@@ -1,21 +1,12 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { event } from 'jquery';
+
 import { finalize, map } from 'rxjs';
 import { Listaordene } from 'src/app/interfaces/orden.interface';
 
-//import { cargaPaciente } from 'src/app/interfaces/cargaPaciente.interface';
-//import { Listaordene } from 'src/app/interfaces/ordenes.interface';
 import { Lista } from 'src/app/models/doctor.module';
-import { Envase } from 'src/app/models/envase.module';
+
 import { Orden } from 'src/app/models/orden.module';
 import { Origin } from 'src/app/models/origin.module';
 import { Paciente } from 'src/app/models/paciente.module';
@@ -48,18 +39,6 @@ export class OrdenComponent implements OnInit {
 
   selectedItemsList = [];
   checkedIDs = [];
-  data = [];
-  data1 = [];
-  data2 = [];
-  data3 = [];
-  data4 = [];
-  data5 = [];
-  data6 = [];
-  data7 = [];
-  data8 = [];
-  data9 = [];
-  // selectedItemsList = [];
-  /* checkedIDs = []; */
 
   OrdenForm!: FormGroup; /* agregar codigo a lado de ItemName */
 
@@ -433,9 +412,6 @@ export class OrdenComponent implements OnInit {
   showAge;
   showFecha;
 
-  /*   get TIPOIDENTIFICADOR() {
-      return this.OrdenForm?.get('TIPOIDENTIFICADOR')!.invalid && this.OrdenForm?.get('TIPOIDENTIFICADOR')!.touched
-    } */
   get IDENTIFICADOR() {
     return (
       this.OrdenForm?.get('IDENTIFICADOR')!.invalid &&
@@ -508,11 +484,7 @@ export class OrdenComponent implements OnInit {
       this.OrdenForm?.get('CODIMPRESORA')!.touched
     );
   }
-  /*
-  
-    get HORACITA() {
-      return this.OrdenForm?.get('HORACITA')!.invalid && this.OrdenForm?.get('HORACITA')!.touched
-    } */
+
   get SEXO() {
     return (
       this.OrdenForm?.get('SEXO')!.invalid &&
@@ -602,13 +574,10 @@ export class OrdenComponent implements OnInit {
     private usuarioService: UsuarioService,
     private activatedRoute: ActivatedRoute,
   ) {
-    //this.usuario = usuarioService.usuario,
-    // console.log('datos del usuarios', this.usuario)
     this.anio = new Date().getFullYear();
     this.mes = new Date().getMonth();
     this.dia = new Date().getDay();
     this.crearformulario();
-    // this.dataFormulario();
   }
 
   ngOnInit(): void {
@@ -627,8 +596,6 @@ export class OrdenComponent implements OnInit {
 
     this.doctorservice.getDoctor().subscribe((resp) => {
       this.listadoctor = resp;
-
-      console.log(`********************RT***`, this.listadoctor);
     });
 
     this.doctorservice.getOrigin().subscribe((resp) => {
@@ -686,10 +653,7 @@ export class OrdenComponent implements OnInit {
            
          }) */
   }
-  /*   isSelectedDoctor(doctor: any): boolean {
-  
-      return  doctor.ValueCode === this.usuarioLogueado.doctor;
-    } */
+
   crearOrden(id: string) {
     if (id === 'Nuevo') {
       this.OrdenForm.reset();
@@ -706,7 +670,6 @@ export class OrdenComponent implements OnInit {
     if (this.OrdenForm.invalid) {
       return Object.values(this.OrdenForm.controls).forEach((control) => {
         control.markAsTouched();
-        console.log(control);
       });
     }
 
@@ -714,12 +677,10 @@ export class OrdenComponent implements OnInit {
       .obtenerOrdenById(id)
 
       .subscribe((orden) => {
-        // this.OrdenForm.disable();
         !orden
           ? this.router.navigateByUrl('/dashboard/ordenes')
           : console.log('cabeecera', orden);
         const {
-          //  TIPOIDENTIFICADOR,
           IDENTIFICADOR,
           NOMBRES,
           APELLIDO,
@@ -727,9 +688,6 @@ export class OrdenComponent implements OnInit {
           DIRECCION,
           TELEFONO,
           EMAIL,
-          //  FECHACITA,
-          //   HORACITA,
-
           EDAD,
           FECHANACIMIENTO,
           SEXO,
@@ -738,7 +696,6 @@ export class OrdenComponent implements OnInit {
           NOMBRETIPOORDEN,
           PRIORIDAD,
           HIS,
-          //CODESPECIALIDADES,
           OPERADOR,
           CODFLEBOTOMISTA,
           CORRELATIVO,
@@ -751,16 +708,11 @@ export class OrdenComponent implements OnInit {
 
         this.ordenseleccionada = orden;
 
-        //console.log('orden seleccionada', this.ordenseleccionada.pruebas)
         console.log(this.ordenseleccionada);
         this.OrdenForm.setValue({
-          //TIPOIDENTIFICADOR,
           IDENTIFICADOR,
           NOMBRES,
           APELLIDO,
-          // FECHACITA: FECHACITA == null ? '' : FECHACITA.slice(0, 10),
-          //  HORACITA,
-
           CODPROVINCIA,
           DIRECCION,
           TELEFONO,
@@ -771,11 +723,8 @@ export class OrdenComponent implements OnInit {
           EDAD,
           HIS,
           PRIORIDAD,
-          //CODPROCEDENCIA,
           CODCENTROSALUD,
           CODTIPOORDEN: CODTIPOORDEN,
-          //  CODSALA,
-          //CODESPECIALIDADES,
           OPERADOR,
           CODFLEBOTOMISTA,
           CORRELATIVO,
@@ -799,36 +748,26 @@ export class OrdenComponent implements OnInit {
   crearformulario() {
     this.OrdenForm = this.fb.group(
       {
-        // TIPOIDENTIFICADOR: ['', [Validators.required]],
         IDENTIFICADOR: ['', [Validators.required]],
         NOMBRES: ['', [Validators.required]],
         APELLIDO: ['', [Validators.required]],
         FECHANACIMIENTO: ['', [Validators.required]],
         SEXO: ['', [Validators.required]],
         CODTIPOORDEN: ['', [Validators.required]],
-        //NOMBRETIPOORDEN: [''],
         PRIORIDAD: ['', [Validators.required]],
         CODDOCTOR: ['', [Validators.required]],
         HIS: ['', [Validators.required]],
         TELEFONO: ['', [Validators.required]],
         EMAIL: [''],
-
         CODEMBARAZADA: [],
-
         CODPROVINCIA: [''],
         DIRECCION: [''],
         OPERADOR: ['', [Validators.required]],
         CODFLEBOTOMISTA: ['', [Validators.required]],
         CORRELATIVO: [],
         CODIMPRESORA: ['', [Validators.required]],
-
         EDAD: [],
         CODCENTROSALUD: [],
-        // HORACITA: [''],
-
-        // CODSALA: ['', [Validators.required]],
-        //CODESPECIALIDADES: ['', [Validators.required]],
-
         pruebas: this.fb.array([]),
       },
       { validators: this.validatePruebas },
@@ -861,34 +800,15 @@ export class OrdenComponent implements OnInit {
         );
       }
     });
-
-    //this.OrdenForm.valueChanges.subscribe(data=>{this.changeValidators()})
-    // const control = this.OrdenForm.controls['pruebas'];
   }
   validatePruebas(formGroup: FormGroup) {
     const pruebasArray = formGroup.get('pruebas') as FormArray;
     if (pruebasArray.length === 0) {
-      return { noPruebas: true }; // Devuelve un error si no hay pruebas
+      return { noPruebas: true };
     }
-    return null; // Devuelve null si las pruebas son válidas
+    return null;
   }
-  /*   dataFormulario(){
-      this.OrdenForm.reset({
-        CODDOCTOR:'1',
-    NOMBRES:'juaa'
-      })
-    } */
-  /*  llenarTipoIdentificador() {
-     const identificador = this.OrdenForm.controls['IDENTIFICADOR'].value;
- 
-     if (identificador.length === 10) {
-       this.OrdenForm.controls['TIPOIDENTIFICADOR'].setValue('CC');
-     } else if (identificador.length === 13) {
-       this.OrdenForm.controls['TIPOIDENTIFICADOR'].setValue('P');
-     } else {
-       this.OrdenForm.controls['TIPOIDENTIFICADOR'].setValue('');
-     }
-   } */
+
   changeValidators() {
     this.usuario = this.usuarioService.usuario;
 
@@ -901,15 +821,10 @@ export class OrdenComponent implements OnInit {
         Validators.required,
       ]);
     } else {
-      //this.OrdenForm.controls['OPERADOR'].clearValidators();
     }
 
     this.OrdenForm.get('OPERADOR').updateValueAndValidity();
   }
-
-  /*  this.crearformulario.reset({
-     CODDOCTOR: this.usuarioLogueado.doctor
-   }); */
 
   isFormValid(): boolean {
     return this.OrdenForm.valid;
@@ -918,7 +833,6 @@ export class OrdenComponent implements OnInit {
     if (this.OrdenForm.invalid) {
       return Object.values(this.OrdenForm.controls).forEach((control) => {
         control.markAsTouched();
-        console.log(control);
       });
     }
     console.log('ESTADO DEL BOTON ', this.OrdenForm);
@@ -931,10 +845,7 @@ export class OrdenComponent implements OnInit {
       this.ordenService.actualizarOrden(data).subscribe((resp: any) => {
         const { msg } = resp;
         Swal.fire('Actualizado', `${msg}`, 'success');
-        // this.router.navigateByUrl('/dashboard/ordenes')
         localStorage.setItem('IMPRESORA', this.OrdenForm.value.CODIMPRESORA);
-        /* localStorage.setItem('FLEBOTOMISTA', this.OrdenForm.value.FLEBOTOMISTA); */
-        console.log('IMPRESORA', this.OrdenForm.value.CODIMPRESORA);
         this.OrdenForm.disable();
         this.btnVal = 'Editar';
       });
@@ -959,34 +870,7 @@ export class OrdenComponent implements OnInit {
             });
             this.pruebas.clear();
             this.clearFilters();
-            this.OrdenForm
-              .reset
-              /*  //TIPOIDENTIFICADOR: '',
-             IDENTIFICADOR: '',
-             NOMBRES: '',
-             APELLIDO: '',
-             CODPROVINCIA: '',
-             DIRECCION: '',
-             TELEFONO: '',
-             EMAIL: '',
- 
-             FECHANACIMIENTO: '',
-             FECHACITA: '',
-             HORACITA: '',
-             CODEMBARAZADA: '',
-             SEXO: '',
-             CODDOCTOR: this.usuarioLogueado.id,
-             CODTIPOORDEN: '',
-             CODSALA: '',
-             // CODESPECIALIDADES: this.usuarioLogueado.doctor,
-             OPERADOR: '',
-             CODFLEBOTOMISTA: '',
-             CORRELATIVO: '',
-             CODIMPRESORA: '',
-             pruebas: '', */
-              ();
-
-            // this.router.navigateByUrl('/dashboard/ordenes');
+            this.OrdenForm.reset();
           },
           (err) => {
             console.log('error', err);
@@ -998,10 +882,6 @@ export class OrdenComponent implements OnInit {
           },
         );
     }
-
-    //}
-
-    //console.log(this.OrdenForm.value)
   }
 
   enviarorden() {
@@ -1032,10 +912,8 @@ export class OrdenComponent implements OnInit {
   seleccionarPaciente(paciente) {
     let fecha = paciente.PA_BIRTHDATE.slice(0, 10);
     let feha = fecha.split('/');
-    console.log(`***********PACEINTE********`, paciente);
     $('#modal-info').modal('hide');
     this.OrdenForm.setValue({
-      // TIPOIDENTIFICADOR: '',
       IDENTIFICADOR: paciente.PA_ID1,
       NOMBRES: paciente.PA_FIRSTNAME,
       APELLIDO: paciente.PA_LASTNAME + ' ' + paciente.PA_SESURNAME,
@@ -1050,7 +928,6 @@ export class OrdenComponent implements OnInit {
       TELEFONO: '',
       EMAIL: '',
       CODEMBARAZADA: '',
-      // CODESPECIALIDADES: this.usuarioLogueado.doctor,
       CODDOCTOR: this.usuarioLogueado.id,
       CODTIPOORDEN: '',
       CODSALA: '',
@@ -1079,11 +956,9 @@ export class OrdenComponent implements OnInit {
     if (this.OrdenForm.value.FECHANACIMIENTO) {
       console.log(this.OrdenForm.value.FECHANACIMIENTO);
       const convertAge = new Date(this.OrdenForm.value.FECHANACIMIENTO);
-      // console.log(convertAge)
       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
 
       return (this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365));
-      //console.log(this.showAge)
     } else {
       return null;
     }
@@ -1095,55 +970,39 @@ export class OrdenComponent implements OnInit {
 
   buscarHis(HIS: string) {
     this.ordenService.buscarOrdenHis(HIS).subscribe((orden) => {
-      console.log('buscar HIS', orden);
-
       const {
-        //  TIPOIDENTIFICADOR,
         IDENTIFICADOR,
         NOMBRES,
         APELLIDO,
         FECHACITA,
-        // HORACITA,
         FECHANACIMIENTO,
         SEXO,
         CODDOCTOR,
         HIS,
         CODTIPOORDEN,
         CODSALA,
-        //CODESPECIALIDADES,
         OPERADOR,
         CODFLEBOTOMISTA,
         CORRELATIVO,
         CODIMPRESORA,
-        //NUMEROORDEN,
         as400,
       } = orden;
 
-      //console.log('pruebas de ordenes',pruebas)
-
-      // this.ordenseleccionada = orden;
-      // console.log('orden seleccionada', this.ordenseleccionada.pruebas)
       this.OrdenForm.setValue({
-        //TIPOIDENTIFICADOR,
         IDENTIFICADOR,
         NOMBRES,
         APELLIDO,
         FECHACITA,
         HIS,
-        // HORACITA,
         FECHANACIMIENTO: FECHANACIMIENTO.slice(0, 10),
-        //EDAD,
         SEXO,
-        //CODESPECIALIDADES,
         CODDOCTOR,
         CODTIPOORDEN,
         CODSALA,
-        //CODCENTROSALUD,
         OPERADOR,
         CODFLEBOTOMISTA,
         CORRELATIVO,
         CODIMPRESORA,
-        //NUMEROORDEN,
         pruebas: as400.map((valor) =>
           this.pruebas.push(
             this.fb.group({
@@ -1157,10 +1016,8 @@ export class OrdenComponent implements OnInit {
     });
   }
   buscarSais(CEDULA: string) {
-    console.log(CEDULA);
     this.ordenService.buscarOrderSais(CEDULA).subscribe((orden) => {
       const {
-        //  TIPOIDENTIFICADOR,
         IDENTIFICADOR,
         NOMBRES,
         APELLIDO,
@@ -1168,35 +1025,22 @@ export class OrdenComponent implements OnInit {
         DIRECCION,
         TELEFONO,
         EMAIL,
-        //  FECHACITA,
-        //   HORACITA,
         EDAD,
         FECHANACIMIENTO,
         SEXO,
         CODTIPOORDEN,
         CODDOCTOR,
-        // NOMBRETIPOORDEN,
         PRIORIDAD,
         HIS,
-        //CODESPECIALIDADES,
-        /*  OPERADOR,
-         CODFLEBOTOMISTA,
-         CORRELATIVO,
-         CODIMPRESORA, */
         CODEMBARAZADA,
-        // CODCENTROSALUD,
-        // CODCENTROSALUD
         as400,
       } = orden;
-      console.log(`****orden23**`, orden);
-      console.log(`****orden23**`, orden[0].IDENTIFICADOR);
+
       this.OrdenForm.setValue({
-        //  TIPOIDENTIFICADOR:'',
         HIS: orden[0].HIS,
         IDENTIFICADOR: orden[0].IDENTIFICADOR,
         NOMBRES: orden[0].NOMBRES,
         APELLIDO: orden[0].APELLIDO,
-
         FECHANACIMIENTO: orden[0].FECHANACIMIENTO,
         EDAD: '',
         SEXO: orden[0].SEXO,
@@ -1213,7 +1057,6 @@ export class OrdenComponent implements OnInit {
         CODCENTROSALUD: '',
         CORRELATIVO: '',
         CODIMPRESORA: '',
-        //NUMEROORDEN,
         pruebas: orden[0].as400.map((valor) =>
           this.pruebas.push(
             this.fb.group({
@@ -1228,25 +1071,20 @@ export class OrdenComponent implements OnInit {
   }
   search(value: any): any {
     this.isLoading = true;
-
     this.data$ = this.doctorservice.searchTrack({ q: value }).pipe(
       map(({ prueba }) => prueba),
-
       finalize(() => (this.isLoading = false)),
     );
   }
   searchMicro(value: any): any {
     this.isLoading = true;
-
     this.data$ = this.doctorservice.pruebasMicro({ q: value }).pipe(
       map(({ prueba }) => prueba),
-
       finalize(() => (this.isLoading = false)),
     );
   }
 
   seleccionarCategoria(nombre: any) {
-    //  console.log(`********************N**`,nombre)
     const pruebasArray = this.OrdenForm.get('pruebas') as FormArray;
     if (Array.isArray(nombre)) {
       const pruebaExistente = pruebasArray.value;
@@ -1263,19 +1101,16 @@ export class OrdenComponent implements OnInit {
           }),
         );
       } else {
-        console.log('Ya existe una prueba con el ItemID:', nombre);
       }
     } else {
       const itemID = nombre['TestID'];
       const itemNombre = nombre['TestName'];
-      //const pruebasArray = this.OrdenForm.get('pruebas') as FormArray;
+
       const pruebaExistente = pruebasArray.value;
       const pruebaExistente2 = pruebaExistente.find(
         (control) => control.ItemID === itemID,
       );
       if (pruebaExistente2) {
-        // Si ya existe una prueba con el mismo ItemID, no se agrega una nueva
-        console.log('Ya existe una prueba con el ItemID:', itemID);
       } else {
         this.pruebas.push(
           this.fb.group({
@@ -1284,17 +1119,14 @@ export class OrdenComponent implements OnInit {
             ESTADO: ['1', Validators.required],
           }),
         );
-        console.log('Prueba agregada adicional:', itemID);
       }
     }
   }
 
   onchange(e: any) {
     const checkedValue = e.target.value;
-    // console.log(`****************************`,checkedValue)
     const nombre = checkedValue.split('-');
     const checked = e.target.checked;
-
     if (checked) {
       this.seleccionarCategoria(nombre);
     } else {
@@ -1308,11 +1140,8 @@ export class OrdenComponent implements OnInit {
       (control) => control.value.ItemID === nombre[0],
     );
     if (index !== -1) {
-      // Elimina la prueba del FormArray usando el índice
       pruebasArray.removeAt(index);
-      console.log('Prueba eliminada:', nombre[0]);
     } else {
-      console.log('No se encontró la prueba con el ItemID:', nombre[0]);
     }
   }
 
@@ -1326,9 +1155,6 @@ export class OrdenComponent implements OnInit {
   }
 
   cambioestado() {
-    //this.form.get('credentials').at(index).get('label').enable();
-
-    console.log('ESTADO DEL BOTON', this.btnVal);
     if (this.btnVal != 'Editar') {
       this.guardarOrden();
     }
@@ -1341,6 +1167,6 @@ export class OrdenComponent implements OnInit {
     inputs.forEach((i) => (i['checked'] = false));
   }
   isPruebaDisabled(index: number): boolean {
-    return this.OrdenForm.disabled; // Devuelve true si el formulario está desactivado, de lo contrario, devuelve false
+    return this.OrdenForm.disabled;
   }
 }

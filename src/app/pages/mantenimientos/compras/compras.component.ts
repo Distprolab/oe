@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { Equipo } from 'src/app/interfaces/carga-equipos.interfaces';
 import { RegistroService } from 'src/app/services/registro.service';
 
 import Swal from 'sweetalert2';
@@ -19,6 +20,17 @@ import Swal from 'sweetalert2';
 export class ComprasComponent implements OnInit {
   title = 'formulario-Compras';
   private tempFile: any;
+  listaequiposquimica:Equipo[]=[];
+  listaequiposinmunologia:Equipo[]=[];
+  listaequiposhematologia:Equipo[]=[];
+  listaequiposcoagulacion:Equipo[]=[];
+  listaequiposgasometria:Equipo[]=[];
+  listaequiposinsumos:Equipo[]=[];
+  listaequiposelectrolitros:Equipo[]=[];
+  listaequiposmicrobiologia:Equipo[]=[];
+  listaequiposuroanalisis:Equipo[]=[];
+  listaequiposrapidas:Equipo[]=[];
+
   licencia = [
     {
       ItemName: 'Parametros reportables modo fluido corporal',
@@ -263,6 +275,8 @@ export class ComprasComponent implements OnInit {
         this.toggleValorControl(value, equipobackupGroup, controlName);
       });
     });
+
+    this.getEquipos();
   }
 
   toggleValorControl(value: any, group: FormGroup, controlName: string) {
@@ -273,6 +287,7 @@ export class ComprasComponent implements OnInit {
       group.get(`valbk${controlName.slice(2)}`)?.disable();
     } else {
       group.get(`val${controlName.slice(2)}`)?.enable();
+      group.get(`valbk${controlName.slice(2)}`)?.enable();
     }
   }
 
@@ -360,8 +375,22 @@ export class ComprasComponent implements OnInit {
       this.RegistroForm.markAllAsTouched();
       return;
     }
-
-    Swal.fire({
+    this.registroServices
+    .getRegistro(this.RegistroForm.value)
+    .subscribe((res: any) => {
+      const { msg } = res;
+      Swal.fire({
+        icon: 'success',
+        title: `${msg}`,
+        showConfirmButton: false,
+        /*  timer: 1500, */
+      });
+      this.RegistroForm.reset();
+      this.areas.clear();
+      this.licenciaEquiposHematologicos.clear();
+      this.router.navigateByUrl('dashboard/consulta-compras');
+    })
+  /*   Swal.fire({
       input: 'textarea',
       inputLabel: 'Adjunte los correos',
       inputPlaceholder: 'Ingrese los correos necesarios...',
@@ -380,27 +409,31 @@ export class ComprasComponent implements OnInit {
         if (this.RegistroForm && this.RegistroForm.get('correo')) {
           if (input) {
             this.RegistroForm.value.correo = input;
-            this.registroServices
-              .getRegistro(this.RegistroForm.value)
-              .subscribe((res: any) => {
-                const { msg } = res;
-                Swal.fire({
-                  icon: 'success',
-                  title: `${msg}`,
-                  showConfirmButton: false,
-                  /*  timer: 1500, */
-                });
-                this.RegistroForm.reset();
-                this.areas.clear();
-                this.licenciaEquiposHematologicos.clear();
-                this.router.navigateByUrl('dashboard/consulta-compras');
+            
               });
           }
         }
       },
-    });
+    }); */
   }
+getEquipos(){
 
+
+  this.registroServices.getEquipos().subscribe((equipos)=>{
+    this.listaequiposquimica=equipos.filter((equipo)=>equipo.CATEGORIA==='QUIMICA' );
+    this.listaequiposinmunologia=equipos.filter((equipo)=>equipo.CATEGORIA==='INMUNOLOGIA' );
+    this.listaequiposhematologia=equipos.filter((equipo)=>equipo.CATEGORIA==='HEMATOLOGIA' );
+    this.listaequiposcoagulacion=equipos.filter((equipo)=>equipo.CATEGORIA==='COAGULACION' );
+    this.listaequiposgasometria=equipos.filter((equipo)=>equipo.CATEGORIA==='GASOMETRIA' );
+    this.listaequiposinsumos=equipos.filter((equipo)=>equipo.CATEGORIA==='INSUMOS' );
+    this.listaequiposelectrolitros=equipos.filter((equipo)=>equipo.CATEGORIA==='ELECTROLITOS' );
+    this.listaequiposmicrobiologia=equipos.filter((equipo)=>equipo.CATEGORIA==='MICROBIOLOGIA' );
+    this.listaequiposuroanalisis=equipos.filter((equipo)=>equipo.CATEGORIA==='UROANALISIS' );
+    this.listaequiposrapidas=equipos.filter((equipo)=>equipo.CATEGORIA==='PRUEBASRAPIDAS' );
+
+    
+  })
+}
   onAreasChange(e: any) {
     const area = this.RegistroForm.get('areas') as FormArray;
 

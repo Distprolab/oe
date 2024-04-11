@@ -80,7 +80,7 @@ export class EstadisticaMicroComponent implements AfterViewInit {
         'Numero orden': orden.SampleID,
         Origen: orden.Origen,
         Servicio: orden.Servicio,
-        'Tipo paciente': 'Humano',
+        'Tipo paciente': orden.Age,
         Paciente: orden.Paciente,
         Sexo: orden.Sexo,
         'Historia Clinica': orden.Historia,

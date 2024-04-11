@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Rolee } from 'src/app/models/rol.module';
 import { RolService } from 'src/app/services/rol.service';
-import { MatPaginator } from '@angular/material/paginator';
-/* import { RolService } from 'src/app/services/rol.service';*/
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
-//import { ModalIMagenService } from '../../../services/modal-imagen.service';
-//import { Usuario } from '../../../interfaces/cargarUsuarios';
+
 import { Usuario } from '../../../models/usuario.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -135,17 +132,5 @@ export class UsuariosComponent implements OnInit {
             this.usuarios = resultados;
           });
   }
-  /* 
-  nextPage() {
-    if (!this.page) {
-      this.page += 5;
-    }
-  }
 
-
-  prevPage() {
-    if (this.page > 0) {
-      this.page -= 5;
-    }
-  } */
 }

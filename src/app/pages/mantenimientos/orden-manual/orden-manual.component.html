@@ -17,10 +17,7 @@
                 {{ btnVal }}
               </a>
               &nbsp;
-              <!--        
-                         <a type="" *ngIf="usuario.rol !== 'DOCTOR'" (click)="actualizar()" type="" class="btn btn-secondary btn-sm">
-                                {{btnVal}}
-                            </a>&nbsp;  -->
+
               <a
                 type=""
                 *ngIf="usuario.rol !== 'DOCTOR' && this.btnVal != 'Guardar'"
@@ -43,21 +40,6 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <!--   <div class="form-group col-md-2">
-                                <label for="" class="form-ItemName ">Tipo Doc.</label>
-                                <div class="col-">
-                                    <select class="form-control" formControlName="TIPOIDENTIFICADOR"
-                                        [class.is-invalid]="TIPOIDENTIFICADOR">
-                                        <option value="">--Seleccione--</option>
-                                        <option value="CC">Cédula</option>
-                                        <option value="P">Pasaporte</option>
-                                        <option value="RN">RN</option>
-                                        <option value="NN">NN</option>
-                                    </select>
-                                    <small *ngIf="TIPOIDENTIFICADOR" class="text-danger">Campo obligatorio </small>
-                                </div>
-                            </div>
- -->
               <div class="form-group col-md-3">
                 <label for="" class="form-ItemName">Cédula</label>
 
@@ -74,26 +56,6 @@
                   >Campo obligatorio
                 </small>
               </div>
-
-              <!--             -->
-
-              <!-- 
-                    (keyup)="buscar(OrdenForm.value.IDENTIFICADOR)"  -->
-
-              <!--     <div class="form-group col-sm-3">
-                                <button type="button" class="btn btn-info" data-toggle="modal"
-                                    data-target="#modal-info">
-                                    <i class='bx bxs-plus-circle'></i>
-                                </button>&nbsp;
-                            
-                                <label for="text" class="form-ItemName ">Nombres</label>
-
-                                <input appUppercase type="text" class="form-control appUppercase "
-                                    formControlName="NOMBRES" [class.is-invalid]="NOMBRES "
-                                    placeholder="Ingrese los nombres ">
-                                    <small *ngIf="NOMBRES" class="text-danger">Campo obligatorio </small>
-
-                            </div> -->
 
               <div class="form-group col-md-3">
                 <label for="" class="form-ItemName">Apellidos</label>
@@ -121,12 +83,7 @@
                     [class.is-invalid]="NOMBRES"
                     placeholder="Ingrese los nombres"
                   />
-                  <div class="input-group-append">
-                    <!--  <button type="button" class="btn btn-info" data-toggle="modal"
-                                                                        data-target="#modal-info">
-                                                                        <i class="bx bxs-plus-circle"></i>
-                                                                    </button> -->
-                  </div>
+                  <div class="input-group-append"></div>
                 </div>
 
                 <small *ngIf="NOMBRES" class="text-danger"
@@ -146,8 +103,6 @@
                 </div>
               </div>
 
-              <!-- fin rowwww -->
-
               <div class="form-group col-md-3">
                 <label for="text" class="form-ItemName">Edad</label>
                 <input
@@ -158,21 +113,6 @@
                   placeholder=" "
                 />
               </div>
-
-              <!-- <div class="form-group col-md-3">
-                                    <label for="" class="form-ItemName ">Provincia</label>
-
-                                    <div class="col-">
-                                        <select class="form-control" formControlName="CODPROVINCIA"
-                                            [class.is-invalid]="CODPROVINCIA">
-                                            <option value="">--Seleccione--</option>
-                                            <option *ngFor=" let provincia of listaprovincia " [value]="provincia.id">
-                                                {{provincia.descripcion}}</option>
-                                        </select>
-                                    </div>
-
-
-                                </div> -->
 
               <div class="form-group col-md-3">
                 <label for="" class="form-ItemName">Telefono</label>
@@ -224,43 +164,18 @@
                 <div class="col-">
                   <input class="form-control" formControlName="HIS" value="" />
                 </div>
-                <!--      <small *ngIf="CODDOCTOR" class="text-danger">Debe de escoger una opción</small> -->
               </div>
-
-              <!--  <div class="form-group col-md-6">
-                                <label for="" class="form-ItemName">Doctor</label>
-                                <div class="col-">
-                                    <select class="form-control" formControlName="CODDOCTOR"
-                                        [class.is-invalid]="CODDOCTOR" [(ngModel)]="usuarioLogueado.id">
-
-                                        <option value="">--Seleceione--</option>
-                                        <option *ngFor="let user of usuarios" [ngValue]="user.id">{{user.doctor}} -
-                                            {{user.codigo_doctor}}</option>
-
-                                    </select>
-                                </div>
-                                <small *ngIf="CODDOCTOR" class="text-danger">Debe de escoger una opción</small>
-                            </div> -->
 
               <div class="form-group col-md-3">
                 <label for="" class="form-ItemName">Doctor</label>
 
-                <!--    <input class="form-control" formControlName="CODDOCTOR"
-                                            [class.is-invalid]="CODDOCTOR">
- -->
                 <select
                   class="form-control"
                   formControlName="CODDOCTOR"
                   [class.is-invalid]="CODDOCTOR"
                 >
                   <option value="">--Seleccione</option>
-                  <!-- <option value="1">CONSULTA EXTERNA</option>
-    <option value="2">EMERGENCIA</option>
-    <option value="14">LABOR DE PARTO</option>
-    <option value="10">H. CIRUGIA GENERAL</option>
-    <option value="11">H. MEDICINA INTERNA</option>
-    <option value="12">H. PEDIATRIA</option>
-    <option value="13">H. GINECO-OBSTRTRICFA</option> -->
+
                   <option
                     *ngFor="let origin of listadoctor"
                     [value]="origin.ValueCode"
@@ -274,45 +189,14 @@
                 >
               </div>
 
-              <!-- 
-                            <div class="form-group col-md-3">
-                                <label for="" class="form-ItemName">Origen</label>
-                                <div class="col-">
-
-                                    <select class="form-control" formControlName="CODTIPOORDEN"
-                                        [class.is-invalid]="CODTIPOORDEN">
-                                        <option value="">--Seleccione </option>
-                                        <option *ngFor="let origin of listaorigin " [value]="origin.ValueCode ">
-                                            {{origin.Description}} </option>
-
-                                    </select>
-
-                                </div>
-                                <small *ngIf="CODTIPOORDEN" class="text-danger">Debe de escoger una opción</small>
-
-                            </div> -->
               <div class="form-group col-md-3">
                 <label for="" class="form-ItemName">Sala</label>
-
-                <!--  <input class="form-control" formControlName="CODTIPOORDEN"
-                                            [class.is-invalid]="CODTIPOORDEN"> -->
 
                 <select
                   class="form-control"
                   formControlName="CODTIPOORDEN"
                   [class.is-invalid]="CODTIPOORDEN"
                 >
-                  <!--   <option value="">--Seleccione--</option>
-    <option value="1">CONSULTA EXTERNA</option>
-    <option value="2">EMERGENCIA</option>
-    <option value="14">LABOR DE PARTO</option>
-    <option value="10">H. CIRUGIA GENERAL</option>
-    <option value="11">H. MEDICINA INTERNA</option>
-    <option value="12">H. PEDIATRIA</option>
-    <option value="13">H. GINECO-OBSTRTRICFA</option>
-
-    <option value="15">CENTRO QUIRURGICO</option> -->
-
                   <option value="">--Seleccione--</option>
                   <option
                     *ngFor="let sala of listaorigin"
@@ -327,28 +211,9 @@
                 >
               </div>
 
-              <!--    <div class="form-group col-md-3">
-                                <label class="form-ItemName">Sala</label>
-                                <div class="col-">
-                                    <select class="form-control " formControlName="CODSALA"
-                                        [class.is-invalid]="CODSALA">
-                                        <option value="">--Seleccione--</option>
-                                        <option *ngFor="let sala of listaSala" [value]="sala.ValueCode">
-                                            {{sala.Description}}</option>
-
-
-                                    </select>
-                                </div>
-                                <small *ngIf="CODSALA" class="text-danger">Debe de escoger una opción</small>
-
-                            </div> -->
-
               <div class="form-group col-md-3">
                 <label class="form-ItemName">Prioridad</label>
 
-                <!--     <input class="form-control " formControlName="PRIORIDAD"
-                                            [class.is-invalid]="PRIORIDAD">
- -->
                 <select
                   class="form-control"
                   formControlName="PRIORIDAD"
@@ -358,8 +223,6 @@
                   <option value="2">RUTINA</option>
                   <option value="1">URGENTE</option>
                   <option value="3">CONTROL</option>
-                  <!--    <option *ngFor="let sala of listaSala" [value]="sala.ValueCode">
- {{sala.Description}}</option> -->
                 </select>
 
                 <small *ngIf="PRIORIDAD" class="text-danger"
@@ -379,36 +242,6 @@
                 />
               </div>
 
-              <!--   <div class="form-group col-md-3">
-
-
-                                    <label for="text" class="form-ItemName ">Fecha Cita</label>
-
-                                    <div class="input-group date" id="reservationdate">
-                                        <input type="date" class="form-control datetimepicker-input"
-                                            formControlName="FECHACITA" data-target="#reservationdate" />
-
-                                    </div>
-                                </div>
-
-
-
-
-
-                                <div class="form-group col-md-2">
-
-
-                                    <label for="text" class="form-ItemName ">Hora Cita</label>
-
-                                    <div class="input-group date" id="reservationdate">
-                                        <input type="time" class="form-control datetimepicker-input"
-                                            formControlName="HORACITA" [class.is-invalid]="HORACITA"
-                                            data-target="#reservationdate" />
-
-                                    </div>
-                                </div> -->
-
-              <!--  <div *ngIf="OrdenForm.value.SEXO == 'F'" class="form-group col-md-1"> -->
               <div
                 *ngIf="OrdenForm.value.SEXO === 'F'"
                 class="form-group col-md-3"
@@ -423,8 +256,6 @@
                   <option value="">--Seleccione--</option>
                   <option value="SI">SI</option>
                   <option value="NO">NO</option>
-                  <!--    <option *ngFor="let sala of listaSala" [value]="sala.ValueCode">
-                                            {{sala.Description}}</option> -->
                 </select>
               </div>
             </div>
@@ -438,7 +269,6 @@
             <h6 class="card-title">Datos demograficos</h6>
           </div>
 
-          <!--       <div class="scroll "> -->
           <div class="card-body">
             <div class="row">
               <div class="form-group col-md-4">
@@ -450,8 +280,7 @@
                   [class.is-invalid]="OPERADOR"
                 >
                   <option value="">--Seleccione--</option>
-                  <!--   <option value="1">OPERADOR1</option>
-                                            <option value="2">OPERADOR2</option>  -->
+
                   <option
                     *ngFor="let operador of listaOperador"
                     [value]="operador.ValueCode"
@@ -475,8 +304,7 @@
                   [class.is-invalid]="CODFLEBOTOMISTA"
                 >
                   <option value="">--Seleccione--</option>
-                  <!--    <option value="1">FLEBOTOMISTA1</option>
-                                                                            <option value="2">FLEBOTOMISTA2</option>  -->
+
                   <option
                     *ngFor="let fle of listaFlebotomista"
                     [value]="fle.ValueCode"
@@ -488,19 +316,6 @@
                   >Debe de escoger una opción</small
                 >
               </div>
-
-              <!--  <div class="form-group col-md-4">
-                                    <label for="text " class="form-ItemName">Impresora</label>
-                                    
-                                        <select class="form-control " formControlName="CODIMPRESORA" [class.is-invalid]="CODIMPRESORA">
-                                            <option value="">--Seleccione--</option>
-                                            <option value="ZBR2">Recepcion</option>
-                                            <option value="ZBR3">RECEPCION2</option>
-                                            <option value="ZBR5">VIGILANCIA</option>
-                                            <option value="ZBR1">PROCESO</option>
-                                        </select>
-                            <small *ngIf="CODIMPRESORA" class="text-danger">Debe de escoger una opción</small>
-                                </div> -->
 
               <div class="form-group col-md-4">
                 <label for="inputPassword3 " class="form-ItemName"
@@ -531,8 +346,7 @@
                   [class.is-invalid]="CODCENTROSALUD"
                 >
                   <option value="">--Seleccione--</option>
-                  <!--   <option value="1">PRIVADO</option>
-                                            <option value="2">PUBLICO</option>  -->
+               
                   <option
                     *ngFor="let listacentro of listaCentrosalud"
                     [value]="listacentro.ValueCode"
@@ -560,19 +374,17 @@
               </div>
             </div>
           </div>
-          <!--     </div> -->
+         
         </div>
       </div>
 
-      <!-- servicios -->
-      <!-- retire la clase   el row -->
+      
     </div>
 
     <div class="col-md-4">
       <div class="card card-info">
         <div class="card-header">
-          <!--    <h6 class="card-title"> Pruebas Agregadas</h6>
- -->
+      
           <button
             type="button"
             class="btn btn-default btn-sm btnd"
@@ -598,7 +410,7 @@
             <thead>
               <tr>
                 <th>N.-</th>
-                <!--  <th *ngIf="usuario.rol=='OPERADOR'">Estado</th> -->
+              
                 <th>Estado</th>
                 <th>prueba</th>
                 <th>Borrar</th>
@@ -788,10 +600,7 @@
             </div>
           </div>
         </div>
-        <!--  <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button"data-dismiss="modal" class="btn btn-primary">Guardar</button>
-        </div> -->
+       
       </div>
     </div>
   </div>
@@ -1133,7 +942,7 @@
 
                   <div class="card">
                     <div class="wrapper">
-                      <!--     <label for="hoa">Pruebas adicionales:</label> -->
+                     
                       <div class="card">
                         <div class="card-header card-title colorprueba">
                           <p class="tittle">PRUEBAS ADICIONALES</p>
@@ -1180,7 +989,6 @@
   </div>
 
   <div class="modal-footer justify-content-between">
-    <!--    <button type="button" class="btn btn-default" data-dismiss="modal"></button> 
-                <button type="button" data-dismiss="modal" class="btn btn-primary">Guardar</button> -->
+   
   </div>
 </div>

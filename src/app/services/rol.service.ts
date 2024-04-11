@@ -19,9 +19,7 @@ export class RolService {
   get token(): string {
     return localStorage.getItem('token') || '';
   }
-  /* get role():'ADMIN' | 'DOCTOR' | 'DOCTOR_ADMIN'{
-    return this.usuario.rol;
-  } */
+
   get headers() {
     return { headers: { 'x-token': this.token } };
   }
@@ -32,6 +30,4 @@ export class RolService {
         map((resp) => resp.rol.map((resp) => ({ rol: resp.rol, id: resp.id }))),
       );
   }
-
- 
 }

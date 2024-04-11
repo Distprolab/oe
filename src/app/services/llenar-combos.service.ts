@@ -2,23 +2,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-
 import { cargaGetlistdoctor } from '../interfaces/carga-getllistdoctor.interface';
 import { cargarPruebas } from '../interfaces/cargarPruebas.interface';
 import { cargarOrigin } from '../interfaces/cargarOrigin.interface';
-import { cargaPacientes } from '../interfaces/cargar-pacientes.interfaces';
-import { cargaPaciente } from '../interfaces/cargaPaciente.interface';
 import { cargaEnvase } from '../interfaces/cargaEnvase.interface';
 import { ListaOrdenes } from '../interfaces/ordenes.interface';
 import { cargaProvincia } from '../interfaces/cargaProvincia.interface';
-import { cargarOrdenes } from '../interfaces/carga-ordenes.interface';
-import {
-  Pruebas,
-  RegisterDateCount,
-} from '../interfaces/cargaReportPruebas.interfaces';
+import { Pruebas } from '../interfaces/cargaReportPruebas.interfaces';
 import { OrdenMicro } from '../interfaces/micro-form.interface';
 import { cargarImpresora } from '../interfaces/impresora.interface';
 import { PanelPruebas } from '../interfaces/cargarPanelPruebas.interface';
+import { Marca, Marcas } from '../interfaces/cargaMarca.interface';
+import { Cliente, Clientes } from '../interfaces/cargaCliente.interface';
+
 const baseUrl = environment.url;
 @Injectable({
   providedIn: 'root',
@@ -68,25 +64,6 @@ export class LlenarCombosService {
       );
   }
 
-  /* getPruebasI(){
-   
-  
-    return this.http.get<cargarPruebas>(`${baseUrl}/pruebas`)
-    .pipe(
-      map(resp=> 
-    
-        resp.prueba.map(
-          resp=>({
-       
-            ItemID: resp.ItemID,
-            ItemName: resp.ItemName,
-          //  SuperGroupID: resp.SuperGroupID,
-          //  SupergroupName:resp.SupergroupName,
-     
-          })
-        ))
-    )
-  }  */
   getProvincia() {
     return this.http
       .get<cargaProvincia>(`${baseUrl}/api/provincia`, this.headers)
@@ -134,11 +111,10 @@ export class LlenarCombosService {
         map((resp) =>
           resp.orden.map((resp) => ({
             Id: resp.Id,
-            //  DemographicCode: resp.DemographicCode,
+
             DemographicName: resp.DemographicName,
             ValueCode: resp.ValueCode,
             Description: resp.Description,
-            //  Status: resp.Status
           })),
         ),
       );
@@ -151,12 +127,10 @@ export class LlenarCombosService {
         map((resp) =>
           resp.orden.map((resp) => ({
             Id: resp.Id,
-            //  DemographicCode: resp.DemographicCode,
-            //  DemographicName: resp.DemographicName,
+
             ValueCode: resp.ValueCode,
             Description: resp.Description,
             DemographicName: resp.DemographicName,
-            //  Status: resp.Status
           })),
         ),
       );
@@ -168,12 +142,10 @@ export class LlenarCombosService {
         map((resp) =>
           resp.orden.map((resp) => ({
             Id: resp.Id,
-            //  DemographicCode: resp.DemographicCode,
-            //  DemographicName: resp.DemographicName,
+
             ValueCode: resp.ValueCode,
             Description: resp.Description,
             DemographicName: resp.DemographicName,
-            //  Status: resp.Status
           })),
         ),
       );
@@ -186,12 +158,10 @@ export class LlenarCombosService {
         map((resp) =>
           resp.orden.map((resp) => ({
             Id: resp.Id,
-            //  DemographicCode: resp.DemographicCode,
-            //  DemographicName: resp.DemographicName,
+
             ValueCode: resp.ValueCode,
             Description: resp.Description,
             DemographicName: resp.DemographicName,
-            //  Status: resp.Status
           })),
         ),
       );
@@ -204,12 +174,10 @@ export class LlenarCombosService {
         map((resp) =>
           resp.orden.map((resp) => ({
             Id: resp.Id,
-            //  DemographicCode: resp.DemographicCode,
-            //  DemographicName: resp.DemographicName,
+
             ValueCode: resp.ValueCode,
             Description: resp.Description,
             DemographicName: resp.DemographicName,
-            //  Status: resp.Status
           })),
         ),
       );
@@ -222,12 +190,10 @@ export class LlenarCombosService {
         map((resp) =>
           resp.orden.map((resp) => ({
             Id: resp.Id,
-            //  DemographicCode: resp.DemographicCode,
-            //  DemographicName: resp.DemographicName,
+
             ValueCode: resp.ValueCode,
             Description: resp.Description,
             DemographicName: resp.DemographicName,
-            //  Status: resp.Status
           })),
         ),
       );
@@ -242,18 +208,22 @@ export class LlenarCombosService {
       );
   }
 
-
   getPanelPruebas() {
     return this.http
       .get<PanelPruebas>(`${baseUrl}/api/panelPruebas`, this.headers)
-     .pipe(
+      .pipe(
         map((resp) =>
-          resp.pruebas.map((resp) => ({CODIGO:resp.CODIGO, NOMBRE: resp.NOMBRE, id: resp.id , CATEGORIA: resp.CATEGORIA,ESTADO:resp.ESTADO})),
-        ), 
+          resp.pruebas.map((resp) => ({
+            CODIGO: resp.CODIGO,
+            NOMBRE: resp.NOMBRE,
+            id: resp.id,
+            CATEGORIA: resp.CATEGORIA,
+            ESTADO: resp.ESTADO,
+          })),
+        ),
       );
   }
   getpacientes(NOMBRE: string, cedula: string) {
-    //return this.http.get<cargaPacientes>(`${baseUrl}/pacientes/${IDENTIFICADOR}`)
     return this.http
       .get<ListaOrdenes>(
         `${baseUrl}/api/pacientes/?IDENTIFICADOR=${NOMBRE}&CEDULA=${cedula}`,
@@ -261,25 +231,6 @@ export class LlenarCombosService {
       )
 
       .pipe(delay(1500));
-    /*  .pipe(
-       map(resp=>
-         resp.listaordenes.map(
-           resp=>({
-      
-           PA_ID1: resp.PA_ID1,
-         
-           PA_LASTNAME: resp.PA_LASTNAME,
-           PA_FIRSTNAME: resp.PA_FIRSTNAME,
-           PA_SESURNAME: resp.PA_SESURNAME,
-           PA_BIRTHDATE: resp.PA_BIRTHDATE,
-          PA_SEX: resp.PA_SEX,
-           PA_AGE: resp.PA_AGE,
-           D_44: resp.D_44,
-         })
-   
-         )
-     ))  
-        */
   }
 
   getRegistropacientes(FECHADESDE: string, FECHAHASTA: string) {
@@ -307,5 +258,17 @@ export class LlenarCombosService {
       `${baseUrl}/api/reportTotal?FECHADESDE=${FECHADESDE}&FECHAHASTA=${FECHAHASTA}`,
       this.headers,
     );
+  }
+
+  getMarca(): Observable<Marca[]> {
+    return this.http
+      .get<Marcas>(`${baseUrl}/api/marca`, this.headers)
+      .pipe(map(({ marcas }) => marcas));
+  }
+
+  getCliente(): Observable<Cliente[]> {
+    return this.http
+      .get<Clientes>(`${baseUrl}/api/cliente`, this.headers)
+      .pipe(map(({ clientes }) => clientes));
   }
 }

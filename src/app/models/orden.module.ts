@@ -47,6 +47,6 @@ export class Detalle {
     public TestName: string,
     public ExamID: string,
     public ESTADO: string,
-    // public comentario: string,
+
   ) {}
 }

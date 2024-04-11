@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterFrom } from '../interfaces/register-form.interface';
 import { environment } from 'src/environments/environment.prod';
 import { Proceso } from '../interfaces/cargaProceso.interface';
+import { catchError, map, mapTo, Observable, of, tap } from 'rxjs';
+import { Equipo, Equipos } from '../interfaces/carga-equipos.interfaces';
 
 const baseUrl = environment.url;
 @Injectable({
@@ -16,19 +18,44 @@ export class RegistroService {
   get headers() {
     return { headers: { 'x-token': this.token } };
   }
+  get header() {
+    return { headers: { 'x-token': this.token }, responseType: 'blob' };
+  }
   constructor(private http: HttpClient) {}
 
   getRegistro(formData: RegisterFrom) {
     return this.http.post(`${baseUrl}/api/procesos`, formData, this.headers);
   }
 
-  getConsultaRegistro(){
-
-    return this.http.get<Proceso>(`${baseUrl}/api/procesos`,this.headers)
+  getReportePdf(proceso: Proceso) {
+    return this.http.get(`${baseUrl}/api/procesos-pdf/${proceso.id}`, {
+      headers: this.headers.headers, 
+      responseType: 'blob',
+      
+    });
   }
-  
 
-  buscarFiltroProceso(termino:string){
-     return this.http.get<any[]>(`${baseUrl}/api/procesos/${termino}`,this.headers)
+  getEnvioCorreo(formData: FormData) {
+    return this.http.post(`${baseUrl}/api/mail/upload`, formData, this.headers);
   }
+  getConsultaRegistro() {
+    return this.http.get<Proceso>(`${baseUrl}/api/procesos`, this.headers);
+  }
+
+  buscarFiltroProceso(termino: string) {
+    return this.http
+      .get<any[]>(`${baseUrl}/api/procesos/${termino}`, this.headers)
+      .pipe(
+        map((resp: any) => {
+          return resp.resultados;
+        }),
+      );
+  }
+
+getEquipos():Observable<Equipo[]>{
+  return this.http.get<Equipos>(`${baseUrl}/api/equipos`,this.headers)
+  .pipe(
+    map(({equipos})=>equipos)
+  )
+}
 }

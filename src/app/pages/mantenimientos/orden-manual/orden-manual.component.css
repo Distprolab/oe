@@ -1,16 +1,10 @@
-/*  *{
-  outline: 2px solid crimson;  
-}
-  */
+
 
 .li {
   list-style: none;
 }
 
-/* .form-group{
-margin-top: 10px;
-margin-bottom: 10px;
-} */
+
 
 .under {
   list-style: none;
@@ -68,15 +62,7 @@ margin-bottom: 10px;
   margin-left: 50px;
 }
 
-/* input[type="submit"] {
-  margin-left: 180px;
-  height: 38px;
-  width: 50px;
-  background: #333;
-  color: white;
-  border: 0;
-  -webkit-appearance: none;
-} */
+
 
 .fo {
   margin: -38px;
@@ -129,12 +115,7 @@ label {
   flex-wrap: wrap;
 }
 
-/* .card-ter{
 
-} */
-/* .wrapper{
-  width: 100%;
-} */
 .modal- {
   margin: 20px 10px 10px;
   width: 100%;

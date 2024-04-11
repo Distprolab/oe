@@ -59,19 +59,7 @@ export class OrdenesService {
   cargarOrdenes() {
     return this.http.get<cargarOrdenes>(`${baseUrl}/api/ordenes`, this.headers);
   }
-  /*  cargarOrdenes() {
-    return this.http.get<OrdenCalendar>(`${baseUrl}/ordenes`, this.headers)
-
-  } */
-  /*   cargarOrdenes(desde: number = 0) {
-    return this.http.get<cargarOrdenes>(`${baseUrl}/ordenes?desde=${desde}`, this.headers)
-       .pipe(
-        tap((resp: any) => {
-          console.log('listado de servicios', resp)
-        }
-        )
-      ) 
-  } */
+ 
 
   actualizarOrden(orden: Orden) {
     return this.http.put(
@@ -80,14 +68,7 @@ export class OrdenesService {
       this.headers,
     );
   }
-  /*   buscarFiltroOrdenes(termino: string) {
-    return this.http.get<any[]>(`${baseUrl}/ordenes/busquedaordenes/${termino}`, this.headers)
-      .pipe(
-        map((resp: any) => {
-          return resp.resultados;
-        })
-      )
-  } */
+  
 
   buscarFiltroOrdenes(
     IDENTIFICADOR: string,
