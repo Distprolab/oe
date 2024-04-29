@@ -8,9 +8,9 @@ table {
 
 .disabled-icon {
   opacity: 0.5;
-  /* Opacidad reducida para desactivar visualmente el ícono */
+ 
   pointer-events: none;
-  /* Evitar eventos de clic en el ícono desactivado */
+ 
 }
 thead th {
   font-size: 0.8rem;

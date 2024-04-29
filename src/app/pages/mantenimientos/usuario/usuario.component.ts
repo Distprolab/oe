@@ -17,11 +17,11 @@ import Swal from 'sweetalert2';
 })
 export class UsuarioComponent implements AfterViewInit {
   get doctorNoValido() {
-    const rol = this.registerform.get('rol')!.value;
-    return rol === 'DOCTOR'
-      ? this.registerform?.get('doctor')!.invalid &&
+    
+    return (
+      this.registerform?.get('doctor')!.invalid &&
           this.registerform?.get('doctor')!.touched
-      : false;
+    );
   }
 
   get usuarioNoValido() {
@@ -114,7 +114,10 @@ export class UsuarioComponent implements AfterViewInit {
   }
   crearUsuario() {
     console.log(this.registerform.value);
-
+    if (this.registerform.invalid) {
+      this.registerform.markAllAsTouched();
+      return;
+    }
     Swal.fire({
       allowOutsideClick: false,
 

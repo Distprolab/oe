@@ -21,6 +21,28 @@ export class PerfilComponent implements OnInit {
   usuarioseleccionado!: Usuario;
 
   perfilform!: FormGroup;
+
+  get doctorNoValido() {
+    return (
+      this.perfilform?.get('doctor')!.invalid &&
+      this.perfilform?.get('doctor')!.touched
+    );
+  }
+
+  get usuarioNoValido() {
+    return (
+      this.perfilform?.get('usuario')!.invalid &&
+      this.perfilform?.get('usuario')!.touched
+    );
+  }
+
+  get rolNoValido() {
+    return (
+      this.perfilform?.get('rol')!.invalid &&
+      this.perfilform?.get('rol')!.touched
+    );
+  }
+
   get passwordNoValido() {
     return (
       this.perfilform?.get('password')!.invalid &&
@@ -87,15 +109,17 @@ export class PerfilComponent implements OnInit {
       });
   }
   updateUsuario() {
+    if (this.perfilform.invalid) {
+      this.perfilform.markAllAsTouched();
+      return;
+    }
+
     const { usuario } = this.perfilform.value;
     const data = { ...this.perfilform.value, id: this.usuarioseleccionado.id };
     console.log(data);
-    this.usuarioservices.actualizarPerfil(data).subscribe((resp) => {
-      Swal.fire(
-        'Actualizado',
-        `${usuario} actualizado correctamente`,
-        'success',
-      );
+    this.usuarioservices.actualizarPerfil(data).subscribe((resp: any) => {
+      const { msg } = resp;
+      Swal.fire('Actualizado', `${msg} `, 'success');
       this.router.navigateByUrl('/dashboard/usuarios');
       console.log(resp);
     });

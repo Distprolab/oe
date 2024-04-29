@@ -20,7 +20,7 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): boolean {
-    if (this.usuarioService.role === 'ADMIN') {
+    if (this.usuarioService.role === 'ADMIN' || this.usuarioService.role ==='TICS') {
       console.log(`************************`, this.usuarioService.role);
       return true;
     } else {

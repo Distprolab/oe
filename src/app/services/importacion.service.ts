@@ -10,7 +10,8 @@ import {
 } from '../interfaces/carga-productosImport.interfaces';
 import { ImportProductos, Pedido } from '../interfaces/cargarImport.interface';
 import { Filtro, filtrosImport } from '../interfaces/cargaFiltroItem.interface';
-
+import { Pedidos } from '../models/cargaPedido.module';
+import {cargaProductos} from '../models/cargaProducto.module';
 const baseUrl = environment.url;
 @Injectable({
   providedIn: 'root',
@@ -29,13 +30,10 @@ export class ImportacionService {
     return this.http.post(`${baseUrl}/api/pedido-importacion`, formData);
   }
 
-  getAllImportacion():Observable<Pedido[]> {
+  getAllImportacion(): Observable<Pedido[]> {
     return this.http
       .get<ImportProductos>(`${baseUrl}/api/pedido-importacion`, this.headers)
-      .pipe(map(({pedido})=>pedido))
-
-
-     ;
+      .pipe(map(({ pedido }) => pedido));
   }
 
   getProductos(): Observable<Producto[]> {
@@ -59,9 +57,28 @@ export class ImportacionService {
       formData,
       this.headers,
     );
+
+
+
+
   }
 
- /*  getByImport(termino: string): Observable<Pedido[]> {
+  obtenerProductoById(id: string) {
+    return this.http
+      .get(`${baseUrl}/api/productos/${id}`, this.headers)
+      .pipe(map((resp: { ok: boolean; productos: cargaProductos }) => resp.productos));
+  }
+
+
+
+  getUpdateImport(data: Import) {
+    return this.http.put(
+      `${baseUrl}/api/pedido-importacion/${data.id}`,
+      data,
+      this.headers,
+    );
+  }
+  /*  getByImport(termino: string): Observable<Pedido[]> {
     return this.http
       .get<Importados>(
         `${baseUrl}/api/pedido-importacion/${termino}`,
@@ -69,8 +86,10 @@ export class ImportacionService {
       )
       .pipe(map(({ pedido }) => pedido));
   } */
-  obtenerImportById(id:string){
-
+  obtenerImportById(id: string) {
+    return this.http
+      .get(`${baseUrl}/api/pedido-importacion/${id}`, this.headers)
+      .pipe(map((pedido: { ok: boolean; pedido: Pedidos }) => pedido.pedido));
   }
   getDeleteImport(pedido: Pedido) {
     return this.http.delete(
@@ -79,9 +98,15 @@ export class ImportacionService {
     );
   }
 
-
-  getFiltroImport(FECHADESDE:string, FECHAHASTA:string):Observable<Filtro[]>{
-    return this.http.get<filtrosImport>(`${baseUrl}/api/pedido-importacion/filtros?FECHADESDE=${FECHADESDE}&FECHAHASTA=${FECHAHASTA}`,this.headers)
-    .pipe(map( ({filtro})=>filtro))
+  getFiltroImport(
+    FECHADESDE: string,
+    FECHAHASTA: string,
+  ): Observable<Filtro[]> {
+    return this.http
+      .get<filtrosImport>(
+        `${baseUrl}/api/pedido-importacion/filtros?FECHADESDE=${FECHADESDE}&FECHAHASTA=${FECHAHASTA}`,
+        this.headers,
+      )
+      .pipe(map(({ filtro }) => filtro));
   }
 }

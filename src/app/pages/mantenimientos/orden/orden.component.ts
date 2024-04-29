@@ -567,13 +567,11 @@ export class OrdenComponent implements OnInit {
     private fb: FormBuilder,
     private doctorservice: LlenarCombosService,
     public agendamientoService: AgendamientoService,
-
     private ordenService: OrdenesService,
     private modalImagenService: ModalImagenService,
     private router: Router,
     private usuarioService: UsuarioService,
-    private activatedRoute: ActivatedRoute,
-  ) {
+    private activatedRoute: ActivatedRoute,  ) {
     this.anio = new Date().getFullYear();
     this.mes = new Date().getMonth();
     this.dia = new Date().getDay();
@@ -673,77 +671,74 @@ export class OrdenComponent implements OnInit {
       });
     }
 
-    this.ordenService
-      .obtenerOrdenById(id)
+    this.ordenService.obtenerOrdenById(id).subscribe((orden) => {
+      !orden
+        ? this.router.navigateByUrl('/dashboard/ordenes')
+        : console.log('cabeecera', orden);
+      const {
+        IDENTIFICADOR,
+        NOMBRES,
+        APELLIDO,
+        CODPROVINCIA,
+        DIRECCION,
+        TELEFONO,
+        EMAIL,
+        EDAD,
+        FECHANACIMIENTO,
+        SEXO,
+        CODTIPOORDEN,
+        CODDOCTOR,
+        NOMBRETIPOORDEN,
+        PRIORIDAD,
+        HIS,
+        OPERADOR,
+        CODFLEBOTOMISTA,
+        CORRELATIVO,
+        CODIMPRESORA,
+        CODEMBARAZADA,
+        CODCENTROSALUD,
 
-      .subscribe((orden) => {
-        !orden
-          ? this.router.navigateByUrl('/dashboard/ordenes')
-          : console.log('cabeecera', orden);
-        const {
-          IDENTIFICADOR,
-          NOMBRES,
-          APELLIDO,
-          CODPROVINCIA,
-          DIRECCION,
-          TELEFONO,
-          EMAIL,
-          EDAD,
-          FECHANACIMIENTO,
-          SEXO,
-          CODTIPOORDEN,
-          CODDOCTOR,
-          NOMBRETIPOORDEN,
-          PRIORIDAD,
-          HIS,
-          OPERADOR,
-          CODFLEBOTOMISTA,
-          CORRELATIVO,
-          CODIMPRESORA,
-          CODEMBARAZADA,
-          CODCENTROSALUD,
+        as400,
+      } = orden;
 
-          as400,
-        } = orden;
+      this.ordenseleccionada = orden;
 
-        this.ordenseleccionada = orden;
-
-        console.log(this.ordenseleccionada);
-        this.OrdenForm.setValue({
-          IDENTIFICADOR,
-          NOMBRES,
-          APELLIDO,
-          CODPROVINCIA,
-          DIRECCION,
-          TELEFONO,
-          EMAIL,
-          FECHANACIMIENTO: FECHANACIMIENTO.slice(0, 10),
-          SEXO: SEXO == '1' ? '' : SEXO,
-          CODDOCTOR,
-          EDAD,
-          HIS,
-          PRIORIDAD,
-          CODCENTROSALUD,
-          CODTIPOORDEN: CODTIPOORDEN,
-          OPERADOR,
-          CODFLEBOTOMISTA,
-          CORRELATIVO,
-          CODEMBARAZADA,
-          CODIMPRESORA:
-            localStorage.getItem('IMPRESORA') == null
-              ? CODIMPRESORA
-              : localStorage.getItem('IMPRESORA'),
-          pruebas: orden.as400.map((valor) =>
-            this.pruebas.push(
-              this.fb.group({
-                ItemID: valor['ItemID'],
-                ItemName: valor['ItemName'],
-                ESTADO: valor['ESTADO'],
-              }),
-            ),
+      console.log(this.ordenseleccionada);
+      this.OrdenForm.setValue({
+        IDENTIFICADOR,
+        NOMBRES,
+        APELLIDO,
+        CODPROVINCIA,
+        DIRECCION,
+        TELEFONO,
+        EMAIL,
+        FECHANACIMIENTO: FECHANACIMIENTO.slice(0, 10),
+        SEXO: SEXO == '1' ? '' : SEXO,
+        CODDOCTOR,
+        EDAD,
+        HIS,
+        PRIORIDAD,
+        CODCENTROSALUD,
+        CODTIPOORDEN: CODTIPOORDEN,
+        OPERADOR,
+        CODFLEBOTOMISTA,
+        CORRELATIVO,
+        CODEMBARAZADA,
+        CODIMPRESORA:
+          localStorage.getItem('IMPRESORA') == null
+            ? CODIMPRESORA
+            : localStorage.getItem('IMPRESORA'),
+        pruebas: orden.as400.map((valor) =>
+          this.pruebas.push(
+            this.fb.group({
+              ItemID: valor['ItemID'],
+              ItemName: valor['ItemName'],
+              ESTADO: valor['ESTADO'],
+            }),
           ),
-        });
+        ),
       });
+    });
   }
   crearformulario() {
     this.OrdenForm = this.fb.group(
@@ -859,11 +854,9 @@ export class OrdenComponent implements OnInit {
       console.log(this.OrdenForm.value);
       this.ordenService
         .GuardarOrden(this.OrdenForm.value)
-
         .subscribe(
           (resp: any) => {
             const { msg } = resp;
-
             Swal.fire({
               icon: 'success',
               text: `${msg}`,

@@ -38,8 +38,7 @@ import { AgendamientoComponent } from './mantenimientos/agendamiento/agendamient
 import { ConsultaWebComponent } from './mantenimientos/consulta-web/consulta-web.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
+
 import { environment } from 'src/environments/environment.prod';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AgendadosComponent } from './mantenimientos/agendados/agendados.component';
@@ -56,7 +55,10 @@ import { ImpresoraComponent } from './mantenimientos/impresora/impresora.compone
 import { EquiposComponent } from './mantenimientos/equipos/equipos.component';
 import { ClienteComponent } from './mantenimientos/cliente/cliente.component';
 import { MarcaComponent } from './mantenimientos/marca/marca.component';
+
 import { PanelPruebasComponent } from './mantenimientos/panel-pruebas/panel-pruebas.component';
+import { StockComponent } from './mantenimientos/stock/stock.component';
+
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
@@ -96,6 +98,8 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     ClienteComponent,
     MarcaComponent,
     PanelPruebasComponent,
+    StockComponent,
+    //FilterPipe,
   ],
 
   exports: [
@@ -110,7 +114,7 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
   imports: [
     FormsModule,
     ComponentsModule,
-
+    
     CommonModule,
     RouterModule,
     SharedModule,

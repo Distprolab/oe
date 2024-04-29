@@ -3,15 +3,10 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <input
-            type="file"
-            (change)="onFileSelected($event)"
-            class="input-file"
-          />
+          <input type="file" 
+          (change)="onFileSelected($event)" class="input-file" />
 
-          <button (click)="enviarArchivo()" class="btn btn-primary">
-            Subir archivo
-          </button>
+          <button class="btn btn-primary">Subir archivo</button>
         </div>
       </div>
     </div>
@@ -26,7 +21,7 @@
           <div class="col-md-3 button"></div>
 
           <div class="table-responsive">
-            <form [formGroup]="productoForm">
+            <form>
               <div
                 *ngIf="cargando"
                 class="alert alert-info text-center mt-3 animated fadeIn faster"
@@ -44,53 +39,50 @@
                     <tr>
                       <th>Referencia</th>
                       <th>Descripcion</th>
-                      <th>Categoria</th>
-                      <th>Unidad</th>
-                      <th>Generacion</th>
-                      <th>Estado</th>
+                      <!--  <th>Categoria</th> -->
+                      <th>UDM</th>
+                      <!--  <th>Generacion</th> -->
 
-                      <th>Actions</th>
+                      <th>Lote</th>
+                      <th>F. CADUCIDAD</th>
+                      <th>CANTIDAD</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <tr
-                      *ngFor="
-                        let producto of listaproductos
-                          | paginate: { itemsPerPage: 10, currentPage: page }
-                      "
-                    >
-                      <td>{{ producto.REFERENCIA }}</td>
-                      <td>{{ producto.NOMBRE }}</td>
-                      <td>{{ producto.CATEGORIA }}</td>
-                      <td>{{ producto.UNIDAD }}</td>
-                      <td>{{ producto.GENERACION }}</td>
+                    <tr *ngF>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
                       <td>
-                        <span
-                          *ngIf="producto.ESTADO == 1"
-                          class="rounded shadow bg-pen"
-                          >Activo
-                        </span>
+                        <!--  <span
+                            *ngIf="producto.ESTADO == 1"
+                            class="rounded shadow bg-pen"
+                            >Activo
+                          </span> -->
                       </td>
                       <td>
-                        <span   class="cursor">
-
-                         <a [ngClass]="{ 'disabled-icon': producto.ESTADO == 2 }"
-                         [routerLink]="[
-                           '/dashboard',
-                           'producto',
-                           producto.id
-                         ]">
-                          <i
-                            class="bx bxs-edit bx-sm"
-                            data-toggle="modal"
-                            data-target="#modal-info"
-                          ></i
-                        >
-                      </a></span>
-                        <span (click)="borrarProducto(producto)" class="cursor">
-                          <i class="bx bxs-trash bx-sm"></i
-                        ></span>
+                        <!--   <span   class="cursor">
+  
+                           <a [ngClass]="{ 'disabled-icon': producto.ESTADO == 2 }"
+                           [routerLink]="[
+                             '/dashboard',
+                             'producto',
+                             producto.id
+                           ]">
+                            <i
+                              class="bx bxs-edit bx-sm"
+                              data-toggle="modal"
+                              data-target="#modal-info"
+                            ></i
+                          >
+                        </a></span>
+                          <span  class="cursor">
+                            <i class="bx bxs-trash bx-sm"></i
+                          ></span>
+                        </td> -->
                       </td>
                     </tr>
                   </tbody>
@@ -123,9 +115,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-">
-       
-      </div>
+      <div class="modal-"></div>
     </div>
   </div>
 </div>

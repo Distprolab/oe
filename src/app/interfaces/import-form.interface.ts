@@ -1,28 +1,29 @@
 export interface Importados {
-  ok?:     boolean;
+  ok?: boolean;
   pedido?: Pedido[];
 }
 
 export interface Pedido {
-  id?:           number;
+  id?: number;
   ID_PROVEEDOR?: number;
-  MARCA?:        number;
-  FECHAPEDIDO?:  Date;
-  ESTADO?:       number;
-  createdAt?:    Date;
-  updatedAt?:    Date;
-  usuarioId?:    number;
-  userId?:       number;
-  items?:        Item[];
-  user?:         User;
-   clientes?: Clientes;
-  marcas?: Marcas; 
+  MARCA?: number;
+  FECHAPEDIDO?: Date;
+  ESTADO?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  usuarioId?: number;
+  userId?: number;
+  items?: Item[];
+  user?: User;
+
+  clientes?: Clientes;
+  marcas?: Marcas;
 }
 
 export interface Item {
   ID_PRODUCTO?: number;
-  CANTIDAD?:    number;
-  product?:     Product | null;
+  CANTIDAD?: number;
+  product?: Product | null;
 }
 
 export interface User {
@@ -39,8 +40,3 @@ export interface Clientes {
 export interface Marcas {
   NOMBRE?: string;
 }
-
-
-
-
-

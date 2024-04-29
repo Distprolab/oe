@@ -13,6 +13,7 @@ export interface Pedido {
   updatedAt?: Date;
   usuarioId?: number;
   userId?: number;
+  marcasId?: string;
   items?: Item[];
   user?: User;
   /* clientes?: Clientes;

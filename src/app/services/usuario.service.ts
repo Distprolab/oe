@@ -132,7 +132,7 @@ export class UsuarioService {
   }
   actualizarPerfil(usuario: Usuario) {
     return this.http.put(
-      `${baseUrl}/api/restPassword/${usuario.id}`,
+      `${baseUrl}/api/usuarios/${usuario.id}`,
       usuario,
       this.headers,
     );

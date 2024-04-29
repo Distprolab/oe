@@ -16,6 +16,10 @@ import { FiltroUsuarioPipe } from './pipes/filtro-usuario.pipe';
 
 import { UppercaseDirective } from './uppercase.directive';
 import 'moment-timezone';
+import { FilterPipe } from './pipes/filter.pipe';
+import { filter } from 'rxjs';
+
+
 /* import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
 
@@ -29,6 +33,9 @@ const config: SocketIoConfig = { url: environment.url, options: {} }; */
     FiltroPipe,
     FiltroUsuarioPipe,
     UppercaseDirective,
+    FilterPipe,
+    
+    
   ],
   imports: [
     BrowserModule,

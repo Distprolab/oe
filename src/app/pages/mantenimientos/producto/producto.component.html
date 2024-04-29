@@ -1,96 +1,75 @@
 <div class="container-fluid rounded shadow">
-  <div class="row py-4 animated fadeIn fast">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <form autocomplete="off" class="form-inline">
-            <div class="form-group">
-              <!-- <input type="text" class="form-control" placeholder="Buscar numero de cedula ..." (keyup)="buscar(txtTermino.value.toUpperCase() )" #txtTermino /> -->
-
-              <div class="form-group col-md-4 espacio">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Buscar producto ..."
-                  #IDENTIFICADOR
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+          
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Actualizar producto</h3>
     </div>
-  </div>
 
-  <div class="alert alert-info text-center mt-3 animated fadeIn faster">
-    <h4 class="alert-heading">Cargando</h4>
-    <p>
-      <i class="fa fa-refresh fa-spin fa-2x"></i>
-    </p>
-    <p class="mb-0">Espere por favor</p>
-  </div>
-
-  <div class="row animated fadeIn fast">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <h6 class="title">Ordenes registrados</h6>
-
-          <div class="col-md-3 button"></div>
-
-          <div class="row py-2">
-            <div class="col-12">
-              <div class="alert alert-info" role="alert">
-                <h3 class="text-center">No existe registros</h3>
-              </div>
-            </div>
+    <form  
+    autocomplete="off"
+    [formGroup]="productoForm"
+    novalidate
+    (ngSubmit)="guardar()"
+    id="productoForm"
+    >
+      <div class="card-body">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="">REFERENCIA</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="REFERENCIA"
+              placeholder="Ingrese referencia.."
+            />
           </div>
-
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Codigo</th>
-                  <th>producto</th>
-                  <th>Lote</th>
-                  <th>Caducidad</th>
-                  <th>Recibido</th>
-                  <th>fabricante</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <!--    <td>{{orden.IDENTIFICADOR}}</td>
-                                    <td>{{orden.APELLIDO}} {{orden.SEGUNDOAPELLIDO}} {{orden.NOMBRES}}</td>
-                                    <td>{{orden.FECHAORDEN.slice(0,10)}}</td>
-                                    <td>{{orden.NUMEROORDEN}}</td>
-                                    <td>{{orden.FECHANACIMIENTO.slice(0,10)}}</td>
-                                   <td>{{orden.ESTADO}}</td>  -->
-                  <!--     <td>
-                                     <span *ngIf="orden.ESTADO =='1'"T class="rounded shadow  bg-pen">Ingresada</span>  
-                                       <span *ngIf="!orden.ESTADO  " class="rounded shadow  bg-pen">Creada</span> 
-                                    </td> -->
-
-                  <td class="text-nowrap">
-                    <a
-                      [routerLink]="['/dashboard', 'orden']"
-                      data-toggle="tooltip"
-                      data-original-title="Editar"
-                    >
-                      <i class="fas fa-user-edit fa-2x"></i>
-                    </a>
-                    &nbsp;
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="form-group col-md-6">
+            <label for="">DESCRIPCION</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="NOMBRE"
+              placeholder="Ingrese descrpcion ..."
+            />
           </div>
         </div>
+
+        <div class="row">
+        <div class="form-group col-md-6">
+          <label for="">CATEGORIA</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="CATEGORIA"
+            placeholder="Ingrese categoria .."
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">UNIDAD</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="UNIDAD"
+            placeholder="Ingrese unidad .."
+          />
+        </div>
       </div>
-    </div>
+        <div class="form-group col-md-6">
+          <label for="">GENERACION</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="GENERACION"
+            placeholder="Ingrese generacion..."
+          />
+        </div>
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
   </div>
+
 </div>
-
-

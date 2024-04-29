@@ -1,12 +1,13 @@
 export class Import {
   constructor(
     public id?: string,
-    public ID_PROVEEDOR?: string,
-    public MARCA?: string,
+    public ID_PROVEEDOR?: number,
+    public MARCA?: number,
     public FECHAPEDIDO?: string,
     public ESTADO?: string,
     public usuarioId?: string,
     public userId?: string,
+    public marcasId?:     string,
     public items?: string[],
   ) {}
 }

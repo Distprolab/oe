@@ -14,7 +14,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UsuariosComponent implements OnInit {
   @Output() total = new EventEmitter();
-
+  usuario = {
+    password: '',
+  };
   public datPasword: Usuario;
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
@@ -33,6 +35,12 @@ export class UsuariosComponent implements OnInit {
     this.crearFormulario();
   }
 
+  get password() {
+    return (
+      this.passwordforma?.get('password')!.invalid &&
+      this.passwordforma?.get('password')!.touched
+    );
+  }
   ngOnInit(): void {
     this.listarol.getRol().subscribe((resp) => {
       console.log(resp);
@@ -78,15 +86,25 @@ export class UsuariosComponent implements OnInit {
   }
 
   UpdateP() {
+    if (this.passwordforma.invalid || !this.passwordforma.get('password')?.value) {
+      // Si el formulario es inválido o el campo de contraseña está vacío, no hagas nada
+      return;
+    }
+    if (this.passwordforma.invalid) {
+      this.passwordforma.markAllAsTouched();
+
+      return;
+    }
     console.log(this.datPasword.id);
     const id = this.datPasword.id;
     this.usuarioservice
       .actualizarPassword(id, this.passwordforma.value)
-      .subscribe((resp) => {
+      .subscribe((resp: any) => {
+        const { msg } = resp;
         Swal.fire({
           icon: 'success',
 
-          titleText: 'Se a cambiado con exito la contrasena',
+          titleText: `${msg}`,
         });
       });
   }
@@ -132,5 +150,4 @@ export class UsuariosComponent implements OnInit {
             this.usuarios = resultados;
           });
   }
-
 }

@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MuestraComponent } from './mantenimientos/muestra/muestra.component';
 import { MuestrasComponent } from './mantenimientos/muestras/muestras.component';
-
 import { OrdenComponent } from './mantenimientos/orden/orden.component';
 import { OrdenesComponent } from './mantenimientos/ordenes/ordenes.component';
 import { PerfilComponent } from './mantenimientos/perfil/perfil.component';
@@ -13,7 +11,6 @@ import { ProductoComponent } from './mantenimientos/producto/producto.component'
 import { ProductosComponent } from './mantenimientos/productos/productos.component';
 import { UsuarioComponent } from './mantenimientos/usuario/usuario.component';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
-
 import { PagesComponent } from './pages.component';
 import { MuestrasRechazoComponent } from './mantenimientos/muestras-rechazo/muestras-rechazo.component';
 import { ResetPasswordComponent } from '../auth/reset-password/reset-password.component';
@@ -41,6 +38,7 @@ import { ClienteComponent } from './mantenimientos/cliente/cliente.component';
 import { panelPrueba } from '../models/panelPruebas.module';
 import { PanelPruebasComponent } from './mantenimientos/panel-pruebas/panel-pruebas.component';
 import { EquiposComponent } from './mantenimientos/equipos/equipos.component';
+import { StockComponent } from './mantenimientos/stock/stock.component';
 
 const routes: Routes = [
   {
@@ -83,7 +81,8 @@ const routes: Routes = [
         component: AgendadosComponent,
         data: { titulo: 'agendados' },
       },
-      { path: 'orden', component: OrdenComponent, data: { titulo: 'orden' } },
+      { path: 'orden', component: OrdenComponent,
+       data: { titulo: 'orden' } },
       {
         path: 'orden/:id',
         component: OrdenComponent,
@@ -103,6 +102,12 @@ const routes: Routes = [
         path: 'productos',
         component: ProductosComponent,
         data: { titulo: 'productos' },
+      },
+
+      {
+        path: 'producto/:id',
+        component: ProductoComponent,
+        data: { titulo: 'producto' },
       },
       {
         path: 'producto',
@@ -180,6 +185,11 @@ const routes: Routes = [
         data: { titulo: 'pedido-importacion' },
       },
       {
+        path: 'pedido-importacion/:id',
+        component: ImportacionComponent,
+        data: { titulo: 'pedido-importacion' },
+      },
+      {
         path: 'pedidos',
         component: ImportadosComponent,
         data: { titulo: 'pedidos' },
@@ -218,6 +228,11 @@ const routes: Routes = [
         path: 'equipos',
         component: EquiposComponent,
         data: { titulo: 'equipos' },
+      },
+      {
+        path: 'stock',
+        component: StockComponent,
+        data: { titulo: 'stock' },
       },
     ],
   },

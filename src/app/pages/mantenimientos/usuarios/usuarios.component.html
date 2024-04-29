@@ -47,9 +47,9 @@
               <thead>
                 <tr>
                   <th class="text-table">Usuario</th>
-                  <th class="text-table">Nombre</th>
+                  <th class="text-table">Nombres</th>
 
-                  <th class="text-table">Código</th>
+                  <!--   <th class="text-table">Código</th> -->
 
                   <th class="text-table">Rol</th>
                   <th class="text-table">Estado</th>
@@ -67,7 +67,7 @@
                 >
                   <td>{{ usuario.usuario }}</td>
                   <td>{{ usuario.doctor }}</td>
-                  <td>{{ usuario.codigo_doctor }}</td>
+                  <!--            <td>{{ usuario.codigo_doctor }}</td> -->
 
                   <td>{{ usuario.rol }}</td>
 
@@ -81,24 +81,27 @@
                   </td>
                   <td class="text-nowrap">
                     <a
+                      [ngClass]="{ 'disabled-icon': usuario.estado != '1' }"
                       [routerLink]="['/dashboard', 'perfil', usuario.id]"
                       data-toggle="tooltip"
                       data-original-title="Editar"
                     >
-                      <i class="bx bx-edit-alt bx-md bx-md"></i>
+                      <i class="bx bx-edit-alt bx-sm"></i>
                     </a>
                     &nbsp;
                     <a
+                      [ngClass]="{ 'disabled-icon': usuario.estado != '1' }"
                       data-toggle="tooltip"
                       data-original-title="Borrar"
                       (click)="eliminarUsuario(usuario)"
                       class="cursor"
                     >
-                      <i class="bx bx-trash bx-md text-danger"></i
+                      <i class="bx bx-trash bx-sm text-danger"></i
                     ></a>
                     &nbsp;
 
                     <a
+                      [ngClass]="{ 'disabled-icon': usuario.estado != '1' }"
                       data-toggle="tooltip"
                       data-original-title="Borrar"
                       data-toggle="modal"
@@ -106,7 +109,7 @@
                       (click)="actualizarpassword(usuario)"
                       class="cursor1"
                     >
-                      <i class="bx bxs-key bx-md" aria-hidden="true"></i>
+                      <i class="bx bxs-key bx-sm" aria-hidden="true"></i>
                     </a>
                   </td>
                 </tr>
@@ -153,8 +156,12 @@
               type="password"
               class="form-control"
               formControlName="password"
+              [class.is-invalid]="password"
               placeholder="Ingrese una contraseña"
             />
+            <small *ngIf="password" class="form-text text-danger"
+              >Ingrese minimo 8 letras</small
+            >
           </div>
         </form>
       </div>

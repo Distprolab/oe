@@ -26,7 +26,8 @@
 
 table {
   width: 100%;
-  text-align: center;
+  /* text-align: center; */
+  border-collapse: collapse;
 }
 
 thead th {
@@ -35,25 +36,29 @@ thead th {
 tbody td {
   font-size: 0.9rem;
 }
-
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+tr:hover {
+  background-color: #ddd;
+}
+th{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #006CAE;
+}
 th,
 td {
-  padding: 5px 8px;
-}
-.mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
-  cursor: pointer;
+  padding:  8px;
+  border: 1px solid #ddd;
 }
 
-.mat-row:hover .mat-cell {
-  border-color: currentColor;
-}
+.disabled-icon {
+  opacity: 0.5;
 
-.demo-row-is-clicked {
-  font-weight: bold;
+  pointer-events: none;
 }
-
 .bg-pen {
   background-color: #eee52b;
   background-position: center;
@@ -68,4 +73,12 @@ td {
 .esboton {
   margin: 0 auto;
   margin-left: 80px;
+}
+.bxs-key {
+  color: #efb810;
+}
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
 }

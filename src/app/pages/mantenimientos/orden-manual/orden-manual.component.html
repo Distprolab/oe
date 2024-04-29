@@ -7,8 +7,8 @@
     (ngSubmit)="guardarOrden()"
     id="OrdenForm"
   >
-    <div class="col-md-8">
-      <div class="row">
+    <div class="row">
+      <div class="col-md-8">
         <div class="card card-info">
           <div class="card-header">
             <h6 class="card-title">Datos del paciente</h6>
@@ -261,9 +261,9 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div *ngIf="usuario.rol == 'OPERADOR' || usuario.rol == 'ADMIN'">
+        <!-- <div *ngIf="usuario.rol == 'OPERADOR' || usuario.rol == 'ADMIN'"> -->
+
         <div class="card card-info">
           <div class="card-header">
             <h6 class="card-title">Datos demograficos</h6>
@@ -294,9 +294,7 @@
               </div>
 
               <div class="form-group col-md-4">
-                <label for="inputPassword3 " class="form-ItemName"
-                  >Flebotomista</label
-                >
+                <label for=" " class="form-ItemName">Flebotomista</label>
 
                 <select
                   class="form-control"
@@ -318,9 +316,7 @@
               </div>
 
               <div class="form-group col-md-4">
-                <label for="inputPassword3 " class="form-ItemName"
-                  >Impresora</label
-                >
+                <label for=" " class="form-ItemName">Impresora</label>
 
                 <select
                   class="form-control"
@@ -336,7 +332,6 @@
                   >Debe de escoger una opción</small
                 >
               </div>
-
               <div class="form-group col-md-4">
                 <label for="text " class="form-ItemName">Centro Salud</label>
 
@@ -346,7 +341,7 @@
                   [class.is-invalid]="CODCENTROSALUD"
                 >
                   <option value="">--Seleccione--</option>
-               
+
                   <option
                     *ngFor="let listacentro of listaCentrosalud"
                     [value]="listacentro.ValueCode"
@@ -374,111 +369,95 @@
               </div>
             </div>
           </div>
-         
         </div>
       </div>
-
-      
-    </div>
-
-    <div class="col-md-4">
-      <div class="card card-info">
-        <div class="card-header">
-      
-          <button
-            type="button"
-            class="btn btn-default btn-sm btnd"
-            data-toggle="modal"
-            data-target="#modal-default"
-          >
-            <i class="bx bxs-plus-circle bx-xs"></i>AGREGAR PRUEBAS
-          </button>
-        </div>
-
-        <div class="card-body scroll">
-          <small
-            class="text-danger"
-            *ngIf="
-              OrdenForm.hasError('noPruebas') &&
-              (OrdenForm.get('pruebas')?.dirty ||
-                OrdenForm.get('pruebas')?.touched)
-            "
-          >
-            No hay pruebas agregadas. Debe agregar al menos una prueba.
-          </small>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>N.-</th>
-              
-                <th>Estado</th>
-                <th>prueba</th>
-                <th>Borrar</th>
-              </tr>
-            </thead>
-            <tbody formArrayName="pruebas">
-              <tr
-                *ngFor="
-                  let d of OrdenForm.controls['pruebas']?.value;
-                  let i = index
-                "
-                [formGroupName]="i"
-              >
-                <td>
-                  <div class="">
-                    {{ i + 1 }}
-                  </div>
-                </td>
-
-                <td *ngIf="usuario.rol == 'OPERADOR'">
-                  <select
-                    class="form-control"
-                    formControlName="ESTADO"
-                    [disabled]="isFormDisabled"
-                  >
-                    <option value="">-</option>
-                    <option value="1">A</option>
-                    <option value="2">P</option>
-                    <option value="3">R</option>
-                  </select>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    [attr.disabled]="true"
-                    formControlName="ItemName"
-                  />
-                </td>
-
-                <td>
-                  <i
-                    (click)="borrarPasatiempo(i)"
-                    class="bx bxs-trash bx-sm"
-                    aria-hidden="true "
-                  ></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="col-md-4">
+        <div class="card card-info">
+          <div class="card-header">
+            <button
+              type="button"
+              class="btn btn-default btn-sm btnd"
+              data-toggle="modal"
+              data-target="#modal-default"
+            >
+              <i class="bx bxs-plus-circle bx-xs"></i>AGREGAR PRUEBAS
+            </button>
+          </div>
+  
+          <div class="card-body scroll">
+            <small
+              class="text-danger"
+              *ngIf="
+                OrdenForm.hasError('noPruebas') &&
+                (OrdenForm.get('pruebas')?.dirty ||
+                  OrdenForm.get('pruebas')?.touched)
+              "
+            >
+              No hay pruebas agregadas. Debe agregar al menos una prueba.
+            </small>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>N.-</th>
+  
+                  <th>Estado</th>
+                  <th>prueba</th>
+                  <th>Borrar</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="pruebas">
+                <tr
+                  *ngFor="
+                    let d of OrdenForm.controls['pruebas']?.value;
+                    let i = index
+                  "
+                  [formGroupName]="i"
+                >
+                  <td>
+                    <div class="">
+                      {{ i + 1 }}
+                    </div>
+                  </td>
+  
+                  <td>
+                    <select
+                      class="form-control"
+                      formControlName="ESTADO"
+                      [disabled]="isFormDisabled"
+                    >
+                      <option value="">-</option>
+                      <option value="1">A</option>
+                      <option value="2">P</option>
+                      <option value="3">R</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [attr.disabled]="true"
+                      formControlName="ItemName"
+                    />
+                  </td>
+  
+                  <td>
+                    <i
+                      (click)="borrarPasatiempo(i)"
+                      class="bx bxs-trash bx-sm"
+                      aria-hidden="true "
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+
+    
   </form>
 </div>
-
-<!-- <hr>
-<pre>
-    Estado del formulario: {{ OrdenForm.valid }}
-    <br>
-    Status: {{ OrdenForm.status }}
-    </pre>
-
-<pre>
-
-    {{ OrdenForm.value | json }}
-
-    </pre>   -->
 
 <div class="modal fade" id="modal-info">
   <div class="modal-dialog">
@@ -600,7 +579,6 @@
             </div>
           </div>
         </div>
-       
       </div>
     </div>
   </div>
@@ -942,7 +920,6 @@
 
                   <div class="card">
                     <div class="wrapper">
-                     
                       <div class="card">
                         <div class="card-header card-title colorprueba">
                           <p class="tittle">PRUEBAS ADICIONALES</p>
@@ -988,7 +965,5 @@
     </div>
   </div>
 
-  <div class="modal-footer justify-content-between">
-   
-  </div>
+  <div class="modal-footer justify-content-between"></div>
 </div>

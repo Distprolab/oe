@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Producto } from 'src/app/interfaces/carga-productosImport.interfaces';
 import { ImportacionService } from 'src/app/services/importacion.service';
 import Swal from 'sweetalert2';
@@ -22,7 +23,7 @@ export class ProductosComponent implements OnInit {
   data = [];
   fileTemp;
   control: FormArray;
-
+    
   listaproductos: Producto[] = [];
   public desde: number = 0;
   public page!: number;
@@ -33,6 +34,7 @@ export class ProductosComponent implements OnInit {
   selectedFile: File | null = null;
   constructor(
     private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
     private inportService: ImportacionService,
   ) {}
 
@@ -42,10 +44,15 @@ export class ProductosComponent implements OnInit {
     });
     if (this.data.length == 0) this.addRow();
     else this.populateTableWithData(this.data); */
+
+   // this.activatedRoute.params.subscribe(({ id }) => this.crearImport(id));
+
     this.getProductos();
   }
 
-  
+  /* crearImport(id:string){
+
+  } */
 
   onFileSelected?(event: any) {
     this.selectedFile = event.target.files[0];
@@ -97,5 +104,9 @@ export class ProductosComponent implements OnInit {
       }
     });
   //  console.log(id);
+  }
+
+  editarProducto(producto : Producto){
+     console.log(producto)
   }
 }

@@ -16,9 +16,13 @@ export class SidebarService {
       titulo: ' USUARIOS',
       icono: 'right fas fa-angle-left',
       submenu: [
-        { titulo: 'Crear Usuario', url: 'usuario', roles: ['ADMIN'] },
+        { titulo: 'Crear Usuario', url: 'usuario', roles: ['ADMIN', 'TICS'] },
 
-        { titulo: 'Lista de Usuario', url: 'usuarios', roles: ['ADMIN'] },
+        {
+          titulo: 'Lista de Usuario',
+          url: 'usuarios',
+          roles: ['ADMIN', 'TICS'],
+        },
       ],
     },
     {
@@ -147,7 +151,7 @@ export class SidebarService {
       submenu: [
         {
           titulo: 'Solicitud de Pedido',
-          url: 'pedido-importacion',
+          url: 'pedido-importacion/Nuevo',
           roles: ['ADMIN', 'IMPORT'],
         },
         {
@@ -202,10 +206,19 @@ export class SidebarService {
         {
           titulo: 'Equipos',
           url: 'equipos',
-          roles: ['ADMIN', 'IMPORT'],
+          roles: ['ADMIN', 'COMPRAS'],
         },
       ],
     },
+    {
+      titulo: ' INVENTARIO',
+      icono: 'right fas fa-angle-left',
+      submenu:
+   [ {
+      titulo:'Stock',
+      url:'stock',
+      roles:['ADMIN']
+    }]}
   ];
 
   getMenuWithPermissions(): any[] {

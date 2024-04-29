@@ -34,7 +34,7 @@ export class ImportadosComponent implements OnInit {
     this.cargando = true;
     this.importService.getAllImportacion().subscribe((pedido) => {
       this.listaImport = pedido;
-      console.log(pedido);
+      //console.log(pedido);
       this.cargando = false;
     });
   }
