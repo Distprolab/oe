@@ -5,7 +5,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
 import { Usuario } from '../../../models/usuario.module';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-usuarios',
@@ -24,13 +24,13 @@ export class UsuariosComponent implements OnInit {
   listaroles: Rolee[] = [];
   public desde: number = 0;
   public page!: number;
-  passwordforma!: FormGroup;
+  passwordforma!: UntypedFormGroup;
   /*  page: number = 0; */
   public cargando: boolean = true;
   constructor(
     private usuarioservice: UsuarioService,
     private listarol: RolService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) {
     this.crearFormulario();
   }

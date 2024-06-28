@@ -4,10 +4,10 @@ export interface Proceso {
 }
 
 export interface Proceso {
-  areas?: Area[];
+  areas?: string[];
   equipoprincipal?: Equipoprincipal;
   equipobackup?: Equipobackup;
-  licenciaEquiposHematologicos?: LicenciaEquiposHematologico[];
+  licenciaEquiposHematologicos?: string[];
   id?: number;
   institucion?: string;
   codigo?: string;
@@ -23,11 +23,22 @@ export interface Proceso {
   usuarioId?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  aprobar?:  Aprobar ;
 }
-
-export interface Area {
+export interface Aprobar {
+  ESTADOBI?:         boolean 
+ /*  id:               number;
+  procesoID:        number;
+  usuarioID:        null;
+  ESTADOBI?:         boolean |null;
+  createdAt:        Date;
+  updatedAt:        Date;
+  aprobarProcesoID: number;
+  tramitesID:       number; */
+}
+/* export interface Area {
   areas?: string;
-}
+} */
 
 export interface Equipobackup {
   bkquimica?: string;
@@ -71,6 +82,7 @@ export interface Equipoprincipal {
   valpoc?: number;
 }
 
-export interface LicenciaEquiposHematologico {
+/* export interface LicenciaEquiposHematologico {
   valorinput?: string;
 }
+ */

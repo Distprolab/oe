@@ -1,4 +1,5 @@
 export interface AgendarForm {
+  id?:string;
   DLCBEN?: string;
   DLCACT?: string;
   DLCDEP?: string;

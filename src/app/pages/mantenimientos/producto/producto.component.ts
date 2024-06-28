@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from 'src/app/interfaces/carga-productosImport.interfaces';
 import { cargaProductos } from 'src/app/models/cargaProducto.module';
@@ -13,9 +13,9 @@ import { ImportacionService } from 'src/app/services/importacion.service';
 })
 export class ProductoComponent implements OnInit {
   productoseleccionado: cargaProductos;
-  productoForm!: FormGroup;
+  productoForm!: UntypedFormGroup;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private inportService: ImportacionService,

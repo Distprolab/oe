@@ -72,10 +72,10 @@
                   <td>{{ usuario.rol }}</td>
 
                   <td>
-                    <span *ngIf="!usuario.estado" class="rounded shadow bg-pen"
+                    <span *ngIf="!usuario.estado" class="rounded shadow bg-creada"
                       >Inactivo</span
                     >
-                    <span *ngIf="usuario.estado" class="rounded shadow bg-com"
+                    <span *ngIf="usuario.estado" class="rounded shadow bg-procesando"
                       >Activo</span
                     >
                   </td>

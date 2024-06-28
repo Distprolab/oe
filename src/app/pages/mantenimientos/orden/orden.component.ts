@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 
 import { finalize, map } from 'rxjs';
@@ -542,7 +548,7 @@ export class OrdenComponent implements OnInit {
   }
 
   get pruebas() {
-    return this.OrdenForm.get('pruebas') as FormArray;
+    return this.OrdenForm.get('pruebas') as UntypedFormArray;
   }
   public usuarios: Usuario[] = [];
   public listaordene: Listaordene[] = [];
@@ -564,14 +570,15 @@ export class OrdenComponent implements OnInit {
   isFormDisabled: boolean = false;
   public usuario: Usuario;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private doctorservice: LlenarCombosService,
     public agendamientoService: AgendamientoService,
     private ordenService: OrdenesService,
     private modalImagenService: ModalImagenService,
     private router: Router,
     private usuarioService: UsuarioService,
-    private activatedRoute: ActivatedRoute,  ) {
+    private activatedRoute: ActivatedRoute,
+  ) {
     this.anio = new Date().getFullYear();
     this.mes = new Date().getMonth();
     this.dia = new Date().getDay();
@@ -599,6 +606,7 @@ export class OrdenComponent implements OnInit {
     this.doctorservice.getOrigin().subscribe((resp) => {
       this.listaorigin = resp;
     });
+
     /*    this.usuarioLogueado = this.usuarioService.usuario;
    
        console.log(`*************LOGUEADO******`, this.usuarioLogueado)
@@ -796,8 +804,8 @@ export class OrdenComponent implements OnInit {
       }
     });
   }
-  validatePruebas(formGroup: FormGroup) {
-    const pruebasArray = formGroup.get('pruebas') as FormArray;
+  validatePruebas(formGroup: UntypedFormGroup) {
+    const pruebasArray = formGroup.get('pruebas') as UntypedFormArray;
     if (pruebasArray.length === 0) {
       return { noPruebas: true };
     }
@@ -850,30 +858,28 @@ export class OrdenComponent implements OnInit {
         icon: 'info',
         text: 'Espere por favor ...',
       });
-      Swal.showLoading();
+      Swal.showLoading(null);
       console.log(this.OrdenForm.value);
-      this.ordenService
-        .GuardarOrden(this.OrdenForm.value)
-        .subscribe(
-          (resp: any) => {
-            const { msg } = resp;
-            Swal.fire({
-              icon: 'success',
-              text: `${msg}`,
-            });
-            this.pruebas.clear();
-            this.clearFilters();
-            this.OrdenForm.reset();
-          },
-          (err) => {
-            console.log('error', err);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error al autenticar',
-              text: err.error.msg,
-            });
-          },
-        );
+      this.ordenService.GuardarOrden(this.OrdenForm.value).subscribe(
+        (resp: any) => {
+          const { msg } = resp;
+          Swal.fire({
+            icon: 'success',
+            text: `${msg}`,
+          });
+          this.pruebas.clear();
+          this.clearFilters();
+          this.OrdenForm.reset();
+        },
+        (err) => {
+          console.log('error', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al autenticar',
+            text: err.error.msg,
+          });
+        },
+      );
     }
   }
 
@@ -1078,7 +1084,7 @@ export class OrdenComponent implements OnInit {
   }
 
   seleccionarCategoria(nombre: any) {
-    const pruebasArray = this.OrdenForm.get('pruebas') as FormArray;
+    const pruebasArray = this.OrdenForm.get('pruebas') as UntypedFormArray;
     if (Array.isArray(nombre)) {
       const pruebaExistente = pruebasArray.value;
       const pruebaExistente2 = pruebaExistente.find(
@@ -1128,7 +1134,7 @@ export class OrdenComponent implements OnInit {
   }
 
   desmarcarCategoria(nombre) {
-    const pruebasArray = this.OrdenForm.get('pruebas') as FormArray;
+    const pruebasArray = this.OrdenForm.get('pruebas') as UntypedFormArray;
     const index = pruebasArray.controls.findIndex(
       (control) => control.value.ItemID === nombre[0],
     );
@@ -1139,7 +1145,7 @@ export class OrdenComponent implements OnInit {
   }
 
   removeItem(i: number) {
-    const pruebasArray = this.OrdenForm.get('pruebas') as FormArray;
+    const pruebasArray = this.OrdenForm.get('pruebas') as UntypedFormArray;
     pruebasArray.removeAt(i);
   }
   onreset() {

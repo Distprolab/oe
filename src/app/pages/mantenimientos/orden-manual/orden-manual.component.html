@@ -303,12 +303,18 @@
                 >
                   <option value="">--Seleccione--</option>
 
-                  <option
+                 <!--  <option
                     *ngFor="let fle of listaFlebotomista"
                     [value]="fle.ValueCode"
                   >
                     {{ fle.Description }}
-                  </option>
+                  </option> -->
+                  <option
+                  *ngFor="let operador of listaOperador"
+                  [value]="operador.ValueCode"
+                >
+                  {{ operador.Description }}
+                </option>
                 </select>
                 <small *ngIf="CODFLEBOTOMISTA" class="text-danger"
                   >Debe de escoger una opción</small
@@ -342,12 +348,18 @@
                 >
                   <option value="">--Seleccione--</option>
 
-                  <option
+                <!--   <option
                     *ngFor="let listacentro of listaCentrosalud"
                     [value]="listacentro.ValueCode"
                   >
                     {{ listacentro.Description }}
-                  </option>
+                  </option> -->
+                  <option
+                  *ngFor="let operador of listaOperador"
+                  [value]="operador.ValueCode"
+                >
+                  {{ operador.Description }}
+                </option>
                 </select>
                 <small *ngIf="CODCENTROSALUD" class="text-danger"
                   >Debe de escoger una opción</small

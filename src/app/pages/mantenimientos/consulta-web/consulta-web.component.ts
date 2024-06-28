@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Listaordene } from 'src/app/interfaces/orden.interface';
 import { List } from 'src/app/models/listagetlist.module';
@@ -42,11 +42,11 @@ export class ConsultaWebComponent {
       this.buscarform?.get('vale')!.touched
     );
   }
-  buscarform!: FormGroup;
+  buscarform!: UntypedFormGroup;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private listagetlist: GetListService,
   ) {
     this.crearFormulario();

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MuestrasService } from 'src/app/services/muestras.service';
 import Swal from 'sweetalert2';
 
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class MuestraUpdateComponent implements OnInit {
   ngOnInit(): void {}
-  forma!: FormGroup;
+  forma!: UntypedFormGroup;
   get numeroorden() {
     return (
       this.forma?.get('numeroorden')!.invalid &&
@@ -24,7 +24,7 @@ export class MuestraUpdateComponent implements OnInit {
     );
   }
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private muestras: MuestrasService,
   ) {
     this.crearformulario();

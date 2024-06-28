@@ -1,4 +1,4 @@
-.container {
+/* .container {
   width: 50%;
   min-height: 550px;
   margin-top: 10px;
@@ -10,7 +10,7 @@
 .rg {
   color: #ff8970;
   background: #fff;
-  /*  background-image: linear-gradient(blue),url(); */
+
   text-align: center;
 }
 
@@ -26,7 +26,7 @@
 
 table {
   width: 100%;
-  /* text-align: center; */
+
   border-collapse: collapse;
 }
 
@@ -74,11 +74,10 @@ td {
   margin: 0 auto;
   margin-left: 80px;
 }
-.bxs-key {
-  color: #efb810;
-}
+
 .title {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
 }
+ */

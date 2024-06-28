@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
 
 import { AuthRoutingModule } from './auth/auth.routing';
 import { AuthModule } from './auth/auth.module';
@@ -18,7 +17,7 @@ import { UppercaseDirective } from './uppercase.directive';
 import 'moment-timezone';
 import { FilterPipe } from './pipes/filter.pipe';
 import { filter } from 'rxjs';
-
+import { DisabledIfDirective } from './directiva/disabled-if.directive';
 
 /* import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
@@ -33,9 +32,8 @@ const config: SocketIoConfig = { url: environment.url, options: {} }; */
     FiltroPipe,
     FiltroUsuarioPipe,
     UppercaseDirective,
+    //DisabledIfDirective,
     FilterPipe,
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -45,8 +43,9 @@ const config: SocketIoConfig = { url: environment.url, options: {} }; */
     AuthModule,
     PagesRoutingModule,
     PagesModule,
-    MatSliderModule,
+    //MatSliderModule,
     NgxPaginationModule,
+    DisabledIfDirective,
     // SocketIoModule.forRoot(config)
   ],
   providers: [],

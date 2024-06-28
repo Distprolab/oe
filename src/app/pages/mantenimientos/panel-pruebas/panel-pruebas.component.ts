@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
@@ -10,10 +10,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./panel-pruebas.component.css'],
 })
 export class PanelPruebasComponent implements OnInit {
-  panelform!: FormGroup;
+  panelform!: UntypedFormGroup;
   constructor(
     private manteniemintoService: MantenimientosService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
@@ -65,7 +65,7 @@ export class PanelPruebasComponent implements OnInit {
       icon: 'info',
       text: 'Espere por favor ...',
     });
-    Swal.showLoading();
+    Swal.showLoading(null);
     this.manteniemintoService.getyCrearpanelPruebas(this.panelform.value).subscribe(
       (resp:any) => {
 

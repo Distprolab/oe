@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormGroup, UntypedFormArray, UntypedFormBuilder, FormBuilder,UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from 'src/app/interfaces/carga-productosImport.interfaces';
 import { Cliente } from 'src/app/interfaces/cargaCliente.interface';
@@ -61,7 +61,7 @@ export class ImportacionComponent implements OnInit {
     );
   }
   get PRODUCTOS() {
-    return this.importForm.get('PRODUCTOS') as FormArray;
+    return this.importForm.get('PRODUCTOS') as UntypedFormArray;
     // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
   }
 
@@ -79,7 +79,7 @@ export class ImportacionComponent implements OnInit {
       PRODUCTOS: this.fb.array([]),
     });
   }
-  crearItemProducto(): FormGroup {
+  crearItemProducto(): UntypedFormGroup {
     return this.fb.group({
       ID_PRODUCTO: ['', [Validators.required]],
       NOMBRE: ['', [Validators.required]],
@@ -104,7 +104,7 @@ export class ImportacionComponent implements OnInit {
       (producto) => producto.id === productoId,
     );
 
-    const filaSeleccionada = (this.importForm.get('PRODUCTOS') as FormArray).at(
+    const filaSeleccionada = (this.importForm.get('PRODUCTOS') as UntypedFormArray).at(
       i,
     );
     // console.log(filaSeleccionada);

@@ -18,10 +18,10 @@ import allLocales from '@fullcalendar/core/locales-all';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { OrdenesService } from 'src/app/services/ordenes.service';
 import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
@@ -43,19 +43,21 @@ export class AgendamientoComponent implements OnInit {
   selectedDateString: string = '';
   calendarEvents: EventInput[] = [];
   @ViewChild('calendarOptions', { static: true }) fullCalendarRef: ElementRef;
-  AgendarForm!: FormGroup;
+  AgendarForm!: UntypedFormGroup;
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
     showNonCurrentDates: false,
     fixedWeekCount: false,
-    height: 500,
-    contentHeight: 400,
+    height: 700,
+    contentHeight: 500,
 
     locales: allLocales,
     selectable: true,
     select: this.handleDateSelect.bind(this), // Event handler for date selection
     locale: 'es', // the initial locale,
+    events: this.calendarEvents,
+    eventContent: this.renderEventContent.bind(this),
     // dateClick: this.handleDateClick.bind(this), // Evento dateClick
   };
   get DLCBEN() {
@@ -166,12 +168,12 @@ export class AgendamientoComponent implements OnInit {
   }
 
   get DLCEXAS() {
-    return this.AgendarForm.get('DLCEXAS') as FormArray;
+    return this.AgendarForm.get('DLCEXAS') as UntypedFormArray;
   }
   constructor(
     private ordenesService: OrdenesService,
     public agendamientoService: AgendamientoService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) {
     this.crearformulario();
   }
@@ -186,14 +188,34 @@ export class AgendamientoComponent implements OnInit {
         return {
           title: order.count,
           start: order.FECHA,
+          extendedProps: { value: order.count },
         };
       });
-
+      this.calendarOptions.events = this.calendarEvents;
       // Add a dateClick event handler
     });
     this.escucharSocket();
   }
-
+  renderEventContent(eventInfo: any) {
+    const value = eventInfo.event.extendedProps.value;
+    if (value === 2) {
+      return {
+        html: `<div class="bg-event" style="background-color: #FFC733;">${eventInfo.event.title}</div>`,
+      };
+    }
+    if (value == 3) {
+      return {
+        html: `<div class="bg-event" style="background-color: green;">${eventInfo.event.title}</div>`,
+      };
+    }
+    if (value == 4) {
+      return {
+        html: `<div class="bg-event" style="background-color: red;">${eventInfo.event.title}</div>`,
+      };
+    } else {
+      return { html: eventInfo.event.title };
+    }
+  }
   crearformulario() {
     this.AgendarForm = this.fb.group({
       DLCBEN: ['', [Validators.required]],
@@ -218,7 +240,7 @@ export class AgendamientoComponent implements OnInit {
     });
   }
 
-  dateValidator(control: FormControl): ValidationErrors | null {
+  dateValidator(control: UntypedFormControl): ValidationErrors | null {
     const selectedDate: Date = new Date(control.value);
     if (selectedDate.getDate() === 1) {
       return { invalidDate: true };
@@ -245,57 +267,62 @@ export class AgendamientoComponent implements OnInit {
   buscarAs400(orden: string) {
     this.agendamientoService.ordenAs400(orden).subscribe((data) => {
       //this.dataseleccionada=data;
+      console.log(`data`, data);
+      if (data.DLCBEN) {
+        const {
+          DLCBEN,
+          DLCACT,
+          DLCDEP,
+          DLCOTR,
+          DLCEDU,
+          DLCPRO,
+          DLCSER,
+          DLCMED,
+          DLCDIS,
+          DLNUOR,
+          DLAPEL,
+          DLNOMB,
+          DLSEXO,
+          DLFECN,
+          DLHIST,
+          DLTIDO,
 
-      const {
-        DLCBEN,
-        DLCACT,
-        DLCDEP,
-        DLCOTR,
-        DLCEDU,
-        DLCPRO,
-        DLCSER,
-        DLCMED,
-        DLCDIS,
-        DLNUOR,
-        DLAPEL,
-        DLNOMB,
-        DLSEXO,
-        DLFECN,
-        DLHIST,
-        DLTIDO,
+          DLCEXAS,
+        } = data;
 
-        DLCEXAS,
-      } = data;
-      console.log(data.DLCBEN);
-      console.log(DLCBEN);
-      // this.dataseleccionada=data
-      this.AgendarForm.setValue({
-        DLCBEN: DLCBEN,
-        DLCACT: DLCACT,
-        DLCDEP: DLCDEP,
-        DLCOTR: DLCOTR,
-        DLCEDU: DLCEDU,
-        DLCPRO: DLCPRO,
-        DLCSER: DLCSER,
-        DLCMED: DLCMED,
-        DLCDIS: DLCDIS,
-        DLNUOR: DLNUOR,
-        DLAPEL: DLAPEL,
-        DLNOMB: DLNOMB,
-        DLSEXO: DLSEXO,
-        DLFECN: DLFECN,
-        DLHIST: DLHIST,
-        DLTIDO: DLTIDO,
-        FECHA: '',
-        DLCEXAS: DLCEXAS.map((valor) =>
-          this.DLCEXAS.push(
-            this.fb.group({
-              ItemID: valor['ItemID'],
-              ItemName: valor['ItemName'],
-            }),
+        this.AgendarForm.setValue({
+          DLCBEN: DLCBEN,
+          DLCACT: DLCACT,
+          DLCDEP: DLCDEP,
+          DLCOTR: DLCOTR,
+          DLCEDU: DLCEDU,
+          DLCPRO: DLCPRO,
+          DLCSER: DLCSER,
+          DLCMED: DLCMED,
+          DLCDIS: DLCDIS,
+          DLNUOR: DLNUOR,
+          DLAPEL: DLAPEL,
+          DLNOMB: DLNOMB,
+          DLSEXO: DLSEXO,
+          DLFECN: DLFECN,
+          DLHIST: DLHIST,
+          DLTIDO: DLTIDO,
+          FECHA: '',
+          DLCEXAS: DLCEXAS.map((valor) =>
+            this.DLCEXAS.push(
+              this.fb.group({
+                ItemID: valor['ItemID'],
+                ItemName: valor['ItemName'],
+              }),
+            ),
           ),
-        ),
-      });
+        });
+      } else {
+        Swal.fire({
+          icon: 'success',
+          text: `${data}`,
+        });
+      }
     });
   }
   guardarOrden() {

@@ -9,6 +9,7 @@ import { AgendarForm } from '../interfaces/agendar-form.interface';
 import { cargarExternaCalendar } from '../interfaces/carga-agendamiento.interface';
 import { Socket } from 'ngx-socket-io';
 import { cargarOrdenesExterna } from '../interfaces/carga-ordenesSais.interface';
+import { OrdenExt } from '../models/ordenext.module';
 const baseUrl = environment.url;
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,14 @@ export class AgendamientoService {
       this.headers,
     );
   }
+  updateExterna(data: AgendarForm) {
+    return this.http.put(
+      `${baseUrl}/api/ordenexterna/${data.id}`,
+      data,
+      this.headers,
+    );
+  }
+
   cargarOrdenexterna() {
     return this.http.get<cargarExternaCalendar>(
       `${baseUrl}/api/ordenexterna`,
@@ -83,13 +92,13 @@ export class AgendamientoService {
 
   buscarFiltroOrdenes(
     IDENTIFICADOR: string,
-    ESTADO: string,
+   
     SALA: string,
     FECHA: string,
   ) {
     return this.http
       .get<cargaAs400>(
-        `${baseUrl}/api/ordenexterna/filtros/?IDENTIFICADOR=${IDENTIFICADOR}&ESTADO=${ESTADO}&SALA=${SALA}&FECHA=${FECHA}`,
+        `${baseUrl}/api/ordenexterna/filtros/externa/?IDENTIFICADOR=${IDENTIFICADOR}&SALA=${SALA}&FECHA=${FECHA}`,
         this.headers,
       )
       .pipe(
@@ -98,7 +107,11 @@ export class AgendamientoService {
         }),
       );
   }
-
+  getOrdenByID(id: string) {
+    return this.http
+      .get(`${baseUrl}/api/ordenexterna/${id}`, this.headers)
+      .pipe(map((resp: { ok: boolean; ordenes: OrdenExt }) => resp.ordenes));
+  }
   eliminarOrden(orden: OrdenCalendar) {
     return this.http.delete(
       `${baseUrl}/api/ordenexterna/${orden.id}`,

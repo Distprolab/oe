@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { HasElementRef } from '@angular/material/core/common-behaviors/color';
+/* import { HasElementRef } from '@angular/material/core/common-behaviors/color'; */
 import { OrdenMicro, micro } from 'src/app/interfaces/micro-form.interface';
 import * as XLSX from 'xlsx';
 
@@ -19,7 +19,9 @@ export class EstadisticaMicroComponent implements AfterViewInit {
   totalPages: number = 1; // Total de páginas
   name = 'ExcelSheet.xlsx';
   cargando = false;
-  @ViewChild('table', { static: false }) table: HasElementRef; // Obtener referencia a la tabla HTML
+ /*  @ViewChild('table', { static: false }) table: HasElementRef; */
+  
+  // Obtener referencia a la tabla HTML
   constructor(private ordenService: LlenarCombosService) {}
 
   ngAfterViewInit() {}
@@ -80,10 +82,10 @@ export class EstadisticaMicroComponent implements AfterViewInit {
         'Numero orden': orden.SampleID,
         Origen: orden.Origen,
         Servicio: orden.Servicio,
-        'Tipo paciente': orden.Age,
-        Paciente: orden.Paciente,
-        Sexo: orden.Sexo,
-        'Historia Clinica': orden.Historia,
+'Historia Clinica': orden.Historia,
+Paciente: orden.Paciente,
+        'Tipo paciente': orden.Age,        
+        Sexo: orden.Sexo,        
         'Tipo muestra': orden.Tipomuestra,
         Microorganismo: orden.Microorganismo,
         Tecnica: orden.Tecnica,
@@ -95,8 +97,11 @@ export class EstadisticaMicroComponent implements AfterViewInit {
         Resistente: this.splitSensible(orden.Sensible)
           .map((sensible) => (sensible.includes('Resistente') ? 'SI' : '-'))
           .join('\n'),
+          Comentario: orden.Comentario,
+          UsuarioValidador:orden.Validador,
         'Fecha de validación': orden.Fechavalidacion,
-        Comentario: orden.Comentario,
+        OrdenAS400:orden.Orden
+       
       };
     });
 

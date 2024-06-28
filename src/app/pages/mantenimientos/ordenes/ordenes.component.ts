@@ -93,6 +93,8 @@ export class OrdenesComponent implements OnInit {
     }).then((result) => {
       console.log('NUMERO OBTENIDO', result.value);
       if (result.value) {
+
+        
         this.ordenServicie.eliminarOrden(orden).subscribe(
           (resp) => {
             this.cargarOrdenes();

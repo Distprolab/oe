@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Lista } from 'src/app/models/doctor.module';
 import { Rolee } from 'src/app/models/rol.module';
@@ -49,7 +49,7 @@ export class UsuarioComponent implements AfterViewInit {
     );
   }
 
-  registerform!: FormGroup;
+  registerform!: UntypedFormGroup;
   usuarios!: Usuario;
   listaroles: Rolee[] = [];
   listadoctor: Lista[] = [];
@@ -57,7 +57,7 @@ export class UsuarioComponent implements AfterViewInit {
     private doctorservice: LlenarCombosService,
     private usuarioservices: UsuarioService,
     private listarol: RolService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
@@ -124,7 +124,7 @@ export class UsuarioComponent implements AfterViewInit {
       icon: 'info',
       text: 'Espere por favor ...',
     });
-    Swal.showLoading();
+    Swal.showLoading(null);
     this.usuarioservices.cargarUsuarios(this.registerform.value).subscribe(
       (resp) => {
         Swal.fire({

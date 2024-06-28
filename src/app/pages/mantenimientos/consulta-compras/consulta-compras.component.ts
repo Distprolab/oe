@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { subscribeOn } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
+//import { subscribeOn } from 'rxjs';
+import { Modalidad } from 'src/app/interfaces/cargaModalidad.interface';
 import { Proceso } from 'src/app/interfaces/cargaProceso.interface';
+
+import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { RegistroService } from 'src/app/services/registro.service';
 import Swal from 'sweetalert2';
 
@@ -10,7 +15,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./consulta-compras.component.css'],
 })
 export class ConsultaComprasComponent implements OnInit {
-  constructor(private registro: RegistroService) {}
+  constructor(
+    private registro: RegistroService,
+    private activateRoute: ActivatedRoute,
+    private llenarcomboService: LlenarCombosService,
+  ) {}
   cargando = false;
   public listaproceso: Proceso[] = [];
   itemsPerPage: number = 1; // Número de elementos por página
@@ -20,12 +29,20 @@ export class ConsultaComprasComponent implements OnInit {
   public proceso: Proceso[] = [];
   public procesoTemp: Proceso[] = [];
   selectedFile: File | null = null;
+  listamodalidad: Modalidad[] = [];
   ngOnInit(): void {
+    /* y */
+    this.llenarcomboService.getModalidad().subscribe((modalidad) => {
+      console.log(modalidad);
+      this.listamodalidad = modalidad;
+    });
+
     this.getProcesos();
   }
   getProcesos() {
     this.cargando = true;
     this.registro.getConsultaRegistro().subscribe(({ proceso }) => {
+      console.log(proceso);
       this.proceso = proceso;
       this.procesoTemp = this.listaproceso;
       this.cargando = false;
@@ -80,6 +97,7 @@ export class ConsultaComprasComponent implements OnInit {
       Swal.fire('Success', `${msg}`, 'success');
     });
   }
+
   pdf2(proceso: Proceso) {
     this.registro.getReportePdf(proceso).subscribe((blob: Blob) => {
       //console.log(resp)
@@ -91,7 +109,13 @@ export class ConsultaComprasComponent implements OnInit {
       window.URL.revokeObjectURL(url);
     });
   }
+  ObtnerById(proceso: Proceso) {
+    console.log(proceso);
 
+    const data = {
+      PROCESO_ID: proceso.id,
+    };
+  }
   buscar(termino: string) {
     console.log(termino);
     return termino.length === 0
@@ -101,5 +125,80 @@ export class ConsultaComprasComponent implements OnInit {
 
           this.proceso = resultados;
         });
+  }
+
+  aprobarProceso(proceso: Proceso) {
+    console.log(`//////************`, proceso);
+    if (!proceso.aprobar) {
+      Swal.fire({
+        title: 'Seleccione una opcion',
+        input: 'select',
+        inputOptions: {
+          Option: {
+            1: 'Rentable',
+            0: 'No Rentable',
+          },
+        },
+
+        inputPlaceholder: '--Seleccione--',
+        showCancelButton: true,
+
+        inputAttributes: {
+          style: 'font-size: 16px; margin: 10px auto;width:90%;',
+        },
+        preConfirm: (selectedValue) => {
+          const data = {
+            PROCESO_ID: proceso.id,
+            ESTADOBI: selectedValue,
+          };
+          console.log(`******agregar impre***`, data);
+          this.registro.getAprobarProceso(data).subscribe((resp: any) => {
+            const { msg } = resp;
+            Swal.fire('Actualizado', `${msg}`, 'success');
+          });
+        },
+      });
+    } else {
+      if (proceso.aprobar.ESTADOBI != true) {
+        console.log(`PERRO TRUE`, proceso);
+        Swal.fire({
+          title: 'Seleccione una opcion',
+          input: 'select',
+          inputOptions: {
+            Option: {
+              1: 'Rentable',
+              // 0: 'No Rentable',
+            },
+          },
+
+          inputPlaceholder: '--Seleccione--',
+          showCancelButton: true,
+
+          inputAttributes: {
+            style: 'font-size: 16px; margin: 10px auto;width:90%;',
+          },
+          preConfirm: (selectedValue) => {
+            const data = {
+              PROCESO_ID: proceso.id,
+              ESTADOBI: selectedValue,
+            };
+            console.log(data);
+            this.registro.getUpdateProceso(data).subscribe(
+              (resp: any) => {
+                const { msg } = resp;
+                Swal.fire('Actualizado', `${msg}`, 'success');
+              },
+              (err) => {
+                Swal.fire({
+                  icon: 'error',
+                  text: err.error.msg,
+                });
+              },
+            );
+          },
+        });
+      }
+    }
+    /*   */
   }
 }

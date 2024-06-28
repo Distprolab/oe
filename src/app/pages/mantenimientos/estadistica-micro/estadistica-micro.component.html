@@ -98,13 +98,10 @@
                   <th class="">orden No.</th>
                   <th class="">Origen</th>
                   <th class="text-table2">Servicio</th>
-                  <th class="text-table">Edad</th>
-                  <th class="text-table">Paciente</th>
-                  <th class="">Sexo</th>
                   <th class="text-table">Historia clínica</th>
-
-                  <!--            <th class="text-table2">Resultados</th> -->
-
+                  <th class="text-table">Paciente</th>
+                  <th class="text-table">Edad</th>
+                  <th class="">Sexo</th>
                   <th class="text-table2">Tipo de muestra</th>
                   <th class="text-table2">Microorganismo</th>
                   <th class="text-table2">Tecnica</th>
@@ -112,8 +109,10 @@
                   <th class="text-table3">Antibiotico</th>
                   <th class="">Sensible</th>
                   <th class="">Resistente</th>
-                  <th class="">Fecha Validacion</th>
                   <th class="">Comentario</th>
+                  <th class="">Usuario Validador</th>
+                  <th class="">Fecha Validacion</th>
+                  <th class="">Orden As400</th>
                 </tr>
               </thead>
 
@@ -128,11 +127,11 @@
                   <td>{{ orden.SampleID }}</td>
                   <td>{{ orden.Origen }}</td>
                   <td>{{ orden.Servicio }}</td>
-                  <td>{{orden.Age}}</td>
+                  <td>{{ orden.Historia }}</td>
                   <td>{{ orden.Paciente }}</td>
+                  <td>{{ orden.Age }}</td>
 
                   <td>{{ orden.Sexo }}</td>
-                  <td>{{ orden.Historia }}</td>
 
                   <!--    <td></td> -->
                   <td>{{ orden.Tipomuestra }}</td>
@@ -172,9 +171,10 @@
                       </div>
                     </ng-container>
                   </td>
-
-                  <td>{{ orden.Fechavalidacion }}</td>
                   <td>{{ orden.Comentario }}</td>
+                  <td>{{ orden.Validador }}</td>
+                  <td>{{ orden.Fechavalidacion }}</td>
+                  <td>{{ orden.Orden }}</td>
                 </tr>
               </tbody>
             </table>
@@ -187,8 +187,5 @@
       previousLabel="Anterior"
       nextLabel="Siguiente"
     ></pagination-controls>
-   
   </div>
-
-
 </div>

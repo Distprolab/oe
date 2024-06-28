@@ -1,4 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaderResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterFrom } from '../interfaces/register-form.interface';
 import { environment } from 'src/environments/environment.prod';
@@ -27,11 +31,23 @@ export class RegistroService {
     return this.http.post(`${baseUrl}/api/procesos`, formData, this.headers);
   }
 
+  actualizarRegistro(data: any) {
+    return this.http.put(
+      `${baseUrl}/api/procesos/${data.id}`,
+      data,
+      this.headers,
+    );
+  }
+
+  getByIdRegistro(id: string) {
+    return this.http
+      .get(`${baseUrl}/api/procesos/procesoById/${id}`, this.headers)
+      .pipe(map((resp: { ok: boolean; proceso: Proceso }) => resp.proceso));
+  }
   getReportePdf(proceso: Proceso) {
     return this.http.get(`${baseUrl}/api/procesos-pdf/${proceso.id}`, {
-      headers: this.headers.headers, 
+      headers: this.headers.headers,
       responseType: 'blob',
-      
     });
   }
 
@@ -51,11 +67,25 @@ export class RegistroService {
         }),
       );
   }
+  getAprobarProceso(data: any) {
+    return this.http.post(
+      `${baseUrl}/api/aprobacionproceso/`,
+      data,
+      this.headers,
+    );
+  }
+  getUpdateProceso(data: any) {
+    return this.http.put(
+      `${baseUrl}/api/aprobacionproceso/${data.id}`,
+      data,
+      this.headers,
+    );
+  }
 
-getEquipos():Observable<Equipo[]>{
-  return this.http.get<Equipos>(`${baseUrl}/api/equipos`,this.headers)
-  .pipe(
-    map(({equipos})=>equipos)
-  )
-}
+
+  getEquipos(): Observable<Equipo[]> {
+    return this.http
+      .get<Equipos>(`${baseUrl}/api/equipos`, this.headers)
+      .pipe(map(({ equipos }) => equipos));
+  }
 }

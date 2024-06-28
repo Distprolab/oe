@@ -1,6 +1,6 @@
-import { error } from '@angular/compiler/src/util';
+/* import { error } from '@angular/compiler/src/util'; */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { delay } from 'rxjs';
 import { Rolee } from 'src/app/models/rol.module';
@@ -20,7 +20,7 @@ export class PerfilComponent implements OnInit {
   listaroles: Rolee[] = [];
   usuarioseleccionado!: Usuario;
 
-  perfilform!: FormGroup;
+  perfilform!: UntypedFormGroup;
 
   get doctorNoValido() {
     return (
@@ -60,7 +60,7 @@ export class PerfilComponent implements OnInit {
   constructor(
     private router: Router,
     private listarol: RolService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private usuarioservices: UsuarioService,
   ) {

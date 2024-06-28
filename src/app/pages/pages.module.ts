@@ -8,14 +8,6 @@ import { SharedModule } from '../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from '../auth/auth.module';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSliderModule } from '@angular/material/slider';
-
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { OrdenComponent } from './mantenimientos/orden/orden.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrdenesComponent } from './mantenimientos/ordenes/ordenes.component';
@@ -58,11 +50,29 @@ import { MarcaComponent } from './mantenimientos/marca/marca.component';
 
 import { PanelPruebasComponent } from './mantenimientos/panel-pruebas/panel-pruebas.component';
 import { StockComponent } from './mantenimientos/stock/stock.component';
+import { DisabledIfDirective } from '../directiva/disabled-if.directive';
+import { StocksComponent } from './mantenimientos/stocks/stocks.component';
+import { UtcDatePipe } from '../pipes/utc-date.pipe';
+import { PedidosComponent } from './mantenimientos/pedidos/pedidos.component';
+import { SolicitudesPedidosComponent } from './mantenimientos/solicitudes-pedidos/solicitudes-pedidos.component';
+//import { ManualAs400Component } from './mantenimientos/manual-as400/manual-as400.component';
+import { CargaOrdenesComponent } from './mantenimientos/carga-ordenes/carga-ordenes.component';
+import { StockPruebasComponent } from './mantenimientos/stock-pruebas/stock-pruebas.component';
+import { ManualAs400Component } from './mantenimientos/manual-as400/manual-as400.component';
+import { ManualComponent } from './mantenimientos/manual/manual.component';
+import { ReactivosComponent } from './mantenimientos/reactivos/reactivos.component';
+import { CategoriaComponent } from './mantenimientos/categoria/categoria.component';
 
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
+    CategoriaComponent,
+    ReactivosComponent,
+    StockPruebasComponent,
+    CargaOrdenesComponent,
+   // ManualAs400Component,
+   ManualComponent,
     DashboardComponent,
     PagesComponent,
     OrdenComponent,
@@ -99,6 +109,9 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     MarcaComponent,
     PanelPruebasComponent,
     StockComponent,
+    StocksComponent,
+    PedidosComponent,
+    SolicitudesPedidosComponent,
     //FilterPipe,
   ],
 
@@ -109,25 +122,22 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    DisabledIfDirective,
     FullCalendarModule,
   ],
   imports: [
     FormsModule,
     ComponentsModule,
-    
+    DisabledIfDirective,
     CommonModule,
     RouterModule,
     SharedModule,
     HttpClientModule,
-    MatToolbarModule,
-    MatSliderModule,
-    MatStepperModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
+
     ReactiveFormsModule,
     NgxPaginationModule,
     FullCalendarModule,
+    UtcDatePipe,
     SocketIoModule.forRoot(config),
   ],
 })

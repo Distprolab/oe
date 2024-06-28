@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Marca } from 'src/app/interfaces/cargaMarca.interface';
+import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
 
@@ -12,10 +14,14 @@ import Swal from 'sweetalert2';
 export class MarcaComponent implements OnInit {
 
   marcaForm!: FormGroup;
+  cargando:false;
+  listamarca:Marca[]=[];
+  public page!: number;
   constructor( 
     private manteniemintoService: MantenimientosService,
     private fb: FormBuilder,
     private router: Router,
+    private llenarcomboService:LlenarCombosService,
     private activatedRoute: ActivatedRoute,) { this.crearFormulario();}
     get NOMBRE() {
       return (
@@ -31,7 +37,17 @@ export class MarcaComponent implements OnInit {
       );
     }
   ngOnInit(): void {
+
+    this.getMarca();
   }
+  getMarca() {
+    this.llenarcomboService.getMarca().subscribe((marcas) => {
+      console.log(marcas);
+
+      this.listamarca= marcas;
+    });
+  }
+
   crearFormulario() {
     this.marcaForm = this.fb.group(
       {
@@ -58,7 +74,7 @@ export class MarcaComponent implements OnInit {
       icon: 'info',
       text: 'Espere por favor ...',
     });
-    Swal.showLoading();
+    Swal.showLoading(null);
     this.manteniemintoService.getCrearMarca(this.marcaForm.value).subscribe(
       (resp:any) => {
 
@@ -87,5 +103,7 @@ export class MarcaComponent implements OnInit {
       },
     );
   }
+borrarMarca(){
 
+}
 }

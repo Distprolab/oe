@@ -5,7 +5,6 @@
         <div class="card-body">
           <form autocomplete="off" class="form-inline">
             <div class="form-group">
-
               <div class="form-group col-md-2">
                 <label for="text " class="form-ItemName">Identificador</label>
                 <input
@@ -36,7 +35,6 @@
                     <option value="3">Pendiente</option>
                   </select>
                 </div>
-
               </div>
 
               <div class="form-group col-md-2">
@@ -48,8 +46,6 @@
                   #HIS
                 />
               </div>
-
-            
 
               <div class="form-group col-md-2">
                 <label for="text " class="form-ItemName">Sala</label>
@@ -78,7 +74,6 @@
                     <option value="3">CONTROL</option>
                   </select>
                 </div>
-
               </div>
             </div>
 
@@ -122,8 +117,6 @@
           <h6 class="title">Listado de ordenes registradas</h6>
 
           <div class="col-md-3 button"></div>
-
-         
 
           <div class="table-responsive">
             <table *ngIf="!cargando && ordenes.length > 0" class="table">
@@ -190,7 +183,6 @@
                     >
                       <i class="bx bx-edit-alt bx-sm"></i>
                     </a>
-                    
 
                     <span class="rounded shadow cursor" (click)="pdf2(orden)">
                       <i class="bx bxs-file-pdf bx-sm text-danger"></i>
@@ -226,9 +218,7 @@
         </div>
       </div>
 
-      <div class="modal-footer justify-content-between">
-      
-      </div>
+      <div class="modal-footer justify-content-between"></div>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { addMinutes, format } from 'date-fns';
 import * as XLSX from 'xlsx';
 import { Listaordene } from 'src/app/interfaces/orden.interface';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
-import { HasElementRef } from '@angular/material/core/common-behaviors/color';
+/* import { HasElementRef } from '@angular/material/core/common-behaviors/color'; */
 import { saveAs } from 'file-saver';
 
 
@@ -21,7 +21,7 @@ export class ResgistroPacientesComponent implements AfterViewInit {
   totalPages: number = 1; // Total de páginas
   name = 'ExcelSheet.xlsx';
   cargando = false;
-  @ViewChild('table', { static: false }) table: HasElementRef; // Obtener referencia a la tabla HTML
+  /* @ViewChild('table', { static: false }) table: HasElementRef;  */// Obtener referencia a la tabla HTML
   constructor(private ordenService: LlenarCombosService) {}
 
   ngAfterViewInit() {}

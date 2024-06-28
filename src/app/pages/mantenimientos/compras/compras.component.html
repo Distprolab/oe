@@ -39,7 +39,6 @@
                   placeholder="Ingrese codigos de procesos"
                   formControlName="codigo"
                   [class.is-invalid]="codigo"
-                  appUppercase
                 />
                 <small *ngIf="codigo" class="text-danger"
                   >Campo obligatorio
@@ -144,14 +143,19 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-md-3" *ngFor="let equipo of equipos">
-              <input
-                type="checkbox"
-                class="check_item"
-                [value]="equipo.value"
-                (change)="onAreasChange($event)"
-              />
-              <label class="labelcheck" for="si">{{ equipo.value }}</label>
+            <div
+              class="col-md-3"
+              formArrayName="areas"
+              *ngFor="let equi of areas.controls; let i = index"
+            >
+              <label>
+                <input
+                  class="check_item"
+                  [formControlName]="i"
+                  type="checkbox"
+                />
+                {{ equipos[i].ItemName }}</label
+              >
             </div>
           </div>
 
@@ -300,21 +304,19 @@
                       >
                         <option value="">--Seleccione--</option>
                         <option>NO APLICA</option>
-                        <option *ngFor="let quimica of listaequiposquimica" [value]="quimica.NOMBRE">{{quimica.NOMBRE}}</option>
-
-                        <!-- <option>COBAS C111</option>
-                        <option>COBAS C311</option>
-                        <option>COBAS PURE 302</option>
-                        <option>COBAS 6000 C501 MODULE</option>
-                        <option>COBAS PRO 503 ISE</option>
-                        <option>BIOSSAY 240PLUS</option> -->
+                        <option
+                          *ngFor="let quimica of listaequiposquimica"
+                          [value]="quimica.NOMBRE"
+                        >
+                          {{ quimica.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
 
                   <div class="col-md-4">
                     <input
-                      type="number"
+                      type="text"
                       class="form-control"
                       formControlName="valquimica"
                     />
@@ -330,18 +332,13 @@
                         [class.is-invalid]="inmunologia"
                       >
                         <option value="">--Seleccione--</option>
-                        <option *ngFor="let inmu of listaequiposinmunologia" [value]="inmu.NOMBRE">{{inmu.NOMBRE}}</option>
-                     <option>NO APLICA</option>
-                       <!--     <option>COBAS E411 RACK</option>
-                        <option>COBAS E411 DISK</option>
-                        <option>COBAS PURE <402></option>
-                        <option>COBAS 6000 E601 MODULE</option>
-                        <option>COBAS 8000- COBAS E602 MODULE</option>
-                        <option>COBAS 8000 <801></option>
-                        <option>MAGLUMI X3</option>
-                        <option>MAGLUMI X6</option>
-                        <option>MAGLUMI X8</option>
-                       <option>MAGLUMI 600</option> -->
+                        <option
+                          *ngFor="let inmu of listaequiposinmunologia"
+                          [value]="inmu.NOMBRE"
+                        >
+                          {{ inmu.NOMBRE }}
+                        </option>
+                        <option>NO APLICA</option>
                       </select>
                     </div>
                   </div>
@@ -363,18 +360,13 @@
                         [class.is-invalid]="hematologia"
                       >
                         <option value="">--Seleccione--</option>
-                      <option>NO APLICA</option>
-                      <option *ngFor="let hema of listaequiposhematologia" [value]="hema.NOMBRE">{{hema.NOMBRE}}</option>
-
-                        <!--   <option>XNL 350</option>
-                        <option>XNL 450</option>
-                        <option>XNL 550</option>
-                        <option>XP 300</option>
-                        <option>XN-1000</option>
-                        <option>XN-2000</option>
-                        <option>XN-3000</option>
-                        <option>XN-1500</option>
-                        <option>MACURRA F880</option> -->
+                        <option>NO APLICA</option>
+                        <option
+                          *ngFor="let hema of listaequiposhematologia"
+                          [value]="hema.NOMBRE"
+                        >
+                          {{ hema.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -398,11 +390,12 @@
                       >
                         <option value="">--Seleccione--</option>
                         <option>NO APLICA</option>
-                        <option *ngFor="let coagu of listaequiposcoagulacion" [value]="coagu.NOMBRE">{{coagu.NOMBRE}}</option>
-
-                      <!--   <option>COBAS T411</option>
-                        <option>ALC TOP</option>
-                        <option>ACL ELITE</option> -->
+                        <option
+                          *ngFor="let coagu of listaequiposcoagulacion"
+                          [value]="coagu.NOMBRE"
+                        >
+                          {{ coagu.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -425,12 +418,12 @@
                       >
                         <option value="">--Seleccione--</option>
                         <option>NO APLICA</option>
-                        <option *ngFor="let gasometria of listaequiposgasometria" [value]="gasometria.NOMBRE">{{gasometria.NOMBRE}}</option>
-                        <!-- <option>COBAS B123 POC SYSTEM</option> -->
-
-                       <!--  <option>COBAS B221</option>
-                        <option>GEM PREMIER</option>
-                        <option>I STAT</option> -->
+                        <option
+                          *ngFor="let gasometria of listaequiposgasometria"
+                          [value]="gasometria.NOMBRE"
+                        >
+                          {{ gasometria.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -453,15 +446,13 @@
                         [class.is-invalid]="electrolitros"
                       >
                         <option value="">--Seleccione--</option>
-                      <option>NO APLICA</option>
-                      <option *ngFor="let electro of listaequiposelectrolitros" [value]="electro.NOMBRE">{{electro.NOMBRE}}</option>
-
-                       <!--    <option>AVL 9180</option>
-                        <option>COBAS C311</option>
-                        <option>COBAS C501 MODULE ISE</option>
-                        <option>COBAS PRO <503>ISE</option>
-                        <option>ISTAT</option>
-                        <option>BIOSSAY E6</option> -->
+                        <option>NO APLICA</option>
+                        <option
+                          *ngFor="let electro of listaequiposelectrolitros"
+                          [value]="electro.NOMBRE"
+                        >
+                          {{ electro.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -484,12 +475,12 @@
                       >
                         <option value="">--Seleccione--</option>
                         <option>NO APLICA</option>
-                        <option *ngFor="let uro of listaequiposuroanalisis" [value]="uro.NOMBRE">{{uro.NOMBRE}}</option>
-
-                       <!--  <option>COBAS 6500</option>
-                        <option>COBAS U701</option>
-                        <option>COBAS U601</option>
-                        <option>KU-2800</option> -->
+                        <option
+                          *ngFor="let uro of listaequiposuroanalisis"
+                          [value]="uro.NOMBRE"
+                        >
+                          {{ uro.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -512,17 +503,12 @@
                       >
                         <option value="">--Seleccione--</option>
                         <option>NO APLICA</option>
-                        <option *ngFor="let micro of listaequiposmicrobiologia" [value]="micro.NOMBRE">{{micro.NOMBRE}}</option>
-
-                        <!-- <option>COBAS 4800</option>
-                        <option>COBAS Z480</option>
-                        <option>LIGHTCYCLER 480 II</option>
-                        <option>96</option>
-                        <option>LIGHTCYCLER 2.0 INSTRUMENT</option>
-                        <option>MAGNA PURE COMPACT</option>
-                        <option>COBAS LIAT SYSTEM</option>
-                        <option>MAGNAPURE 24</option>
-                        <option>MAGNA PURE 96 INSTRUMENT</option> -->
+                        <option
+                          *ngFor="let micro of listaequiposmicrobiologia"
+                          [value]="micro.NOMBRE"
+                        >
+                          {{ micro.NOMBRE }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -545,16 +531,13 @@
                       >
                         <option value="">--Seleccione--</option>
 
-                        <option *ngFor="let poc of   listaequiposrapidas
-                        " [value]="poc.NOMBRE">{{poc.NOMBRE}}</option>
-                       <option>NO APLICA</option>
-                       <!--   <option>COBAS B 101 INSTRUMENT</option>
-                        <option>COBAS H 232 KIT (NO SCANNER)</option>
-                        <option>COBAS H 232 KIT (SCANNER)</option>
-                        <option>COAGUCHEK XS PRO KIT INTERNATI</option>
-                        <option>COAGUCHEK XS KIT (HU/EL/ES/PT)</option>
-                        <option>ACCUNTREND PLUS KIT MG/DL</option>
-                        <option>ACCU-CHECK INFORM II METER KIT + R</option> -->
+                        <option
+                          *ngFor="let poc of listaequiposrapidas"
+                          [value]="poc.NOMBRE"
+                        >
+                          {{ poc.NOMBRE }}
+                        </option>
+                        <option>NO APLICA</option>
                       </select>
                     </div>
                   </div>
@@ -582,14 +565,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let quimica of listaequiposquimica" [value]="quimica.NOMBRE">{{quimica.NOMBRE}}</option>
-
-                     <!--  <option>COBAS C111</option>
-                      <option>COBAS C311</option>
-                      <option>COBAS PURE 302</option>
-                      <option>COBAS 6000 C501 MODULE</option>
-                      <option>COBAS PRO 503 ISE</option>
-                        <option>BIOSSAY 240PLUS</option> -->
+                      <option
+                        *ngFor="let quimica of listaequiposquimica"
+                        [value]="quimica.NOMBRE"
+                      >
+                        {{ quimica.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -613,18 +594,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let inmu of listaequiposinmunologia" [value]="inmu.NOMBRE">{{inmu.NOMBRE}}</option>
-
-                      <!-- <option>COBAS E411 RACK</option>
-                      <option>COBAS E411 DISK</option>
-                      <option>COBAS PURE <402></option>
-                      <option>COBAS 6000 E601 MODULE</option>
-                      <option>COBAS 8000- COBAS E602 MODULE</option>
-                      <option>COBAS 8000 <801></option>
-                      <option>MAGLUMI X3</option>
-                      <option>MAGLUMI X6</option>
-                       <option>MAGLUMI X8</option>
-                      <option>MAGLUMI 600</option> -->
+                      <option
+                        *ngFor="let inmu of listaequiposinmunologia"
+                        [value]="inmu.NOMBRE"
+                      >
+                        {{ inmu.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -647,17 +622,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let hema of listaequiposhematologia" [value]="hema.NOMBRE">{{hema.NOMBRE}}</option>
-
-                      <!-- <option>XNL 350</option>
-                      <option>XNL 450</option>
-                      <option>XNL 550</option>
-                      <option>XP 300</option>
-                      <option>XN-1000</option>
-                      <option>XN-2000</option>
-                      <option>XN-3000</option>
-                      <option>XN-1500</option>
-                      <option>MACURRA F880</option> -->
+                      <option
+                        *ngFor="let hema of listaequiposhematologia"
+                        [value]="hema.NOMBRE"
+                      >
+                        {{ hema.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -681,11 +651,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let coagu of listaequiposcoagulacion" [value]="coagu.NOMBRE">{{coagu.NOMBRE}}</option>
-
-                      <!-- <option>COBAS T411</option>
-                      <option>ALC TOP</option>
-                      <option>ACL ELITE</option> -->
+                      <option
+                        *ngFor="let coagu of listaequiposcoagulacion"
+                        [value]="coagu.NOMBRE"
+                      >
+                        {{ coagu.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -708,13 +679,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let gasometria of listaequiposgasometria" [value]="gasometria.NOMBRE">{{gasometria.NOMBRE}}</option>
-
-                     <!--  <option>COBAS B123 POC SYSTEM</option>
-
-                      <option>COBAS B221</option>
-                      <option>GEM PREMIER</option>
-                      <option>I STAT</option> -->
+                      <option
+                        *ngFor="let gasometria of listaequiposgasometria"
+                        [value]="gasometria.NOMBRE"
+                      >
+                        {{ gasometria.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -738,14 +708,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let electro of listaequiposelectrolitros" [value]="electro.NOMBRE">{{electro.NOMBRE}}</option>
-
-                      <!-- <option>AVL 9180</option>
-                      <option>COBAS C311</option>
-                      <option>COBAS C501 MODULE ISE</option>
-                      <option>COBAS PRO 503 ISE</option>
-                      <option>ISTAT</option>
-                      <option>BIOSSAY E6</option> -->
+                      <option
+                        *ngFor="let electro of listaequiposelectrolitros"
+                        [value]="electro.NOMBRE"
+                      >
+                        {{ electro.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -768,12 +736,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let uro of listaequiposuroanalisis" [value]="uro.NOMBRE">{{uro.NOMBRE}}</option>
-
-                      <!-- <option>COBAS 6500</option>
-                      <option>COBAS U701</option>
-                      <option>COBAS U601</option>
-                      <option>KU-2800</option> -->
+                      <option
+                        *ngFor="let uro of listaequiposuroanalisis"
+                        [value]="uro.NOMBRE"
+                      >
+                        {{ uro.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -796,17 +764,12 @@
                     >
                       <option value="">--Seleccione--</option>
                       <option>NO APLICA</option>
-                      <option *ngFor="let micro of listaequiposmicrobiologia" [value]="micro.NOMBRE">{{micro.NOMBRE}}</option>
-
-                     <!--  <option>COBAS 4800</option>
-                      <option>COBAS Z480</option>
-                      <option>LIGHTCYCLER 480 II</option>
-                      <option>96</option>
-                      <option>LIGHTCYCLER 2.0 INSTRUMENT</option>
-                      <option>MAGNA PURE COMPACT</option>
-                      <option>COBAS LIAT SYSTEM</option>
-                      <option>MAGNAPURE 24</option>
-                      <option>MAGNA PURE 96 INSTRUMENT</option> -->
+                      <option
+                        *ngFor="let micro of listaequiposmicrobiologia"
+                        [value]="micro.NOMBRE"
+                      >
+                        {{ micro.NOMBRE }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -840,15 +803,22 @@
 
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4" *ngFor="let ho of licencia">
+            <div
+              class="col-md-4"
+              formArrayName="licenciaEquiposHematologicos"
+              *ngFor="
+                let lic of licenciaEquiposHematologicos.controls;
+                let i = index
+              "
+            >
+            <label class="">
               <input
                 type="checkbox"
                 class="check_item"
-                [value]="ho.value"
-                (change)="onCheckboxChange($event)"
+                [formControlName]="i"
                 [class.is-invalid]="licenciaEquiposHematologico"
               />
-              <label class="labelcheck" for="si">{{ ho.value }}</label>
+             {{ licencia[i].value }}</label>
             </div>
             <small *ngIf="licenciaEquiposHematologico" class="text-danger"
               >campo obligatorio</small
@@ -877,40 +847,10 @@
         </div>
       </div>
 
-     <!--  <div class="card">
-        <div class="card-header">
-          <h3 class="card-title" for="">Adjunto</h3>
-        </div>
-
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="exampleInputFile"> Doc:</label>
-                <div class="input-group">
-                  <div class="custom-file">
-                    <input
-                      type="file"
-                      formControlName="adjunto"
-                      class="form-control"
-                      id="exampleInputFile"
-                      (change)="upload($event)"
-                      multiple
-                    />
-                    <label class="custom-file-label" for="exampleInputFile"
-                      >Cargue los arhivos</label
-                    >
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
       <div class="input-group-append">
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a type="submit" (click)="cambioEstado()" class="btn btn-primary">
+          {{ btnVal }}</a
+        >
         &nbsp;
         <button type="reset" onclick="onreset()" class="btn btn-danger">
           Cancelar
@@ -919,7 +859,6 @@
     </div>
   </form>
 </div>
-
 <!-- <hr />
 <pre>
       Estado del formulario: {{ RegistroForm.valid }}
@@ -932,4 +871,4 @@
       {{ RegistroForm.value | json }}
   
       </pre
-> -->
+>  -->

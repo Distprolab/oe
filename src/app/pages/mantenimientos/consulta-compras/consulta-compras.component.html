@@ -40,10 +40,11 @@
                 <tr>
                   <th class="text-table">Fecha</th>
                   <th class="text-table3">Institucion</th>
-                  <th class="text-table2">Codigo</th>
-                  <th class="text-table">presupuesto</th>
-                  <th class="text-table2">responsable</th>
+                  <!--   <th class="text-table2">Codigo</th> -->
+                  <th class="text-table">Presupuesto</th>
+                  <!--         <th class="text-table2">Responsable</th> -->
                   <th class="text-table2">Estado</th>
+                  <th class="text-table2">Aprobacion BI</th>
                   <th class="text-table">Acciones</th>
                 </tr>
               </thead>
@@ -57,37 +58,91 @@
                 >
                   <td>{{ proces.entregacarpeta }}</td>
                   <td>{{ proces.institucion }}</td>
-                  <td>{{ proces.codigo }}</td>
+                  <!--  <td>{{ proces.codigo }}</td> -->
                   <td>{{ proces.presupuesto }}</td>
-                  <td>{{ proces.usuarioId }}</td>
+                  <!--   <td>{{ proces.usuarioId }}</td> -->
 
                   <!-- <td>{{FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
                   <td>
-                    <span
+                    <div [ngSwitch]="proces.ESTADO">
+                      <div *ngSwitchCase="1" class="rounded shadow bg-creada">
+                        Generado
+                      </div>
+                      <div *ngSwitchDefault>output2</div>
+                    </div>
+                    <!-- <span
                       *ngIf="proces.ESTADO == 1"
                       class="rounded shadow bg-pen"
                       >Generado
                     </span>
+
                     <span
                       *ngIf="proces.ESTADO == 2"
                       class="rounded shadow bg-pen"
                       >Enviado</span
-                    >
+                    > -->
                   </td>
+                  <!-- <td>{{ proces.aprobar == null ?  '': proces.aprobar.ESTADOBI 
+                    }}</td> -->
+                  <td>
+                    <div *ngIf="proces.aprobar">
+                      <div [ngSwitch]="proces.aprobar.ESTADOBI">
+                        <div
+                          *ngSwitchCase="true"
+                          class="rounded shadow bg-procesando"
+                        >
+                          RENTABLE
+                        </div>
+                        <div
+                          *ngSwitchDefault
+                          class="rounded shadow bg-pendiente"
+                        >
+                          NO RENTABLE
+                        </div>
 
+                        <!--   <div *ngSwitchDefault>NO existe aprobar</div> -->
+                      </div>
+                    </div>
+                  </td>
                   <td class="text-nowrap">
-
-
-
-                     <span>
-                      <i class='bx bx-edit-alt bx-sm'></i>
-                     </span>
-                    <span (click)="EnvioCorreo(proces)">
+                    <span>
+                      <a [routerLink]="['/dashboard', 'compras', proces.id]">
+                        <i class="bx bx-edit-alt bx-sm"></i>
+                      </a>
+                    </span>
+                    <!--  <span (click)="EnvioCorreo(proces)">
                       <i class="bx bx-mail-send bx-sm"></i>
+                    </span> -->
+
+                    <span class="cursor" (click)="pdf2(proces)">
+                      <i class="bx bxs-file-pdf bx-sm text-danger"></i>
+                    </span>
+                    <!-- data-target="#modal-default" -->
+                    <span
+                      class="cursor"
+                      (click)="ObtnerById(proces)"
+                      data-toggle="modal"
+                      data-target="#modal-info"
+                    >
+                      <i class="bx bx-file bx-sm"></i>
                     </span>
 
-                    <span class=" cursor" (click)="pdf2(proces)">
-                      <i class="bx bxs-file-pdf bx-sm text-danger"></i>
+                    <span
+                      class="cursor"
+                      (click)="aprobarProceso(proces)"
+                      [ngClass]="{
+                        'disabled-icon':
+                          proces.aprobar != null &&
+                          proces.aprobar.ESTADOBI == true
+                      }"
+                    >
+                      <i class="bx bx-check-shield bx-sm"></i>
+                    </span>
+
+                    <span>
+                      <a [routerLink]="['/dashboard', 'reactivos', proces.id]">
+                        <i class="bx bxs-spreadsheet bx-sm"></i>
+                      </a>
                     </span>
                   </td>
                 </tr>
@@ -104,25 +159,131 @@
     ></pagination-controls>
   </div>
 
-  <div class="modal fade show" id="modal-default">
+  <div class="modal fade" id="modal-info">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content3">
         <div class="modal-header">
-          <h4 class="modal-title">+ Cargar pruebas</h4>
+          <h4 class="modal-title">Solicitud de Equipos</h4>
           <button
             type="button"
-            class="btn btn-primary"
+            class="close"
             data-dismiss="modal"
             aria-label="Close"
           >
-            Guardar
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      </div>
+        <div class="modal-">
+          <div class="container-fluid rounded shadow">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <form autocomplete="off">
+                    <div class="row">
+                      <div class="form-group col-md-3">
+                        <label for="" class="form-ItemName">Area</label>
 
-      <div class="modal-footer justify-content-between">
-        <!--    <button type="button" class="btn btn-default" data-dismiss="modal"></button> 
-                      <button type="button" data-dismiss="modal" class="btn btn-primary">Guardar</button> -->
+                        <select
+                          class="form-control"
+                          formControlName=""
+                          [class.is-invalid]=""
+                        >
+                          <option value="">--Seleccione--</option>
+                          <option
+                            *ngFor="let mod of listamodalidad"
+                            [value]="mod.id"
+                          >
+                            {{ mod.NOMBRE }}
+                          </option>
+                          <!-- <option value="F">Femenino</option>
+                          <option value="3">Otros</option> -->
+                        </select>
+
+                        <small *ngIf="" class="text-danger"
+                          >Debe de escoger una opción
+                        </small>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label for="" class="form-ItemName">Equipos</label>
+
+                        <select
+                          class="form-control"
+                          formControlName=""
+                          [class.is-invalid]=""
+                        >
+                          <option value="">--Seleccione--</option>
+                          <option
+                            *ngFor="let mod of listamodalidad"
+                            [value]="mod.id"
+                          >
+                            {{ mod.NOMBRE }}
+                          </option>
+                          <!-- <option value="F">Femenino</option>
+                          <option value="3">Otros</option> -->
+                        </select>
+
+                        <small *ngIf="" class="text-danger"
+                          >Debe de escoger una opción
+                        </small>
+                      </div>
+
+                     <div class="form-group col-md-6">
+                      <textarea name="" id="vertical"rows="5"></textarea>
+
+                     </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-3">
+                        <label class="form-ItemName">FECHA INSTALACIÓN</label>
+                        <input
+                          type="date"
+                          class="form-control datetimepicker-input"
+                          placeholder="Ingrese"
+                        />
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label for="" class="form-ItemName">Modalidad</label>
+
+                        <select
+                          class="form-control"
+                          formControlName=""
+                          [class.is-invalid]=""
+                        >
+                          <option value="">--Seleccione--</option>
+                          <option
+                            *ngFor="let mod of listamodalidad"
+                            [value]="mod.id"
+                          >
+                            {{ mod.NOMBRE }}
+                          </option>
+                          <!-- <option value="F">Femenino</option>
+                          <option value="3">Otros</option> -->
+                        </select>
+
+                        <small *ngIf="" class="text-danger"
+                          >Debe de escoger una opción
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                      <label for="">Observaciones</label>
+                      <textarea
+                        class="form-control textarea-mod"
+                        rows="5"
+                        placeholder="Enter ..."
+                      ></textarea>
+                    </div>
+
+                    <div class="esboton">
+                      <a class="btn btn-primary"> Guardar</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

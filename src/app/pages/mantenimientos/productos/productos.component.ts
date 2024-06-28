@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormArray,
-  FormBuilder,
+  UntypedFormArray,
+  UntypedFormBuilder,
   FormControl,
-  FormGroup,
+  UntypedFormGroup,
   Validators,
+  FormGroup,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Producto } from 'src/app/interfaces/carga-productosImport.interfaces';
@@ -22,7 +23,7 @@ export class ProductosComponent implements OnInit {
   productoForm!: FormGroup;
   data = [];
   fileTemp;
-  control: FormArray;
+  control: UntypedFormArray;
     
   listaproductos: Producto[] = [];
   public desde: number = 0;
@@ -33,7 +34,7 @@ export class ProductosComponent implements OnInit {
   cargando = false;
   selectedFile: File | null = null;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private inportService: ImportacionService,
   ) {}

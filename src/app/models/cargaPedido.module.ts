@@ -2,6 +2,7 @@
 
 export class Pedidos {
   constructor(
+
     public ID_PROVEEDOR: number,
     public MARCA: number,
     public items: Item[],

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AgendamientoService } from 'src/app/services/agendamiento.service';
 import Swal from 'sweetalert2';
 
@@ -9,9 +9,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agendamiento-manual.component.css'],
 })
 export class AgendamientoManualComponent implements OnInit {
-  ManualForm: FormGroup;
+  ManualForm: UntypedFormGroup;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public agendamientoService: AgendamientoService,
   ) {
     this.crearformulario();
@@ -124,7 +124,7 @@ export class AgendamientoManualComponent implements OnInit {
   }
 
   get DLCEXAS() {
-    return this.ManualForm.get('DLCEXAS') as FormArray;
+    return this.ManualForm.get('DLCEXAS') as UntypedFormArray;
   }
   ngOnInit(): void {}
   crearformulario() {

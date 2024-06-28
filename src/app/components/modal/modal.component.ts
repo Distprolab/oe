@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize, map } from 'rxjs';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
@@ -15,7 +15,7 @@ export class ModalComponent implements OnInit {
   constructor(
     public modalImagenService: ModalImagenService,
     private usuarioServices: UsuarioService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private doctorservice: LlenarCombosService,
     private router: Router,
   ) {}
@@ -35,7 +35,7 @@ export class ModalComponent implements OnInit {
   data9 = [];
   selectedItemsList = [];
   checkedIDs = [];
-  OrdenForm!: FormGroup;
+  OrdenForm!: UntypedFormGroup;
   quimica = [
     { ItemID: '102', ItemName: 'Perfil Clinico', isChecked: false },
     { ItemName: 'Bilirubinas', ItemID: '103', isChecked: false },

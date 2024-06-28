@@ -39,6 +39,16 @@ import { panelPrueba } from '../models/panelPruebas.module';
 import { PanelPruebasComponent } from './mantenimientos/panel-pruebas/panel-pruebas.component';
 import { EquiposComponent } from './mantenimientos/equipos/equipos.component';
 import { StockComponent } from './mantenimientos/stock/stock.component';
+import { StocksComponent } from './mantenimientos/stocks/stocks.component';
+import { PedidosComponent } from './mantenimientos/pedidos/pedidos.component';
+import { SolicitudesPedidosComponent } from './mantenimientos/solicitudes-pedidos/solicitudes-pedidos.component';
+import { ManualAs400Component } from './mantenimientos/manual-as400/manual-as400.component';
+import { CargaOrdenesComponent } from './mantenimientos/carga-ordenes/carga-ordenes.component';
+import { StockPruebasComponent } from './mantenimientos/stock-pruebas/stock-pruebas.component';
+import { ManualComponent } from './mantenimientos/manual/manual.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ReactivosComponent } from './mantenimientos/reactivos/reactivos.component';
+import { CategoriaComponent } from './mantenimientos/categoria/categoria.component';
 
 const routes: Routes = [
   {
@@ -81,8 +91,22 @@ const routes: Routes = [
         component: AgendadosComponent,
         data: { titulo: 'agendados' },
       },
-      { path: 'orden', component: OrdenComponent,
-       data: { titulo: 'orden' } },
+      {
+        path: 'agendados/:id',
+        component: AgendadosComponent,
+        data: { titulo: 'agendados' },
+      },
+      { path: 'orden', component: OrdenComponent, data: { titulo: 'orden' } },
+      {
+        path: 'manual',
+        component: ManualComponent,
+        data: { titulo: 'manual' },
+      },
+      {
+        path: 'manual/:id',
+        component: ManualComponent,
+        data: { titulo: 'manual' },
+      },
       {
         path: 'orden/:id',
         component: OrdenComponent,
@@ -175,6 +199,11 @@ const routes: Routes = [
         data: { titulo: 'compras' },
       },
       {
+        path: 'compras/:id',
+        component: ComprasComponent,
+        data: { titulo: 'compras' },
+      },
+      {
         path: 'consulta-compras',
         component: ConsultaComprasComponent,
         data: { titulo: 'consulta-compras' },
@@ -233,6 +262,51 @@ const routes: Routes = [
         path: 'stock',
         component: StockComponent,
         data: { titulo: 'stock' },
+      },
+      {
+        path: 'stocks',
+        component: StocksComponent,
+        data: { titulo: 'stocks' },
+      },
+      {
+        path: 'solicitud-pedidos',
+        component: PedidosComponent,
+        data: { titulo: 'solicitud-pedidos' },
+      },
+      {
+        path: 'solicitud-pedidos/:id',
+        component: PedidosComponent,
+        data: { titulo: 'solicitud-pedidos' },
+      },
+      {
+        path: 'solicitudes-pedidos',
+        component: SolicitudesPedidosComponent,
+        data: { titulo: 'solicitudes-pedidos' },
+      },
+      {
+        path: 'carga-ordenes',
+        component: CargaOrdenesComponent,
+        data: { titulo: 'carga-ordenes' },
+      },
+      {
+        path: 'stock-pruebas',
+        component: StockPruebasComponent,
+        data: { titulo: 'stock-pruebas' },
+      },
+      {
+        path: 'reactivos',
+        component: ReactivosComponent,
+        data: { titulo: 'reactivos' },
+      },
+      {
+        path: 'reactivos/:id',
+        component: ReactivosComponent,
+        data: { titulo: 'reactivos' },
+      },
+      {
+        path: 'categoria',
+        component: CategoriaComponent,
+        data: { titulo: 'categoria' },
       },
     ],
   },

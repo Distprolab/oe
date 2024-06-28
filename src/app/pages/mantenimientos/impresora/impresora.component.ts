@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
@@ -10,10 +10,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./impresora.component.css']
 })
 export class ImpresoraComponent implements OnInit {
-impresoraForm!: FormGroup;
+impresoraForm!: UntypedFormGroup;
   constructor( 
     private manteniemintoService: MantenimientosService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,) { this.crearFormulario();}
     get NOMBRE() {
@@ -51,7 +51,7 @@ impresoraForm!: FormGroup;
       icon: 'info',
       text: 'Espere por favor ...',
     });
-    Swal.showLoading();
+    Swal.showLoading(null);
     this.manteniemintoService.getCrearImpresora(this.impresoraForm.value).subscribe(
       (resp:any) => {
 

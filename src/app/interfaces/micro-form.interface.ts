@@ -20,4 +20,6 @@ export interface micro {
   Valor?: string;
   Fechavalidacion?: string;
   Comentario?: string;
+  Orden?: string;
+  Validador?:string;
 }

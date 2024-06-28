@@ -384,7 +384,6 @@ export class OrdenManualComponent implements OnInit {
 
     this.ordenService
       .obtenerOrdenById(id)
-
       .subscribe((orden) => {
         !orden
           ? this.router.navigateByUrl('/dashboard/ordenes')
@@ -397,7 +396,6 @@ export class OrdenManualComponent implements OnInit {
           DIRECCION,
           TELEFONO,
           EMAIL,
-
           EDAD,
           FECHANACIMIENTO,
           SEXO,
@@ -406,24 +404,20 @@ export class OrdenManualComponent implements OnInit {
           NOMBRETIPOORDEN,
           PRIORIDAD,
           HIS,
-
           OPERADOR,
           CODFLEBOTOMISTA,
           CORRELATIVO,
           CODIMPRESORA,
           CODEMBARAZADA,
-
           as400,
         } = orden;
 
         this.ordenseleccionada = orden;
-
         console.log(this.ordenseleccionada);
         this.OrdenForm.setValue({
           IDENTIFICADOR,
           NOMBRES,
           APELLIDO,
-
           CODPROVINCIA,
           DIRECCION,
           TELEFONO,
@@ -434,9 +428,7 @@ export class OrdenManualComponent implements OnInit {
           EDAD,
           HIS,
           PRIORIDAD,
-
           CODTIPOORDEN: CODTIPOORDEN,
-
           OPERADOR,
           CODFLEBOTOMISTA,
           CORRELATIVO,
@@ -589,7 +581,7 @@ export class OrdenManualComponent implements OnInit {
         icon: 'info',
         text: 'Espere por favor ...',
       });
-      Swal.showLoading();
+      Swal.showLoading(null);
       console.log(this.OrdenForm.value);
       this.ordenService
         .GuardarManualOrden(this.OrdenForm.value)

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -26,11 +26,11 @@ export class LoginComponent {
     );
   }
 
-  loginforma!: FormGroup;
+  loginforma!: UntypedFormGroup;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private usuarioService: UsuarioService,
   ) {
     this.crearFormulario();
@@ -67,7 +67,8 @@ export class LoginComponent {
       icon: 'info',
       text: 'Espere por favor...',
     });
-    Swal.showLoading();
+    Swal.showLoading(null);
+   // Swal.showLoading();
     this.usuarioService
       .login(this.loginforma.value)
 

@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
 
 @Component({
+  
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-  clienteForm!: FormGroup;
+  clienteForm!: UntypedFormGroup;
   constructor( 
     private manteniemintoService: MantenimientosService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,) { this.crearFormulario();}
     get NOMBRE() {
@@ -51,7 +52,7 @@ export class ClienteComponent implements OnInit {
       icon: 'info',
       text: 'Espere por favor ...',
     });
-    Swal.showLoading();
+    Swal.showLoading(null);
     this.manteniemintoService.getCrearCliente(this.clienteForm.value).subscribe(
       (resp:any) => {
 

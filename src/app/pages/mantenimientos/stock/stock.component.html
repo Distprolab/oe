@@ -3,10 +3,13 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <input type="file" 
-          (change)="onFileSelected($event)" class="input-file" />
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="input-file"
+          />
 
-          <button class="btn btn-primary">Subir archivo</button>
+       <!--    <a (click)="toggleInputs()" class="btn btn-primary">Guardar</a> -->
         </div>
       </div>
     </div>
@@ -21,7 +24,26 @@
           <div class="col-md-3 button"></div>
 
           <div class="table-responsive">
-            <form>
+            <form [formGroup]="stockForm" (ngSubmit)="guardar()" (ngSubmit)="onSubmit()">
+              <div class="button">
+                <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+            
+                <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+              </div>
+               <div class="form-group col-md-3">
+                 <label for="">Guia</label>
+                 <input
+                   type="email"
+                   class="form-control"
+                   formControlName="guia"
+                   [class.is-invalid]="guia"
+                   [readOnly]="true"
+                   placeholder="Ingrese guia.."
+                 />
+                 <small *ngIf="guia" class="text-danger"
+                   >Ingrese un caracter</small
+                 >
+               </div>
               <div
                 *ngIf="cargando"
                 class="alert alert-info text-center mt-3 animated fadeIn faster"
@@ -32,58 +54,105 @@
                 </p>
                 <p class="mb-0">Espere por favor</p>
               </div>
-
+              <!--  <input
+                          type="text" readonly="true"
+                          class="form-control col-md-3"
+                         
+                          formControlName="guia"
+                        /> -->
               <div *ngIf="!cargando" class="table-responsive">
                 <table class="table">
                   <thead>
                     <tr>
+                      <th>#</th>
                       <th>Referencia</th>
                       <th>Descripcion</th>
-                      <!--  <th>Categoria</th> -->
-                      <th>UDM</th>
-                      <!--  <th>Generacion</th> -->
 
                       <th>Lote</th>
                       <th>F. CADUCIDAD</th>
-                      <th>CANTIDAD</th>
+                      <th>Cantidad</th>
+                      <th>Cantidad Recibida</th>
+                      <th>Fabricante</th>
+                      <th>Registro Sanitario</th>
+                      <!--   <th>Actions</th> -->
                     </tr>
                   </thead>
 
-                  <tbody>
-                    <tr *ngF>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                  <tbody
+                    formArrayName="productos"
+                    [appDisabledIf]="!inputsBloqueados"
+                  >
+                    <tr
+                      *ngFor="
+                        let producto of stockForm.controls['productos']?.value
+                          | paginate: { itemsPerPage: 10, currentPage: page };
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                    >
+                      <td>{{ i + 1 }}</td>
                       <td>
-                        <!--  <span
-                            *ngIf="producto.ESTADO == 1"
-                            class="rounded shadow bg-pen"
-                            >Activo
-                          </span> -->
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="referencia"
+                        />
                       </td>
                       <td>
-                        <!--   <span   class="cursor">
-  
-                           <a [ngClass]="{ 'disabled-icon': producto.ESTADO == 2 }"
-                           [routerLink]="[
-                             '/dashboard',
-                             'producto',
-                             producto.id
-                           ]">
-                            <i
-                              class="bx bxs-edit bx-sm"
-                              data-toggle="modal"
-                              data-target="#modal-info"
-                            ></i
-                          >
-                        </a></span>
-                          <span  class="cursor">
-                            <i class="bx bxs-trash bx-sm"></i
-                          ></span>
-                        </td> -->
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="descripcion"
+                        />
                       </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="lote"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="caducidad"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control"
+                          formControlName="cantidad"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control"
+                          formControlName="cantidad_recibida"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="fabricante"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="sanitario"
+                        />
+                      </td>
+                      <!--  <td>
+                        <i
+                          class="bx bxs-trash bx-sm"
+                          (click)="borrarStock(i)"
+                        ></i>
+                      </td> -->
                     </tr>
                   </tbody>
                 </table>
@@ -119,3 +188,17 @@
     </div>
   </div>
 </div>
+<!-- <hr />
+<pre>
+    Estado del formulario: {{ stockForm.valid }}
+    <br>
+    Status: {{ stockForm.status }}
+    </pre>
+
+<pre>
+
+    {{ stockForm.value | json }}
+
+    </pre
+>
+ -->

@@ -14,6 +14,8 @@ import { cargarImpresora } from '../interfaces/impresora.interface';
 import { PanelPruebas } from '../interfaces/cargarPanelPruebas.interface';
 import { Marca, Marcas } from '../interfaces/cargaMarca.interface';
 import { Cliente, Clientes } from '../interfaces/cargaCliente.interface';
+import { Modalidad } from '../interfaces/cargaModalidad.interface';
+import { Modelo, Modelos } from '../interfaces/cargaModelo.interface';
 
 const baseUrl = environment.url;
 @Injectable({
@@ -40,8 +42,9 @@ export class LlenarCombosService {
         map((resp) =>
           resp.lista.map((resp) => ({
             ID: resp.ID,
-            Description: resp.Description,
             ValueCode: resp.ValueCode,
+            Description: resp.Description,
+            // ValueCode: resp.ValueCode,
             Status: resp.Status,
           })),
         ),
@@ -265,10 +268,20 @@ export class LlenarCombosService {
       .get<Marcas>(`${baseUrl}/api/marca`, this.headers)
       .pipe(map(({ marcas }) => marcas));
   }
-
+  getModelo(): Observable<Modelo[]> {
+    return this.http
+      .get<Modelos>(`${baseUrl}/api/modelo`, this.headers)
+      .pipe(map(({ modelo }) => modelo));
+  }
   getCliente(): Observable<Cliente[]> {
     return this.http
       .get<Clientes>(`${baseUrl}/api/cliente`, this.headers)
       .pipe(map(({ clientes }) => clientes));
+  }
+
+  getModalidad(): Observable<Modalidad[]> {
+    return this.http
+      .get<Modalidad>(`${baseUrl}/api/modalidad`, this.headers)
+      .pipe(map(({ modalidad }) => modalidad));
   }
 }

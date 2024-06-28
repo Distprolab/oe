@@ -16,7 +16,7 @@ export class ImportadosComponent implements OnInit {
   itemsPerPage: number = 1; // Número de elementos por página
   currentPage: number = 1; // Página actual
   totalPages: number = 1; // Total de páginas
-  cargando = false;
+  cargando = true;
   listaImport: Pedido[] = [];
   importado: Pedido[] = [];
   importadoTemp: Pedido[] = [];

@@ -29,7 +29,7 @@ export class SidebarService {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
-        {
+        /* {
           titulo: 'Crear Orden Manual',
           url: 'orden-manual',
           roles: ['ADMIN', 'DOCTOR', 'OPERADOR'],
@@ -38,7 +38,21 @@ export class SidebarService {
           titulo: 'Lista de Ordenes',
           url: 'ordenes',
           roles: ['ADMIN', 'DOCTOR', 'OPERADOR'],
+          data: { titulo: 'orden' },
+        }, */
+        {
+          titulo: 'manual',
+          url: 'manual/Nuevo',
+          roles: ['ADMIN', 'DOCTOR', 'SUPEROPERADOR'],
+          data: { titulo: 'manual' },
         },
+
+        /*  {
+          titulo: 'carga-ordenes',
+          url: 'carga-ordenes',
+          roles: ['ADMIN', 'DOCTOR', 'OPERADOR'], 
+          data: { titulo: 'carga-ordenes' },
+        }, */
       ],
     },
 
@@ -49,18 +63,18 @@ export class SidebarService {
         {
           titulo: 'Agendamiento',
           url: 'agendamiento',
-          roles: ['ADMIN', 'RECEPCION'],
+          roles: ['ADMIN', 'RECEPCION', 'SUPEROPERADOR'],
         },
         {
           titulo: 'Agendados',
           url: 'agendados',
-          roles: ['ADMIN', 'RECEPCION'],
+          roles: ['ADMIN', 'RECEPCION', 'SUPEROPERADOR'],
         },
 
         {
           titulo: 'Agendamiento manual',
           url: 'agendamiento-manual',
-          roles: ['ADMIN', 'RECEPCION'],
+          roles: ['ADMIN', 'RECEPCION', 'SUPEROPERADOR'],
         },
       ],
     },
@@ -92,39 +106,39 @@ export class SidebarService {
       ],
     },
 
-    {
+    /*     {
       titulo: 'MUESTRAS',
       icono: 'right fas fa-angle-left',
       submenu: [
         {
           titulo: 'Lista muestra',
           url: 'muestra',
-          roles: ['ADMIN', 'OPERADOR'],
+          roles: ['ADMIN', ''],
         },
         {
           titulo: 'Muestras Aceptadas',
           url: 'muestras',
-          roles: ['ADMIN', 'OPERADOR'],
+          roles: ['ADMIN', ''],
         },
         {
           titulo: 'Muestras rechazadas',
           url: 'muestras-rechazo',
-          roles: ['ADMIN', 'OPERADOR'],
+          roles: ['ADMIN', ''],
         },
         {
           titulo: 'Muestras actualizar',
           url: 'muestras-actualización',
-          roles: ['ADMIN', 'OPERADOR'],
+          roles: ['ADMIN', ''],
         },
       ],
-    },
+    }, */
     {
       titulo: 'COMPRAS',
       icono: 'right fas fa-angle-left',
       submenu: [
         {
           titulo: 'Compras',
-          url: 'compras',
+          url: 'compras/Nuevo',
           roles: ['ADMIN', 'COMPRAS'],
         },
         {
@@ -164,6 +178,11 @@ export class SidebarService {
           url: 'total-pedidos',
           roles: ['ADMIN', 'IMPORT'],
         },
+        {
+          titulo: 'reactivos',
+          url: 'reactivos',
+          roles: ['ADMIN', 'IMPORT'],
+        },
       ],
     },
 
@@ -174,7 +193,7 @@ export class SidebarService {
         {
           titulo: 'PRODUCTOS',
           url: 'productos',
-          roles: ['ADMIN', 'IMPORT'],
+          roles: ['ADMIN', 'IMPORT', 'INVENTARIO'],
         },
       ],
     },
@@ -206,19 +225,48 @@ export class SidebarService {
         {
           titulo: 'Equipos',
           url: 'equipos',
-          roles: ['ADMIN', 'COMPRAS'],
+          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+        },
+        {
+          titulo: 'categoria',
+          url: 'categoria',
+          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+        },
+        {
+          titulo: 'stock-pruebas',
+          url: 'stock-pruebas',
+          roles: ['ADMIN'], //stock-pruebas
         },
       ],
     },
     {
       titulo: ' INVENTARIO',
       icono: 'right fas fa-angle-left',
-      submenu:
-   [ {
-      titulo:'Stock',
-      url:'stock',
-      roles:['ADMIN']
-    }]}
+      submenu: [
+        {
+          titulo: 'Stock',
+          url: 'stock',
+          roles: ['ADMIN', 'INVENTARIO'],
+        },
+        {
+          titulo: 'Stocks',
+          url: 'stocks',
+          roles: ['ADMIN', 'INVENTARIO'],
+        },
+        {
+          titulo: 'solicitud-pedidos',
+          url: 'solicitud-pedidos/Nuevo',
+          // url: 'pedido-importacion/Nuevo',
+          roles: ['ADMIN'],
+        },
+
+        {
+          titulo: 'solicitudes-pedidos',
+          url: 'solicitudes-pedidos',
+          roles: ['ADMIN', 'INVENTARIO'],
+        },
+      ],
+    },
   ];
 
   getMenuWithPermissions(): any[] {

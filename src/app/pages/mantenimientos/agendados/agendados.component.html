@@ -9,46 +9,24 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Buscar numero de cédula ..."
+                placeholder=" numero de cédula ..."
                 #IDENTIFICADOR
               />
             </div>
 
             <div class="form-group col-md-2">
-              <label for="text " class="form-ItemName">Estado</label>
-
-              <select class="form-control" #ESTADO>
-                <option value="">--Seleccione--</option>
-                <option value="1">Creada</option>
-                <option value="2">Ingresada</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-2">
               <label for="text" class="form-ItemName">ORDEN</label>
 
-              <!--   <select class="form-control" #SALA>
-                                        <option value="">--Seleccione--</option>
-                                        <option value="0">ANEXO</option>
-                                        <option value="9">CONSULTA EXTERNA</option>
-                                        <option value="4">CONTIGENCIA</option>
-                                        <option value="1">HOSPITALIZACION</option>
-                                        <option value="12">SOAT</option>
-                                        <option value="3">UCI</option>
-                                        <option value="3">URGENCIAS</option> 
-
-
-                                    </select>-->
               <input
                 type="text"
                 class="form-control"
-                placeholder="Buscar numero de HIST ..."
+                placeholder=" numero de HIST ..."
                 #SALA
               />
             </div>
 
-            <div class="form-group col-md-2">
-              <label for="text" class="form-ItemName">Fecha</label>
+            <div class="form-group col-md-3 form-item">
+              <label for="" class="form-ItemName">Fecha cita </label>
 
               <div class="input-group date" id="reservationdate">
                 <input
@@ -60,36 +38,35 @@
               </div>
             </div>
 
-            <div class="esboton">
-              <span
+            <div class="button">
+              <a
+                type="button"
+                class="btn btn-primary btn-sm cursor"
                 (click)="
                   buscar(
                     IDENTIFICADOR.value,
-                    ESTADO.value,
+
                     SALA.value,
                     FECHA.value
                   )
                 "
-                class="cursor"
               >
-                <i class="bx bx-search-alt-2 bx-md"></i>
-              </span>
-              <!--  <button type="submit" class="btn btn-primary"
-                            (click)="buscar(IDENTIFICADOR.value, ESTADO.value,SALA.value,FECHA.value)">
-                            CONSULTAR</button> -->
-              <span (click)="pdf()" class="cursor">
-                <i class="bx bxs-file-pdf bx-md text-danger"></i>
-              </span>
+                Buscar
+              </a>
 
-              <!--   <button class="btn btn-danger" (click)="pdf()">
-                            PDF</button> -->
+              <a
+                type="button"
+                (click)="pdf()"
+                class="btn btn-danger btn-sm cursor"
+                >Pdf
+              </a>
 
-              <span
-                (click)="borrarFiltro(IDENTIFICADOR, ESTADO, SALA, FECHA)"
-                class="cursor"
+              <a
+                (click)="borrarFiltro(IDENTIFICADOR, SALA, FECHA)"
+                class="btn btn-primary btn-sm cursor"
               >
-                <i class="bx bx-filter-alt bx-md"></i>
-              </span>
+                limpiar filtros
+              </a>
             </div>
           </form>
         </div>
@@ -128,15 +105,16 @@
             <table class="table">
               <thead>
                 <tr>
+                  <th class="text-table2">Fecha Cita</th>
                   <th>Cédula</th>
                   <th class="text-table4">Pacientes</th>
-                  <th class="text-table2">F. cita</th>
-                  <th>HORA ORDEN</th>
-                  <th class="text-table2"># HIS</th>
+
+                  <!--  <th>HORA ORDEN</th> -->
+                  <!--        <th class="text-table2"># HIS</th> -->
                   <th class=""># ORDEN</th>
-                  <th class="text-table2"># INIFNITY</th>
-                  <th class="text-table2">F. nacim</th>
-                  <th class="text-table2">SALA</th>
+                  <!--   <th class="text-table2"># INIFNITY</th> -->
+                  <!--   <th class="text-table2">F. nacim</th> -->
+                  <th class="text-table2">Origen</th>
                   <th class="text-table2">Estado</th>
                   <th class="text-table2">Acciones</th>
                 </tr>
@@ -149,37 +127,45 @@
                       | paginate: { itemsPerPage: 8, currentPage: page }
                   "
                 >
+                  <td>{{ orden.FECHA }}</td>
                   <td>{{ orden.DLCEDU }}</td>
                   <td>{{ orden.DLAPEL }}</td>
-                  <td>{{ orden.FECHA }}</td>
-                  <td>{{ orden.HORATOMA }}</td>
-                  <td>{{ orden.DLHIST }}</td>
+
+                  <!--       <td>{{ orden.HORATOMA }}</td> -->
+                  <!--  <td>{{ orden.DLHIST }}</td> -->
                   <td>{{ orden.DLNUOR }}</td>
-                  <td class="w30">{{ orden.NUMEROORDEN }}</td>
-                  <td>{{ orden.DLFECN }}</td>
+                  <!--  <td class="w30">{{ orden.NUMEROORDEN }}</td> -->
+                  <!--      <td>{{ orden.DLFECN }}</td> -->
                   <td>{{ orden.DLCPRO }}</td>
                   <td>
-                    <span
-                      *ngIf="orden.ESTADO == '1'"
-                      class="rounded shadow bg-yellow"
-                      >Creada</span
-                    >
-                    <span
-                      *ngIf="orden.ESTADO == '2'"
-                      class="rounded shadow bg-green"
-                      >Ingresada</span
-                    >
-                    <span
-                      *ngIf="orden.ESTADO == '0'"
-                      class="rounded shadow bg-red"
-                      >Borrado</span
-                    >
+                    <div [ngSwitch]="orden.ESTADO">
+                      <span *ngSwitchCase="1" class="rounded shadow bg-creada"
+                        >Creada</span
+                      >
+                      <span *ngSwitchCase="2" class="rounded shadow bg-procesando"
+                        >Procesando</span
+                      >
+                      <span *ngSwitchCase="3" class="rounded shadow bg-pendiente"
+                        >Pendiente</span
+                      >
+                      <span *ngSwitchDefault class="rounded shadow bg-desactivado"
+                        >Cancelada</span
+                      >
+                    </div>
                   </td>
                   <!-- <td>{{orden.FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
 
                   <td class="text-nowrap">
-                    &nbsp;
                     <a
+                      [routerLink]="['/dashboard', 'manual', orden.id]"
+                      [ngClass]="{ 'disabled-icon': orden.ESTADO == '2' }"
+                      data-toggle="tooltip"
+                      data-original-title="Editar"
+                    >
+                      <i class="bx bxs-edit bx-sm"></i>
+                    </a>
+                    &nbsp;
+                    <!-- <a
                       [ngClass]="{ 'disabled-icon': orden.ESTADO != '1' }"
                       data-toggle="tooltip"
                       data-original-title="Borrar"
@@ -187,7 +173,7 @@
                       class="cursor"
                     >
                       <i class="bx bxs-printer bx-sm"></i>
-                    </a>
+                    </a> -->
                     <span
                       [ngClass]="{ 'disabled-icon': orden.ESTADO != '2' }"
                       class="rounded shadow cursor"
@@ -203,6 +189,9 @@
                     >
                       <i class="bx bx-trash bx-sm text-danger"></i>
                     </span>
+                    <!-- <span>
+                      <i class="bx bx-barcode bx-sm"></i>
+                    </span> -->
                   </td>
                 </tr>
               </tbody>
