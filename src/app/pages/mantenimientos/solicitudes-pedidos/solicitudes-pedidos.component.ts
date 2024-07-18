@@ -22,6 +22,7 @@ export class SolicitudesPedidosComponent implements OnInit {
   getAllStocks() {
     this.cargando = true;
     this.stockService.getAllPedidoStock().subscribe((pedidoStock) => {
+      console.log(pedidoStock)
       this.listaPedidoStock = pedidoStock;
       console.log(this.listaPedidoStock);
       this.cargando = false;

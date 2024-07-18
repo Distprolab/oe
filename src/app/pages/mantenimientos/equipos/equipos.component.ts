@@ -23,9 +23,14 @@ export class EquiposComponent implements OnInit {
   cargando = false;
   public page!: number;
   listaequipos: Equipo[] = [];
-
+  equipos: Equipo[] = [];
   listamarca: Marca[] = [];
+  listaubicacion: Marca[] = [];
+  listaestado: Marca[] = [];
   listamodelo: Modelo[] = [];
+  openCoverages = false;
+  indexSelectedCoverage = 1;
+  selectedModelo:any;
   constructor(
     private manteniemintoService: MantenimientosService,
     private fb: UntypedFormBuilder,
@@ -35,43 +40,29 @@ export class EquiposComponent implements OnInit {
   ) {
     this.crearFormulario();
   }
-  get NOMBRE() {
-    return (
-      this.equipoForm?.get('NOMBRE')!.invalid &&
-      this.equipoForm?.get('NOMBRE')!.touched
-    );
-  }
 
-  get CATEGORIA() {
-    return (
-      this.equipoForm?.get('CATEGORIA')!.invalid &&
-      this.equipoForm?.get('CATEGORIA')!.touched
-    );
-  }
-
-  get MARCA_ID() {
-    return (
-      this.equipoForm?.get('MARCA_ID')!.invalid &&
-      this.equipoForm?.get('MARCA_ID')!.touched
-    );
-  }
-
-  get SERIE() {
-    return (
-      this.equipoForm?.get('SERIE')!.invalid &&
-      this.equipoForm?.get('SERIE')!.touched
-    );
-  }
   ngOnInit(): void {
+/* 
+    this.covenants.forEach((_covenants) => {
+      _covenants.isExpanded = false;
+    }); */
     this.getEquipo();
     this.getMarca();
     this.getModelo();
+    this.getEstado();
+    this.getUbicacion();
+   
   }
+
+
+ 
   crearFormulario() {
     this.equipoForm = this.fb.group({
       NOMBRE: ['', [Validators.required]],
       CATEGORIA: ['', [Validators.required]],
       MARCA_ID: ['', [Validators.required]],
+      ESTADO_ID: ['', [Validators.required]],
+      UBICACION_ID: ['', [Validators.required]],
       SERIE: ['', [Validators.required]],
     });
   }
@@ -82,6 +73,24 @@ export class EquiposComponent implements OnInit {
       this.listamarca = marcas;
     });
   }
+  getEstado() {
+    this.llenarcomboServices.getEstado().subscribe((estado) => {
+      console.log(estado);
+
+      this.listaestado = estado;
+    });
+  }
+  getUbicacion() {
+    this.llenarcomboServices.getUbicacion().subscribe((ubicacion) => {
+      console.log(ubicacion);
+
+      this.listaubicacion = ubicacion;
+    });
+  }
+
+
+
+
   getModelo() {
     this.llenarcomboServices.getModelo().subscribe((modelo) => {
       console.log(modelo);
@@ -91,7 +100,7 @@ export class EquiposComponent implements OnInit {
   }
 
   getEquipo() {
-    this.manteniemintoService.getEquipo().subscribe((equipos) => {
+    this.llenarcomboServices.getEquipo().subscribe((equipos) => {
       console.log(equipos);
 
       this.listaequipos = equipos;
@@ -165,5 +174,8 @@ export class EquiposComponent implements OnInit {
           });
       }
     });
+  }
+  toggleExpand(equipo: Equipo) {
+    equipo.expanded = !equipo.expanded;
   }
 }

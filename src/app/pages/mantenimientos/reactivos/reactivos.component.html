@@ -11,34 +11,16 @@
       <div class="card card-info">
         <div class="card-header">
           <h6 class="card-title">Solicitud de reactivos</h6>
-          <!--  <div class="button">
-              <a
-                type="submit"
-                class="btn btn-primary btn-sm"
-                (click)="cambioEstado()"
-              >
-                {{ btnVal }}
-              </a>
-              &nbsp;
-  
-              <button
-                type="reset"
-                (click)="onreset()"
-                class="btn btn-danger btn-sm"
-              >
-                Cancelar
-              </button>
-            </div> -->
+          
         </div>
         <div class="card-body">
           <div class="button">
-            <a
-              type="submit"
-              class="btn btn-primary btn-sm"
-              (click)="cambioEstado()"
-            >
+            <!-- <button class="btn btn-primary btn-sm" (click)="cambioEstado()">
               {{ btnVal }}
-            </a>
+            </button> -->
+            <button class="btn btn-primary btn-sm" >
+              Guardar
+            </button>
             &nbsp;
 
             <button
@@ -51,7 +33,7 @@
             &nbsp;
             <a
               type="button"
-              (click)="comprobarCantidad(pedidoseleccionado)"
+              (click)="comprobarCantidad(pedidoSseleccionado)"
               class="btn btn-secondary btn-sm"
             >
               comprobar disponiblidad
@@ -74,16 +56,15 @@
                 formControlName="AREA"
                 [class.is-invalid]="AREA"
               />
-
             </div>
-              <div class="form-group col-md-6">
-                <label class="form-ItemName">CODIGO</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="CODIGO"
-                  [class.is-invalid]="CODIGO"
-                />
+            <div class="form-group col-md-6">
+              <label class="form-ItemName">CODIGO</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="CODIGO"
+                [class.is-invalid]="CODIGO"
+              />
               <!--      <select
                   class="form-control"
                   formControlName="AREA"
@@ -129,7 +110,7 @@
               <tbody formArrayName="PRODUCTOS">
                 <tr
                   *ngFor="
-                    let d of importForm.controls['PRODUCTOS']?.value;
+                    let d of PRODUCTOS.controls;
                     let i = index
                   "
                   [formGroupName]="i"
@@ -150,22 +131,22 @@
                     </select>
                   </td>
                   <td>
-                    {{ d.NOMBRE }}
-                    <!-- <input
+                 
+                     <input
                         class="form-control"
                         type="text"
                         formControlName="NOMBRE"
                         [attr.disabled]="true"
-                      /> -->
+                      /> 
                   </td>
                   <td>
-                    {{ d.UNIDAD }}
-                    <!-- <input
+                    
+                     <input
                         class="form-control"
                         type="text"
                         formControlName="UNIDAD"
                         [disabled]="true"
-                      /> -->
+                      /> 
                   </td>
                   <td>
                     <input
@@ -216,5 +197,5 @@
     </div>
   </form>
 </div>
-<hr>
-<pre>{{importForm.value | json}}</pre>
+<hr />
+<pre>{{ importForm.value | json }}</pre>

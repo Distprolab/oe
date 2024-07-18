@@ -303,18 +303,18 @@
                 >
                   <option value="">--Seleccione--</option>
 
-                 <!--  <option
+                  <!--  <option
                     *ngFor="let fle of listaFlebotomista"
                     [value]="fle.ValueCode"
                   >
                     {{ fle.Description }}
                   </option> -->
                   <option
-                  *ngFor="let operador of listaOperador"
-                  [value]="operador.ValueCode"
-                >
-                  {{ operador.Description }}
-                </option>
+                    *ngFor="let operador of listaOperador"
+                    [value]="operador.ValueCode"
+                  >
+                    {{ operador.Description }}
+                  </option>
                 </select>
                 <small *ngIf="CODFLEBOTOMISTA" class="text-danger"
                   >Debe de escoger una opción</small
@@ -348,18 +348,18 @@
                 >
                   <option value="">--Seleccione--</option>
 
-                <!--   <option
+                  <!--   <option
                     *ngFor="let listacentro of listaCentrosalud"
                     [value]="listacentro.ValueCode"
                   >
                     {{ listacentro.Description }}
                   </option> -->
                   <option
-                  *ngFor="let operador of listaOperador"
-                  [value]="operador.ValueCode"
-                >
-                  {{ operador.Description }}
-                </option>
+                    *ngFor="let operador of listaOperador"
+                    [value]="operador.ValueCode"
+                  >
+                    {{ operador.Description }}
+                  </option>
                 </select>
                 <small *ngIf="CODCENTROSALUD" class="text-danger"
                   >Debe de escoger una opción</small
@@ -395,7 +395,7 @@
               <i class="bx bxs-plus-circle bx-xs"></i>AGREGAR PRUEBAS
             </button>
           </div>
-  
+
           <div class="card-body scroll">
             <small
               class="text-danger"
@@ -411,7 +411,7 @@
               <thead>
                 <tr>
                   <th>N.-</th>
-  
+
                   <th>Estado</th>
                   <th>prueba</th>
                   <th>Borrar</th>
@@ -430,7 +430,7 @@
                       {{ i + 1 }}
                     </div>
                   </td>
-  
+
                   <td>
                     <select
                       class="form-control"
@@ -451,7 +451,7 @@
                       formControlName="ItemName"
                     />
                   </td>
-  
+
                   <td>
                     <i
                       (click)="borrarPasatiempo(i)"
@@ -466,8 +466,6 @@
         </div>
       </div>
     </div>
-
-    
   </form>
 </div>
 

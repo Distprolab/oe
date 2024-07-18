@@ -1,7 +1,9 @@
 
 
-export class Proceso{
+export class ProcesoS{
     constructor(
+        public id:string,
+        public PROCESO_ID :string,
        public  areas: [],
        public  equipoprincipal:string,
        public  equipobackup:string,

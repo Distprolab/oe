@@ -38,12 +38,12 @@
             <table *ngIf="!cargando && proceso.length > 0" class="table">
               <thead>
                 <tr>
+                  <th>ID</th>
                   <th class="text-table">Fecha</th>
                   <th class="text-table3">Institucion</th>
-                  <!--   <th class="text-table2">Codigo</th> -->
                   <th class="text-table">Presupuesto</th>
-                  <!--         <th class="text-table2">Responsable</th> -->
                   <th class="text-table2">Estado</th>
+                  <th class="text-table2">Status</th>
                   <th class="text-table2">Aprobacion BI</th>
                   <th class="text-table">Acciones</th>
                 </tr>
@@ -56,51 +56,40 @@
                       | paginate: { itemsPerPage: 5, currentPage: page }
                   "
                 >
+                  <td>{{ proces.id }}</td>
                   <td>{{ proces.entregacarpeta }}</td>
                   <td>{{ proces.institucion }}</td>
-                  <!--  <td>{{ proces.codigo }}</td> -->
                   <td>{{ proces.presupuesto }}</td>
-                  <!--   <td>{{ proces.usuarioId }}</td> -->
-
-                  <!-- <td>{{FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
                   <td>
                     <div [ngSwitch]="proces.ESTADO">
                       <div *ngSwitchCase="1" class="rounded shadow bg-creada">
                         Generado
                       </div>
-                      <div *ngSwitchDefault>output2</div>
+                      <div *ngSwitchDefault>Enviado</div>
                     </div>
-                    <!-- <span
-                      *ngIf="proces.ESTADO == 1"
-                      class="rounded shadow bg-pen"
-                      >Generado
-                    </span>
-
-                    <span
-                      *ngIf="proces.ESTADO == 2"
-                      class="rounded shadow bg-pen"
-                      >Enviado</span
-                    > -->
                   </td>
-                  <!-- <td>{{ proces.aprobar == null ?  '': proces.aprobar.ESTADOBI 
-                    }}</td> -->
+                  <td>
+                    <div *ngIf="proces.status">
+                      {{ proces.status.tipocontrato.NOMBRE }}
+                    </div>
+                  </td>
+
                   <td>
                     <div *ngIf="proces.aprobar">
                       <div [ngSwitch]="proces.aprobar.ESTADOBI">
                         <div
-                          *ngSwitchCase="true"
+                          *ngSwitchCase="1"
                           class="rounded shadow bg-procesando"
                         >
                           RENTABLE
                         </div>
                         <div
-                          *ngSwitchDefault
+                          *ngSwitchCase="0"
                           class="rounded shadow bg-pendiente"
                         >
                           NO RENTABLE
                         </div>
-
-                        <!--   <div *ngSwitchDefault>NO existe aprobar</div> -->
+                        <div *ngSwitchDefault class="rounded shadow"></div>
                       </div>
                     </div>
                   </td>
@@ -110,40 +99,63 @@
                         <i class="bx bx-edit-alt bx-sm"></i>
                       </a>
                     </span>
-                    <!--  <span (click)="EnvioCorreo(proces)">
-                      <i class="bx bx-mail-send bx-sm"></i>
-                    </span> -->
 
                     <span class="cursor" (click)="pdf2(proces)">
                       <i class="bx bxs-file-pdf bx-sm text-danger"></i>
                     </span>
-                    <!-- data-target="#modal-default" -->
+
                     <span
                       class="cursor"
                       (click)="ObtnerById(proces)"
+                      [ngClass]="{
+                        'disabled-icon': proces.aprobar ?
+                        proces.solicitud  :!proces.solicitud
+                      }"
                       data-toggle="modal"
                       data-target="#modal-info"
                     >
                       <i class="bx bx-file bx-sm"></i>
-                    </span>
+                    </span> 
 
                     <span
                       class="cursor"
                       (click)="aprobarProceso(proces)"
                       [ngClass]="{
-                        'disabled-icon':
-                          proces.aprobar != null &&
-                          proces.aprobar.ESTADOBI == true
+                        'disabled-icon': proces.aprobar
+                          ? proces.aprobar.ESTADOBI == 1
+                          : ''
                       }"
                     >
                       <i class="bx bx-check-shield bx-sm"></i>
                     </span>
 
-                    <span>
+                    <span
+                      class="cursor"
+                      (click)="CambioEstado(proces)"
+                      [ngClass]="{
+                        'disabled-icon': proces.aprobar
+                          ? proces.aprobar.ESTADOBI == 0
+                          : !proces.aprobar
+                      }"
+                      data-toggle="modal"
+                      data-target="#modal-default"
+                    >
+                      <i class="bx bx-check-shield bx-sm"></i>
+                    </span>
+                         <span
+                      (click)="Reactivos(proces)"
+                      [ngClass]="{
+                        'disabled-icon': proces.aprobar
+                        ? (proces.aprobar.ESTADOBI ==1  ) 
+                        :proces.aprobar !=null
+                        ? (proces.aprobar.ESTADOBI ==0 )
+                        :''
+                      }"
+                    >
                       <a [routerLink]="['/dashboard', 'reactivos', proces.id]">
                         <i class="bx bxs-spreadsheet bx-sm"></i>
                       </a>
-                    </span>
+                    </span> 
                   </td>
                 </tr>
               </tbody>
@@ -178,97 +190,135 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
-                  <form autocomplete="off">
+                  <form
+                    autocomplete="off"
+                    (ngSubmit)="guardarData()"
+                    [formGroup]="solicitudEquipoForm"
+                    id="solicitudEquipoForm"
+                  >
                     <div class="row">
-                      <div class="form-group col-md-3">
-                        <label for="" class="form-ItemName">Area</label>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="" class="">Modelo:</label>
 
-                        <select
-                          class="form-control"
-                          formControlName=""
-                          [class.is-invalid]=""
-                        >
-                          <option value="">--Seleccione--</option>
-                          <option
-                            *ngFor="let mod of listamodalidad"
-                            [value]="mod.id"
+                          <select
+                            class="form-control"
+                            id="modelo-select"
+                            (change)="onSelectModelo($event)"
                           >
-                            {{ mod.NOMBRE }}
-                          </option>
-                          <!-- <option value="F">Femenino</option>
-                          <option value="3">Otros</option> -->
-                        </select>
+                            <option value="">--Seleccione--</option>
+                            <option
+                              *ngFor="let modelo of listamodelo"
+                              [value]="modelo.id"
+                            >
+                              {{ modelo.NOMBRE }}
+                            </option>
+                          </select>
 
-                        <small *ngIf="" class="text-danger"
-                          >Debe de escoger una opción
-                        </small>
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label for="" class="form-ItemName">Equipos</label>
+                          <small *ngIf="" class="text-danger"
+                            >Debe de escoger una opción
+                          </small>
+                        </div>
+                        <div class="form-group">
+                          <label for="">Equipo:</label>
 
-                        <select
-                          class="form-control"
-                          formControlName=""
-                          [class.is-invalid]=""
-                        >
-                          <option value="">--Seleccione--</option>
-                          <option
-                            *ngFor="let mod of listamodalidad"
-                            [value]="mod.id"
+                          <select
+                            id="equipos-select"
+                            class="form-control"
+                            formControlName="EQUIPO_ID"
+                            [class.is-invalid]=""
+                            (change)="onSelectEquipo($event)"
                           >
-                            {{ mod.NOMBRE }}
-                          </option>
-                          <!-- <option value="F">Femenino</option>
-                          <option value="3">Otros</option> -->
-                        </select>
+                            <option value="">--Seleccione--</option>
+                            <option
+                              *ngFor="let equipo of equipos"
+                              [value]="equipo.id"
+                            >
+                              {{ equipo.NOMBRE }}
+                            </option>
+                            <!-- <option value="F">Femenino</option>
+                              <option value="3">Otros</option> -->
+                          </select>
 
-                        <small *ngIf="" class="text-danger"
-                          >Debe de escoger una opción
-                        </small>
+                          <small class="text-danger"
+                            >Debe de escoger una opción
+                          </small>
+                        </div>
+                        <div class="form-group">
+                          <label>Fecha Instalacion:</label>
+                          <input
+                            type="date"
+                            formControlName="FECHAENTREGA"
+                            [class.is-invalid]="FECHAENTREGA"
+                            class="form-control datetimepicker-input"
+                            placeholder="Ingrese"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="form-ItemName">Modalidad:</label>
+
+                          <select
+                            class="form-control"
+                            formControlName="MODALIDAD_ID"
+                            [class.is-invalid]="MODALIDAD_ID"
+                          >
+                            <option value="">--Seleccione--</option>
+                            <option
+                              *ngFor="let mod of listamodalidad"
+                              [value]="mod.id"
+                            >
+                              {{ mod.NOMBRE }}
+                            </option>
+                          </select>
+
+                          <small *ngIf="" class="text-danger"
+                            >Debe de escoger una opción
+                          </small>
+                        </div>
                       </div>
 
-                     <div class="form-group col-md-6">
-                      <textarea name="" id="vertical"rows="5"></textarea>
-
-                     </div>
+                      <div class="col-md-6">
+                        <div class="card-body scroll">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Equipos</th>
+                                <th>Cantidad</th>
+                              </tr>
+                            </thead>
+                            <tbody formArrayName="EQUIPO_ID">
+                              <tr
+                                *ngFor="
+                                  let eq of solicitudEquipoForm.controls[
+                                    'EQUIPO_ID'
+                                  ]?.value;
+                                  let i = index
+                                "
+                                [formGroupName]="i"
+                              >
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ eq.nombre }}</td>
+                                <td>
+                                  <input
+                                    class="form-control"
+                                    formControlName="CANTIDAD"
+                                    type="number"
+                                  />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
-                    <div class="row">
-                      <div class="form-group col-md-3">
-                        <label class="form-ItemName">FECHA INSTALACIÓN</label>
-                        <input
-                          type="date"
-                          class="form-control datetimepicker-input"
-                          placeholder="Ingrese"
-                        />
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label for="" class="form-ItemName">Modalidad</label>
 
-                        <select
-                          class="form-control"
-                          formControlName=""
-                          [class.is-invalid]=""
-                        >
-                          <option value="">--Seleccione--</option>
-                          <option
-                            *ngFor="let mod of listamodalidad"
-                            [value]="mod.id"
-                          >
-                            {{ mod.NOMBRE }}
-                          </option>
-                          <!-- <option value="F">Femenino</option>
-                          <option value="3">Otros</option> -->
-                        </select>
-
-                        <small *ngIf="" class="text-danger"
-                          >Debe de escoger una opción
-                        </small>
-                      </div>
-                    </div>
+                    <!--  <div class="row"></div> -->
 
                     <div class="form-group col-md-12">
                       <label for="">Observaciones</label>
                       <textarea
+                        formControlName="OBSERVACIONES"
                         class="form-control textarea-mod"
                         rows="5"
                         placeholder="Enter ..."
@@ -276,7 +326,230 @@
                     </div>
 
                     <div class="esboton">
-                      <a class="btn btn-primary"> Guardar</a>
+                      <button type="submit" class="btn btn-primary">
+                        Guardar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Cambio Estado de Proceso</h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-">
+          <div class="container-fluid rounded shadow">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <form
+                    autocomplete="off"
+                    (ngSubmit)="guardarEstado()"
+                    [formGroup]="importForm"
+                    id="importForm"
+                  >
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="" class="">Tipo Participacion :</label>
+
+                          <select
+                            class="form-control"
+                            formControlName="PARTICIPACION"
+                          >
+                            <option value="">--Seleccione--</option>
+                            <option
+                              *ngFor="let tipo of listacontrato"
+                              [value]="tipo.id"
+                            >
+                              {{ tipo.NOMBRE }}
+                            </option>
+                          </select>
+
+                          <small class="text-danger"
+                            >Debe de escoger una opción
+                          </small>
+                        </div>
+
+                        <div>
+                          <div class="form-group">
+                            <label>Valor:</label>
+                            <input
+                              type="number"
+                              formControlName=""
+                              [class.is-invalid]=""
+                              class="form-control datetimepicker-input"
+                              placeholder="Ingrese"
+                            />
+                          </div>
+                          <h5>Contacts</h5>
+                          <button
+                            class="btn btn-outline-primary"
+                            (click)="agregarproductos()"
+                          >
+                            Agregar Fechas
+                          </button>
+                          <hr />
+                          <ng-container
+                            formArrayName="contacts"
+                            *ngFor="let o of PRODUCTOS.controls; let i = index"
+                          >
+                            <b>Contact {{ i + 1 }}</b>
+                            <button
+                              class="btn btn-outline-danger mx-3 mt-3"
+                              (click)="borrarProducto(i)"
+                            >
+                              &times;
+                            </button>
+                            <hr />
+
+                            <div class="row mt-2" [formGroupName]="i">
+                              <div class="form-group">
+                                <label>Tipo</label>
+                                <input
+                                  formControlName="text"
+                                  type="text"
+                                  class="form-control"
+                                />
+                              </div>
+
+                              <div class="form-group">
+                                <label>Fecha</label>
+                                <input
+                                  formControlName="date"
+                                  type="date"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </ng-container>
+                          
+                        </div>
+                        <!-- <div class="form-group">
+                          <label for="">Equipo:</label>
+
+                          <select
+                            id="equipos-select"
+                            class="form-control"
+                            formControlName="EQUIPO_ID"
+                            [class.is-invalid]=""
+                            (change)="onSelectEquipo($event)"
+                          >
+                            <option value="">--Seleccione--</option>
+                            <option
+                              *ngFor="let equipo of equipos"
+                              [value]="equipo.id"
+                            >
+                              {{ equipo.NOMBRE }}
+                            </option>
+                          </select>
+
+                          <small *ngIf="" class="text-danger"
+                            >Debe de escoger una opción
+                          </small>
+                        </div>
+                        <div class="form-group">
+                          <label>Fecha Instalacion:</label>
+                          <input
+                            type="date"
+                            formControlName="FECHAENTREGA"
+                            [class.is-invalid]="FECHAENTREGA"
+                            class="form-control datetimepicker-input"
+                            placeholder="Ingrese"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="form-ItemName">Modalidad:</label>
+
+                          <select
+                            class="form-control"
+                            formControlName="MODALIDAD_ID"
+                            [class.is-invalid]="MODALIDAD_ID"
+                          >
+                            <option value="">--Seleccione--</option>
+                            <option
+                              *ngFor="let mod of listamodalidad"
+                              [value]="mod.id"
+                            >
+                              {{ mod.NOMBRE }}
+                            </option>
+                          </select>
+
+                          <small *ngIf="" class="text-danger"
+                            >Debe de escoger una opción
+                          </small>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="card-body scroll">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Equipos</th>
+                                <th>Cantidad</th>
+                              </tr>
+                            </thead>
+                            <tbody formArrayName="EQUIPO_ID">
+                              <tr
+                                *ngFor="
+                                  let eq of solicitudEquipoForm.controls[
+                                    'EQUIPO_ID'
+                                  ]?.value;
+                                  let i = index
+                                "
+                                [formGroupName]="i"
+                              >
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ eq.nombre }}</td>
+                                <td>
+                                  <input
+                                    class="form-control"
+                                    formControlName="CANTIDAD"
+                                    type="number"
+                                  />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                      <label for="">Observaciones</label>
+                      <textarea
+                        formControlName="OBSERVACIONES"
+                        class="form-control textarea-mod"
+                        rows="5"
+                        placeholder="Enter ..."
+                      ></textarea>
+                    </div> -->
+
+                        <div class="esboton">
+                          <button type="submit" class="btn btn-primary">
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -288,3 +561,162 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Solicitud de Equipos</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-">
+        <div class="container-fluid rounded shadow">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <form
+                  class="re"
+                  autocomplete="off"
+                  [formGroup]="importForm"
+                  novalidate
+                  (ngSubmit)="guardar()"
+                  id="importForm"
+                >
+                  <div class="col-md-12">
+                    <div class="card card-info">
+                      <div class="card-header">
+                        <h6 class="card-title">Solicitud de reactivos</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="form-group col-md-4">
+                            <label class="form-ItemName">INSTITUCION</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="AREA"
+                              [class.is-invalid]="AREA"
+                            />
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label class="form-ItemName">CODIGO</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="CODIGO"
+                              [class.is-invalid]="CODIGO"
+                            />
+                          </div>
+
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>Producto</th>
+                                <th>Descripcion</th>
+                                <th>Unidad</th>
+                                <th>Cantidad ordenada</th>
+                                <th>Entregado</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody formArrayName="PRODUCTOS">
+                              <tr
+                                *ngFor="
+                                  let d of importForm.controls['PRODUCTOS']
+                                    ?.value;
+                                  let i = index
+                                "
+                                [formGroupName]="i"
+                              >
+                                
+                                <td>
+                                  <select
+                                    class="form-control"
+                                    formControlName="ID_PRODUCTO"
+                                    (change)="actualizarInputs(i, $event)"
+                                  >
+                                    <option
+                                      *ngFor="let producto of listaproductos"
+                                      [value]="producto.id"
+                                    >
+                                      {{ producto.REFERENCIA }}
+                                    </option>
+                                  </select>
+                                </td>
+                                <td>
+                                  {{ d.NOMBRE }}
+                             
+                                </td>
+                                <td>
+                                  {{ d.UNIDAD }}
+                                
+                                </td>
+                                <td>
+                                  <input
+                                    class="form-control"
+                                    type="number"
+                                    formControlName="CANTIDAD"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    formControlName="ENTREGADO"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    formControlName="LOTE"
+                                  />
+                                </td>
+                                <td>
+                                  <i
+                                    class="bx bxs-trash bx-sm"
+                                    (click)="borrarProducto(i)"
+                                  ></i>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <td>
+                            <a
+                              type="button"
+                              class="agregar"
+                              (click)="agregarproductos()"
+                              >Agregar producto</a
+                            >
+                          </td>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="esboton">
+                    <button type="submit" class="btn btn-primary">
+                      Guardar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr />
+<pre>
+  {{ importForm.value | json }}
+</pre>
+ -->

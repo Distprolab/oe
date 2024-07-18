@@ -148,6 +148,23 @@ export class SidebarService {
         },
       ],
     },
+
+    {
+      titulo: 'COMERCIAL',
+      icono: 'right fas fa-angle-left',
+      submenu: [
+        {
+          titulo: 'cotizacion',
+          url: 'cotizacion',
+          roles: ['ADMIN', 'COMPRAS'],
+        },
+        /* {
+          titulo: 'consulta-compras',
+          url: 'consulta-compras',
+          roles: ['ADMIN', 'COMPRAS'],
+        }, */
+      ],
+    },
     {
       titulo: 'CONSULTA DE RESULTADOS',
       icono: 'right fas fa-angle-left',
@@ -208,6 +225,16 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT'],
         },
         {
+          titulo: 'MODALIDAD EQUIPO',
+          url: 'modalidad',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'Tipo contrato',
+          url: 'contrato',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
           titulo: 'CLIENTE',
           url: 'cliente',
           roles: ['ADMIN', 'IMPORT'],
@@ -228,6 +255,11 @@ export class SidebarService {
           roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
         },
         {
+          titulo: 'Crear Equipo',
+          url: 'equipo',
+          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+        },
+        {
           titulo: 'categoria',
           url: 'categoria',
           roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
@@ -235,6 +267,21 @@ export class SidebarService {
         {
           titulo: 'stock-pruebas',
           url: 'stock-pruebas',
+          roles: ['ADMIN'], //stock-pruebas
+        },
+        {
+          titulo: 'estado',
+          url: 'estado',
+          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+        },
+        {
+          titulo: 'Ubicacion',
+          url: 'ubicacion',
+          roles: ['ADMIN'], //stock-pruebas
+        },
+        {
+          titulo: 'CORREOS',
+          url: 'correos',
           roles: ['ADMIN'], //stock-pruebas
         },
       ],
@@ -247,6 +294,11 @@ export class SidebarService {
           titulo: 'Stock',
           url: 'stock',
           roles: ['ADMIN', 'INVENTARIO'],
+        },
+        {
+          titulo:'STOCK MANUAL',
+          url:'stock-manual',
+          roles:['ADMIN', 'INVENTARIO']
         },
         {
           titulo: 'Stocks',

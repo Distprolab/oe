@@ -10,7 +10,9 @@ import {
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Equipo } from 'src/app/interfaces/carga-equipos.interfaces';
 import { Proceso } from 'src/app/interfaces/cargaProceso.interface';
+import { Usuario } from 'src/app/models/usuario.module';
 import { RegistroService } from 'src/app/services/registro.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 import Swal from 'sweetalert2';
 
@@ -32,7 +34,7 @@ export class ComprasComponent implements OnInit {
   listaequiposmicrobiologia: Equipo[] = [];
   listaequiposuroanalisis: Equipo[] = [];
   listaequiposrapidas: Equipo[] = [];
-
+  public usuarios: Usuario[] = [];
   listaproceso: Proceso;
   btnVal = 'Guardar';
   licencia = [
@@ -75,7 +77,12 @@ export class ComprasComponent implements OnInit {
       this.RegistroForm?.get('codigo')!.touched
     );
   }
-
+  get ASIGNADO() {
+    return (
+      this.RegistroForm?.get('ASIGNADO')!.invalid &&
+      this.RegistroForm?.get('ASIGNADO')!.touched
+    );
+  }
   get linkproceso() {
     return (
       this.RegistroForm?.get('linkproceso')!.invalid &&
@@ -259,6 +266,7 @@ export class ComprasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.Getusuarios();
     this.activateRoute.params.subscribe(({ id }) => this.crearCompras(id));
 
     const equipoprincipalGroup = this.RegistroForm.get(
@@ -304,10 +312,20 @@ export class ComprasComponent implements OnInit {
     private registroServices: RegistroService,
     private router: Router,
     private activateRoute: ActivatedRoute,
+    private usuarioservice: UsuarioService,
   ) {
     this.crearformulario();
   }
-
+  Getusuarios() {
+    // this.cargando = true;
+    this.usuarioservice.GetUsuarios().subscribe(({ total, usuarios }) => {
+      //   this.totalUsuarios = total;
+      console.log(usuarios);
+      this.usuarios = usuarios;
+      //   this.usuariosTemp = usuarios;
+      // this.cargando = false;
+    });
+  }
   //console.log(ctrls)
   crearformulario() {
     const ctrls = this.equipos.map((control) => this.fb.control(false));
@@ -315,7 +333,8 @@ export class ComprasComponent implements OnInit {
     this.RegistroForm = this.fb.group(
       {
         institucion: ['', [Validators.required]],
-        codigo: ['', [Validators.required]],
+        codigo: ['', [Validators.required]], //ASIGNADO
+       // ASIGNADO: ['', [Validators.required]], //ASIGNADO
         linkproceso: ['', [Validators.required]],
         tiempoconsumo: ['', [Validators.required]],
         determinacion: ['', [Validators.required]],
@@ -404,7 +423,7 @@ export class ComprasComponent implements OnInit {
       const {
         areas,
         equipoprincipal,
-
+        ASIGNADO,
         equipobackup,
         licenciaEquiposHematologicos,
         institucion,
@@ -420,7 +439,7 @@ export class ComprasComponent implements OnInit {
         usuarioId,
         ESTADO,
       } = proceso;
-      this.listaproceso= proceso;
+      this.listaproceso = proceso;
       let licen = licenciaEquiposHematologicos.map((lice) => lice);
       this.licencia.forEach((lic, i) => {
         if (licen.indexOf(lic.value) != -1) {
@@ -439,8 +458,8 @@ export class ComprasComponent implements OnInit {
       this.RegistroForm.patchValue({
         equipoprincipal,
         equipobackup,
-        institucion,
-        codigo,
+        institucion: `${institucion}`.trim(),
+        codigo: `${codigo}`.trim(),
         linkproceso,
         tiempoconsumo,
         determinacion,
@@ -449,15 +468,17 @@ export class ComprasComponent implements OnInit {
         terceraopcion,
         sistema,
         observacion,
+        ASIGNADO,
         correo: '',
         adjunto: '',
       });
     });
   }
   getSelectedRoles() {
+  
     return this.RegistroForm.value.areas
       .map((checked, i) => (checked ? this.equipos[i].value : null))
-      .filter((value) => value !== null);
+      .filter((value) => value !== 'null');
   }
 
   getLicencias() {
@@ -465,62 +486,10 @@ export class ComprasComponent implements OnInit {
       .map((checked, i) => (checked ? this.licencia[i].value : null))
       .filter((value) => value !== null);
   }
-  guardarRegistro() {
-    const selectedRoles = this.getSelectedRoles();
-    const updatedAreas = this.RegistroForm.value.areas.map((checked, i) =>
-      checked ? this.equipos[i].value : checked,
-    );
 
-    const selectLicencias = this.getLicencias();
-    const updateLicencias =
-      this.RegistroForm.value.licenciaEquiposHematologicos.map((checked, i) =>
-        checked ? this.licencia[i].value : checked,
-      );
-
-    this.RegistroForm.patchValue({
-      areas: updatedAreas,
-      licenciaEquiposHematologicos: updateLicencias,
-    });
-
-    console.log(this.RegistroForm.value);
-    if (this.RegistroForm.invalid) {
-      this.RegistroForm.markAllAsTouched();
-      return;
-    }
-    if (this.listaproceso) {
-      const data = {
-        ...this.RegistroForm.value,
-        id: this.listaproceso.id,
-      };
-      console.log(data);
-        this.registroServices.actualizarRegistro(data).subscribe((resp: any) => {
-        const { msg } = resp;
-        Swal.fire('Actualizado', `${msg}`, 'success');
-        this.RegistroForm.disable();
-        this.btnVal = 'Editar';
-      }); 
-    } else {
-      this.registroServices
-        .getRegistro(this.RegistroForm.value)
-        .subscribe((res: any) => {
-          const { msg } = res;
-          Swal.fire({
-            icon: 'success',
-            title: `${msg}`,
-            showConfirmButton: false,
-          });
-
-          this.RegistroForm.reset();
-
-          this.areas.get('areas').reset();
-
-          this.router.navigateByUrl('dashboard/consulta-compras');
-        });
-    }
-  }
   getEquipos() {
     this.registroServices.getEquipos().subscribe((equipos) => {
-      console.log(equipos.filter((eq,i,self)=>eq.categoria.NOMBRE ==='UROANALISIS' && self.findIndex(e=>e.NOMBRE ===eq.NOMBRE)))
+      //console.log(equipos.filter((eq,i,self)=>eq.categoria.NOMBRE ==='UROANALISIS' && self.findIndex(e=>e.NOMBRE ===eq.NOMBRE)))
       this.listaequiposquimica = equipos.filter(
         (equipo) => equipo.CATEGORIA === '1',
       );
@@ -545,18 +514,18 @@ export class ComprasComponent implements OnInit {
       this.listaequiposmicrobiologia = equipos.filter(
         (equipo) => equipo.CATEGORIA === 'MICROBIOLOGIA',
       );
-      this.listaequiposuroanalisis = equipos.filter((eq,i,self)=>eq.categoria.NOMBRE ==='UROANALISIS' && self.findIndex(e=>e.NOMBRE ===eq.NOMBRE),
-      );
+      /*   this.listaequiposuroanalisis = equipos.filter((eq,i,self)=>eq.categoria.NOMBRE ==='UROANALISIS' && self.findIndex(e=>e.NOMBRE ===eq.NOMBRE),
+      ); */
       this.listaequiposrapidas = equipos.filter(
         (equipo) => equipo.CATEGORIA === 'PRUEBASRAPIDAS',
       );
     });
   }
-  disableInput() {
+  /*  disableInput() {
     (<FormArray>this.areas.get('areas')).controls.forEach((control) =>
       control.disable(),
     );
-  }
+  } */
   /*  onAreasChange(e: any) {
     console.log(`datachekbox`, e);
     const area = this.RegistroForm.get('areas') as FormArray;
@@ -609,9 +578,63 @@ export class ComprasComponent implements OnInit {
       }),
     );
   }
-  select(value: string): boolean {
+ /*  select(value: string): boolean {
     console.log(value);
     return this.RegistroForm.get('areas')?.value.includes(value);
+  } */
+
+  guardarRegistro() {
+    const selectedRoles = this.getSelectedRoles();
+    const updatedAreas = this.RegistroForm.value.areas.map((checked, i) =>
+      checked ? this.equipos[i].value : checked,
+    );
+    console.log(updatedAreas);
+    const selectLicencias = this.getLicencias();
+    const updateLicencias =
+      this.RegistroForm.value.licenciaEquiposHematologicos.map((checked, i) =>
+        checked ? this.licencia[i].value : checked,
+      );
+
+    this.RegistroForm.patchValue({
+      areas: updatedAreas,
+      licenciaEquiposHematologicos: updateLicencias,
+    });
+
+    console.log(this.RegistroForm.value);
+    if (this.RegistroForm.invalid) {
+      this.RegistroForm.markAllAsTouched();
+      return;
+    }
+    if (this.listaproceso) {
+      const data = {
+        ...this.RegistroForm.value,
+        id: this.listaproceso.id,
+      };
+      console.log(data);
+      this.registroServices.actualizarRegistro(data).subscribe((resp: any) => {
+        const { msg } = resp;
+        Swal.fire('Actualizado', `${msg}`, 'success');
+        this.RegistroForm.disable();
+        this.btnVal = 'Editar';
+      });
+    } else {
+      this.registroServices
+        .getRegistro(this.RegistroForm.value.trim())
+        .subscribe((res: any) => {
+          const { msg } = res;
+          Swal.fire({
+            icon: 'success',
+            title: `${msg}`,
+            showConfirmButton: false,
+          });
+
+          this.RegistroForm.reset();
+
+          this.areas.get('areas').reset();
+
+          this.router.navigateByUrl('dashboard/consulta-compras');
+        });
+    }
   }
   cambioEstado() {
     if (this.btnVal != 'Editar') {

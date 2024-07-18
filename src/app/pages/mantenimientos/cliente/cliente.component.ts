@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Cliente } from 'src/app/interfaces/cargaCliente.interface';
+import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
-
+declare var $: any;
 @Component({
   
   selector: 'app-cliente',
@@ -12,9 +14,13 @@ import Swal from 'sweetalert2';
 })
 export class ClienteComponent implements OnInit {
   clienteForm!: UntypedFormGroup;
+  cargando:false;
+  listacliente:Cliente[]=[];
+  public page!: number;
   constructor( 
     private manteniemintoService: MantenimientosService,
     private fb: UntypedFormBuilder,
+    private llenarcomboService:LlenarCombosService,
     private router: Router,
     private activatedRoute: ActivatedRoute,) { this.crearFormulario();}
     get NOMBRE() {
@@ -25,6 +31,16 @@ export class ClienteComponent implements OnInit {
     }
  
   ngOnInit(): void {
+    this.getCliente();
+
+  }
+
+  getCliente() {
+    this.llenarcomboService.getCliente().subscribe((clientes) => {
+      console.log(clientes);
+
+      this.listacliente= clientes;
+    });
   }
   crearFormulario() {
     this.clienteForm = this.fb.group(
@@ -55,7 +71,7 @@ export class ClienteComponent implements OnInit {
     Swal.showLoading(null);
     this.manteniemintoService.getCrearCliente(this.clienteForm.value).subscribe(
       (resp:any) => {
-
+        this.getCliente();
         const {msg}=resp
         Swal.fire({
           icon: 'success',
@@ -63,6 +79,7 @@ export class ClienteComponent implements OnInit {
           titleText: `${msg}`,
           timer:1500
         });
+        $('#modal-info').modal('hide');
         this.clienteForm.reset({
          
           NOMBRE: '',
@@ -81,5 +98,7 @@ export class ClienteComponent implements OnInit {
       },
     );
   }
+  borrarcliente(){
 
+  }
 }

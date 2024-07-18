@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment.prod';
 import { Proceso } from '../interfaces/cargaProceso.interface';
 import { catchError, map, mapTo, Observable, of, tap } from 'rxjs';
 import { Equipo, Equipos } from '../interfaces/carga-equipos.interfaces';
+import { ProcesoS } from '../models/proceao.module';
 
 const baseUrl = environment.url;
 @Injectable({
@@ -44,6 +45,15 @@ export class RegistroService {
       .get(`${baseUrl}/api/procesos/procesoById/${id}`, this.headers)
       .pipe(map((resp: { ok: boolean; proceso: Proceso }) => resp.proceso));
   }
+
+  getRequerimientoEquipo(data:FormData) {
+    return this.http
+      .post(`${baseUrl}/api/requerimientoequipo`, data,this.headers)
+     
+  }
+
+
+
   getReportePdf(proceso: Proceso) {
     return this.http.get(`${baseUrl}/api/procesos-pdf/${proceso.id}`, {
       headers: this.headers.headers,
@@ -70,6 +80,22 @@ export class RegistroService {
   getAprobarProceso(data: any) {
     return this.http.post(
       `${baseUrl}/api/aprobacionproceso/`,
+      data,
+      this.headers,
+    );
+  }
+
+  getEstadoProceso(data: any) {
+    return this.http.post(
+      `${baseUrl}/api/estadoproceso`,
+      data,
+      this.headers,
+    );
+  }
+
+  getUpdateEstadoProceso(data: ProcesoS) {
+    return this.http.put(
+      `${baseUrl}/api/estadoproceso/${data.PROCESO_ID}`,
       data,
       this.headers,
     );

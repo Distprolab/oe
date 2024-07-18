@@ -1,9 +1,9 @@
-export interface Marcas {
+export interface Ubicaciones {
     ok?:    boolean;
-    marcas?: Marca[];
+    ubicacion?: Ubicacion[];
 }
 
-export interface Marca{
+export interface Ubicacion{
     id?:        number;
     NOMBRE?:    string;
     ESTADO?:    number;

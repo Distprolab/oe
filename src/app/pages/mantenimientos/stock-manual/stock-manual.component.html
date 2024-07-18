@@ -1,0 +1,145 @@
+<div class="container-fluid rounded shadow">
+    <div class="card card-outline card-primary">
+      <div class="card-body">
+        <h2 class="login-box-msg">Registro de Productos</h2>
+  
+        <form
+          autocomplete="off"
+          [formGroup]="productoform"
+          (ngSubmit)="crearProducto()"
+          id="registerform"
+        >
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="text" class="form-label">Referencia</label>
+              
+                <select
+                  class="form-control"
+                  formControlName="rol"
+                  [class.is-invalid]=""
+                >
+                  <option value="">--Seleccione una opcion--</option>
+                  <!-- <option *ngFor="let rol of listaroles" [value]="rol.rol">
+                    {{ rol.rol }}
+                  </option> -->
+                </select>
+                <small *ngIf="" class="text-danger"
+                >Escoge una opcion</small
+              >
+              
+            </div>
+          
+  
+            <div class="form-group col-md-6">
+              <label class="form-label">Descripcion</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="doctor"
+                [class.is-invalid]=""
+                placeholder="Ingrese un nombre de nombres"
+              />
+              <small *ngIf="" class="text-danger"
+                >Ingrese los nombres</small
+              >
+              <!-- <div class="col">
+              <select
+                name=""
+                class="form-control"
+                formControlName="doctor"
+                [class.is-invalid]="doctorNoValido"
+              >
+                <option ngValue="">-Seleccione</option>
+                <option *ngFor="let lista of listadoctor" [ngValue]="lista">
+                  {{ lista.Description }}
+                </option>
+              </select>
+              <small *ngIf="doctorNoValido" class="text-danger"
+                >Escoge una opcion</small
+              >
+            </div>-->
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="text" class="form-label">Lote</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="usuario"
+                [class.is-invalid]=""
+                placeholder="Ingrese un nombre de usuario"
+              />
+              <small *ngIf="" class="text-danger"
+                >Ingrese un usuario</small
+              >
+            </div>
+  
+            <div class="form-group col-md-6">
+              <label for="text" class="form-label">Fecha Caducidad</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                [class.is-invalid]=""
+                placeholder="Ingrese una contraseña"
+              />
+              <small *ngIf="" class="text-danger"
+                >Ingrese una contraseña</small
+              >
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="text" class="form-label">Cantidad</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password2"
+              [class.is-invalid]=""
+              placeholder="Repita constrasena"
+            />
+            <small *ngIf="" class="text-danger">
+              Las contraseña no son iguales</small
+            >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="text" class="form-label">Fabricante</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password2"
+              [class.is-invalid]=""
+              placeholder="Repita constrasena"
+            />
+            <small *ngIf="" class="text-danger">
+              Las contraseña no son iguales</small
+            >
+          </div>
+
+          
+          <div class="form-group col-md-6">
+            <label for="text" class="form-label">registro Sanitario</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password2"
+              [class.is-invalid]=""
+              placeholder="Repita constrasena"
+            />
+            <small *ngIf="" class="text-danger">
+              Las contraseña no son iguales</small
+            >
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-save"></i>
+              Guardar
+            </button>
+          </div>
+        </form>
+       
+      </div>
+    </div>
+  </div>

@@ -8,10 +8,6 @@
             class="form-control"
             placeholder="Buscar por nombre"
           />
-
-          <!--  <button (click)="enviarArchivo()" class="btn btn-primary">
-            Subir archivo
-          </button> -->
         </div>
       </div>
     </div>
@@ -21,18 +17,6 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <div class="button">
-            <button
-              class="btn btn-primary btn-sm"
-              data-toggle="modal"
-              data-target="#modal-info"
-            >
-            <i class='bx bx-plus-circle '></i>
-               Agregar
-            </button>
-          </div>
-          <!--  <h6 class="title">Lista de equipos</h6> -->
-
           <div class="col-md-3 button"></div>
 
           <div class="table-responsive">
@@ -56,9 +40,12 @@
                     <th>Marca</th>
                     <!--  <th>Modelo</th> -->
                     <th>Serie</th>
-                    <th>Estado</th>
 
+                    <th>Estado Equipo</th>
+                    <th>Ubicacion</th>
+                    <th>Estado</th>
                     <th>Actions</th>
+                    <th>ACC</th>
                   </tr>
                 </thead>
 
@@ -68,19 +55,52 @@
                       let equipo of listaequipos
                         | paginate: { itemsPerPage: 10, currentPage: page }
                     "
+                    class="table-row-not-expanded"
                   >
+                    <!-- <td class="cell" (click)="equipo.isExpanded = !equipo.isExpanded"> -->
                     <td>{{ equipo.NOMBRE }}</td>
-                    <td>{{ equipo.categoria.NOMBRE }}</td>
+                    <td>{{ equipo.modelo.NOMBRE }}</td>
                     <td>{{ equipo.marca.NOMBRE }}</td>
                     <!--    <td>{{ equipo.MODELO_ID }}</td> -->
                     <td>{{ equipo.SERIE }}</td>
+                    <!-- <td>
+                      <ul>
+                        <li *ngFor="let acc of equipo.acc">
+                          Modelo ID: {{ acc.ACCMODELO_ID }}, Serie:
+                          {{ acc.SERIE }}
+                        </li>
+                      </ul>
+                    </td> -->
+
+                    <td
+                      [ngClass]="{
+                        'alerta-disponible':
+                          equipo.estado.NOMBRE == 'DISPONIBLE',
+                        'alerta-reparacion':
+                          equipo.estado.NOMBRE == 'REPARACION',
+                        'alerta-obsoleto': equipo.estado.NOMBRE == 'OBSOLETO'
+                      }"
+                    >
+                      {{ equipo.estado.NOMBRE }}
+                    </td>
+                    <td>{{ equipo.ubicacion.NOMBRE }}</td>
                     <td>
-                      <span
+                      <div [ngSwitch]="equipo.ESTADO">
+                        <div *ngSwitchCase="1">Activo</div>
+                        <div *ngSwitchDefault>Inactivo</div>
+                      </div>
+                      <!--  <span
                         *ngIf="equipo.ESTADO == '1'"
                         class="rounded shadow bg-pen"
                         >Activo
-                      </span>
+                      </span> -->
                     </td>
+
+                    <!-- <td>
+                      <i
+                        class="expandable-table-caret fas fa-caret-right fa-fw"
+                      ></i>
+                    </td> -->
                     <td>
                       <span class="cursor">
                         <a
@@ -97,7 +117,28 @@
                         <i class="bx bxs-trash bx-sm"></i
                       ></span>
                     </td>
+                    <td>
+                      <i
+                        class="expandable-table-caret fas fa-caret-right fa-fw"
+                        (click)="toggleExpand(equipo)"
+                      ></i>
+                    </td>
                   </tr>
+                  <!--  <tr >
+                    <td colspan="9">
+                      <div class="p-0">
+                        <table class="table table-hover">
+                          <tbody>
+                            <tr >
+                              <td>Modelo ID: </td>
+                              <td>Serie</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                 
+                  </tr> -->
                 </tbody>
               </table>
             </div>
@@ -106,213 +147,6 @@
               previousLabel="Anterior"
               nextLabel="Siguiente"
             ></pagination-controls>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="modal fade" id="modal-info">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"></h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-"></div>
-    </div>
-  </div>
-</div> -->
-<div class="modal fade" id="modal-info">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"></h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-">
-        <div class="container-fluid rounded shadow">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <form
-                  autocomplete="off"
-                  [formGroup]="equipoForm"
-                  (ngSubmit)="crearEquipo()"
-                  id="panelform"
-                >
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label for="">NOMBRE DE EQUIPO</label>
-                        <input
-                        appUppercase
-                          type="text"
-                          class="form-control"
-                          formControlName="NOMBRE"
-                          [class.is-invalid]="NOMBRE"
-                          placeholder="Ingrese referencia.."
-                        />
-                        <small *ngIf="NOMBRE" class="text-danger"
-                          >Ingrese un nombre de equipo</small
-                        >
-                      </div>
-                      <!--   <div class="form-group col-md-6">
-                        <label for="">CATEGORIA</label>
-                        <input
-                          appUppercase
-                          type="text"
-                          class="form-control"
-                          formControlName="CATEGORIA"
-                          [class.is-invalid]="CATEGORIA"
-                          placeholder="Ingrese descrpcion ..."
-                        />
-                        <small *ngIf="CATEGORIA" class="text-danger"
-                          >Ingrese un caracter</small
-                        >
-                      </div> -->
-
-                      <div class="form-group col-md-6">
-                        <label for="">Marca</label>
-                        <select
-                          name=""
-                          id=""
-                          class="form-control"
-                          formControlName="MARCA_ID"
-                          [class.is-invalid]="MARCA_ID"
-                        >
-                          <option value="">--Seleccione--</option>
-                          <option
-                            *ngFor="let marca of listamarca"
-                            [value]="marca.id"
-                          >
-                            {{ marca.NOMBRE }}
-                          </option>
-                        </select>
-                        <small *ngIf="MARCA_ID" class="text-danger"
-                          >Seleccione una marca</small
-                        >
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="">Categoria</label>
-                        <select
-                          name=""
-                          id=""
-                          class="form-control"
-                          formControlName="CATEGORIA"
-                          [class.is-invalid]="CATEGORIA"
-                        >
-                          <option value="">--Seleccione--</option>
-                          <option
-                            *ngFor="let modelo of listamodelo"
-                            [value]="modelo.id"
-                          >
-                            {{ modelo.NOMBRE }}
-                          </option>
-                        </select>
-                        <small *ngIf="CATEGORIA" class="text-danger"
-                          >Seleccione una categoria</small
-                        >
-                      </div>
-
-                      <div class="form-group col-md-6">
-                        <label for="">Serie</label>
-                        <input
-                          appUppercase
-                          type="text"
-                          class="form-control"
-                          formControlName="SERIE"
-                          [class.is-invalid]="SERIE"
-                          placeholder="Ingrese serie ..."
-                        />
-                        <small *ngIf="SERIE" class="text-danger"
-                          >Ingrese la serie del equipo</small
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">
-                      <i class='bx bx-save'></i>
-                      Guardar
-                    </button>
-                  </div>
-                </form>
-              </div>
-              <!-- <div class="container-fluid rounded shadow">
-  <div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Crear Equipos</h3>
-    </div>
-
-    <form
-      autocomplete="off"
-      [formGroup]="equipoForm"
-      (ngSubmit)="crearEquipo()"
-      id="panelform"
-    >
-      <div class="card-body">
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="">NOMBRE</label>
-            <input
-            
-
-
-
-            
-              type="text"
-              class="form-control"
-              formControlName="NOMBRE"
-              [class.is-invalid]="NOMBRE"
-              placeholder="Ingrese referencia.."
-            />
-            <small *ngIf="NOMBRE" class="text-danger"
-              >Ingrese un caracter</small
-            >
-          </div>
-          <div class="form-group col-md-6">
-            <label for="">CATEGORIA</label>
-            <input
-              appUppercase
-              type="text"
-              class="form-control"
-              formControlName="CATEGORIA"
-              [class.is-invalid]="CATEGORIA"
-              placeholder="Ingrese descrpcion ..."
-            />
-            <small *ngIf="CATEGORIA" class="text-danger"
-              >Ingrese un caracter</small
-            >
-          </div>
-        </div>
-      </div>
-     
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
- -->
-            </div>
           </div>
         </div>
       </div>

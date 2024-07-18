@@ -1,4 +1,56 @@
-.container {
+
+.alerta-rojo {
+ color: red;
+  animation: parpadeo-rojo 1s infinite; 
+}
+
+.alerta-verde {
+ color:  green;
+  animation: parpadeo-verde 1s infinite; 
+}
+
+.alerta-amarillo {
+ color:  #FFC000;
+  animation: parpadeo-amarillo 1s infinite; 
+}
+
+@keyframes parpadeo-verde {
+  0% {
+    color: transparent;
+  }
+  50% {
+    color: green;
+  }
+  100% {
+    color: transparent;
+  }
+}
+
+@keyframes parpadeo-rojo {
+  0% {
+    color: transparent;
+  }
+  50% {
+    color: red;
+  }
+  100% {
+    color: transparent;
+  }
+}
+
+@keyframes parpadeo-amarillo {
+  0% {
+    color: transparent;
+  }
+  50% {
+    color: #FFC000;
+  }
+  100% {
+    color: transparent;
+  }
+}
+
+/* .container {
   width: 50%;
   min-height: 550px;
   margin-top: 10px;
@@ -10,7 +62,7 @@
 .rg {
   color: #ff8970;
   background: #fff;
-  /*  background-image: linear-gradient(blue),url(); */
+  
   text-align: center;
 }
 
@@ -26,7 +78,7 @@
 
 table {
   width: 100%;
-  /* text-align: center; */
+  
   border-collapse: collapse;
 }
 
@@ -84,51 +136,52 @@ td {
 }
 .alerta-rojo {
   border-left: 5px solid red;
-  animation: parpadeo-rojo 1s infinite; /* Nombre correcto de la animación */
+  animation: parpadeo-rojo 1s infinite; 
 }
 
 .alerta-verde {
   border-left: 5px solid green;
-  animation: parpadeo-verde 1s infinite; /* Nombre correcto de la animación */
+  animation: parpadeo-verde 1s infinite; 
 }
 
 .alerta-amarillo {
   border-left: 5px solid yellow;
-  animation: parpadeo-amarillo 1s infinite; /* Nombre correcto de la animación */
+  animation: parpadeo-amarillo 1s infinite; 
 }
 
 @keyframes parpadeo-verde {
   0% {
-    border-color: transparent;
+    color: transparent;
   }
   50% {
-    border-color: green;
+    color: green;
   }
   100% {
-    border-color: transparent;
+    color: transparent;
   }
 }
 
 @keyframes parpadeo-rojo {
   0% {
-    border-color: transparent;
+    color: transparent;
   }
   50% {
-    border-color: red;
+    color: red;
   }
   100% {
-    border-color: transparent;
+    color: transparent;
   }
 }
 
 @keyframes parpadeo-amarillo {
   0% {
-    border-color: transparent;
+    color: transparent;
   }
   50% {
-    border-color: yellow;
+    color: yellow;
   }
   100% {
-    border-color: transparent;
+    color: transparent;
   }
 }
+ */

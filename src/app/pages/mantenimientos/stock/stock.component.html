@@ -69,7 +69,7 @@
                       <th>Descripcion</th>
 
                       <th>Lote</th>
-                      <th>F. CADUCIDAD</th>
+                      <th>F. caducidad</th>
                       <th>Cantidad</th>
                       <th>Cantidad Recibida</th>
                       <th>Fabricante</th>
@@ -91,68 +91,76 @@
                       [formGroupName]="i"
                     >
                       <td>{{ i + 1 }}</td>
-                      <td>
-                        <input
+                      <td>{{producto.referencia}}
+                       <!--  <input
                           type="text"
                           class="form-control"
                           formControlName="referencia"
-                        />
+                        /> -->
                       </td>
-                      <td>
-                        <input
+
+                      <td>{{producto.descripcion}}
+                        <!-- input
                           type="text"
                           class="form-control"
                           formControlName="descripcion"
-                        />
+                        /> -->
                       </td>
-                      <td>
-                        <input
+                      <td>{{producto.lote}}
+                       <!--  <input
                           type="text"
                           class="form-control"
                           formControlName="lote"
                         />
-                      </td>
-                      <td>
-                        <input
+                      </td> -->
+                      <td>{{producto.caducidad}}
+                       <!--  <input
                           type="text"
                           class="form-control"
                           formControlName="caducidad"
-                        />
+                        /> -->
                       </td>
-                      <td>
-                        <input
+                      <td>{{producto.cantidad}}
+                       <!--  <input
                           type="number"
                           class="form-control"
                           formControlName="cantidad"
-                        />
+                        /> -->
                       </td>
+                      
                       <td>
-                        <input
+                        <barcode-scanner-livestream
+                        type="code_128"
+                        (valueChanges)="onValueChanges($event)"
+                        (started)="(onStarted)"
+                      ></barcode-scanner-livestream>
+                      <div [hidden]="!barcodeValue">
+                        {{ barcodeValue }}
+                      </div>
+                       <!--  <input
                           type="number"
                           class="form-control"
                           formControlName="cantidad_recibida"
-                        />
+                        /> -->
                       </td>
-                      <td>
-                        <input
+                      <td>{{producto.fabricante}}
+                       <!--  <input
                           type="text"
                           class="form-control"
                           formControlName="fabricante"
-                        />
+                        /> -->
                       </td>
-                      <td>
-                        <input
+                      <td>{{producto.sanitario}}
+                        <!-- <input
                           type="text"
                           class="form-control"
                           formControlName="sanitario"
-                        />
+                        /> -->
                       </td>
-                      <!--  <td>
-                        <i
-                          class="bx bxs-trash bx-sm"
-                          (click)="borrarStock(i)"
-                        ></i>
-                      </td> -->
+                       <td>
+                        <i class='bx bx-comment-detail'  
+                         (click)="comments(i)"></i>
+                      </td> 
                     </tr>
                   </tbody>
                 </table>
@@ -188,7 +196,7 @@
     </div>
   </div>
 </div>
-<!-- <hr />
+ <hr />
 <pre>
     Estado del formulario: {{ stockForm.valid }}
     <br>
@@ -201,4 +209,4 @@
 
     </pre
 >
- -->
+ 

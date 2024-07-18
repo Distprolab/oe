@@ -16,6 +16,7 @@ export interface Pedido {
   marcasId?: string;
   items?: Item[];
   user?: User;
+  showDetail?: boolean;
   /* clientes?: Clientes;
   marcas?: Marcas; */
 }

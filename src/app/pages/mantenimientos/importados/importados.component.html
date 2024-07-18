@@ -37,15 +37,8 @@
               <thead>
                 <tr>
                   <th class="text-table">FECHA</th>
-                  <th class="text-table">PROVEEDOR</th>
-                  <th class="text-table">MARCA</th>
-                  <th class="text-table">
-                    PRODUCTOS
-                    <!--  <tr>
-                     <th class="text-table3">PRODUCTO </th>
-                     <th class="text-table">CANTIDAD</th>
-                    </tr> -->
-                  </th>
+
+                  <!-- <th class="text-table">PRODUCTOS</th> -->
                   <th class="text-table">RESPONSABLE</th>
                   <th class="text-table">Estado</th>
                   <th class="text-table">Acciones</th>
@@ -58,53 +51,77 @@
                     let import of listaImport
                       | paginate: { itemsPerPage: 3, currentPage: page }
                   "
+                  data-widget="expandable-table"
+                  aria-expanded="true"
                 >
-                  <td>{{ import.FECHAPEDIDO }}</td>
-                  <td>{{ import.clientes.NOMBRE }}</td>
-                  <td>{{ import.marcas.NOMBRE }}</td>
+                  <ng-container>
+                  
+                      <td>{{ import.FECHAPEDIDO }}</td>
 
-                  <td>
-                    <tr *ngFor="let item of import.items">
-                      <td>{{ item.product.NOMBRE }}</td>
-                      <td>{{ item.CANTIDAD }}</td>
+                      <td>
+                        {{ import.user.doctor }}
+                      </td>
+
+                      <td>
+                        <span
+                          *ngIf="import.ESTADO == 1"
+                          class="rounded shadow bg-pen"
+                          >Creado</span
+                        >
+
+                        <span
+                          *ngIf="import.ESTADO == 2"
+                          class="rounded shadow bg-pen"
+                          >Solicitado</span
+                        >
+                      </td>
+
+                      <td class="text-nowrap">
+                        <a
+                          [ngClass]="{ 'disabled-icon': import.ESTADO == 2 }"
+                          [routerLink]="[
+                            '/dashboard',
+                            'pedido-importacion',
+                            import.id
+                          ]"
+                        >
+                          <i class="bx bx-edit-alt bx-sm"></i>
+                        </a>
+
+                        <span class="cursor">
+                          <i
+                            (click)="borrarPedido(import)"
+                            class="bx bxs-trash bx-sm"
+                          ></i>
+                        </span>
+                      </td>
+                      <td>
+                        <i
+                          class="fas fa-caret-right fa-fw"
+                          (click)="toggleRow(import.id)"
+                          [ngClass]="{
+                            'expanded-icon': expandedRows[import.id]
+                          }"
+                        ></i>
+                      </td>
+                    
+                  </ng-container>
+                  <ng-container *ngIf="expandedRows[import.id]">
+                    <tr >
+                      <thead>
+                        <tr>
+                          <th>PRODUCTOS</th>
+                          <th>CANTIDAD</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let per of import.items">
+                          <td>{{ per.ID_PRODUCTO }}</td>
+                          <td>{{ per.CANTIDAD }}</td>
+                        </tr>
+                      </tbody>
                     </tr>
-                  </td>
-
-                  <td>
-                    {{ import.user.doctor }}
-                  </td>
-
-                  <td>
-                    <span
-                      *ngIf="import.ESTADO == 1"
-                      class="rounded shadow bg-pen"
-                      >Creado</span>
-
-                      <span
-                      *ngIf="import.ESTADO == 2"
-                      class="rounded shadow bg-pen"
-                      >Solicitado</span>
-                  </td>
-
-                  <td class="text-nowrap">
-                    <a
-                      [ngClass]="{ 'disabled-icon': import.ESTADO == 2 }"
-                      [routerLink]="[
-                        '/dashboard',
-                        'pedido-importacion',
-                        import.id
-                      ]"
-                    >
-                      <i class="bx bx-edit-alt bx-sm"></i>
-                    </a>
-
-                    <span class="cursor">
-                      <i
-                        (click)="borrarPedido(import)"
-                        class="bx bxs-trash bx-sm"
-                      ></i>
-                    </span>
-                  </td>
+                  </ng-container>
                 </tr>
               </tbody>
             </table>
@@ -117,28 +134,5 @@
       previousLabel="Anterior"
       nextLabel="Siguiente"
     ></pagination-controls>
-  </div>
-
-  <div class="modal fade show" id="modal-default">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">+ Cargar pruebas</h4>
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            Guardar
-          </button>
-        </div>
-      </div>
-
-      <div class="modal-footer justify-content-between">
-        <!--    <button type="button" class="btn btn-default" data-dismiss="modal"></button> 
-                        <button type="button" data-dismiss="modal" class="btn btn-primary">Guardar</button> -->
-      </div>
-    </div>
   </div>
 </div>

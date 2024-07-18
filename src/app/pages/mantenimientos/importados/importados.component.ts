@@ -20,7 +20,9 @@ export class ImportadosComponent implements OnInit {
   listaImport: Pedido[] = [];
   importado: Pedido[] = [];
   importadoTemp: Pedido[] = [];
+  expandedRows: { [key: string]: boolean } = {};
   public page!: number;
+  
   constructor(
     private importService: ImportacionService,
     private router: Router,
@@ -34,7 +36,7 @@ export class ImportadosComponent implements OnInit {
     this.cargando = true;
     this.importService.getAllImportacion().subscribe((pedido) => {
       this.listaImport = pedido;
-      //console.log(pedido);
+      console.log(pedido);
       this.cargando = false;
     });
   }
@@ -73,5 +75,8 @@ export class ImportadosComponent implements OnInit {
       }
     });
   //  console.log(id);
+  }
+  toggleRow(importId: number): void {
+    this.expandedRows[importId] = !this.expandedRows[importId];
   }
 }

@@ -18,6 +18,7 @@ import 'moment-timezone';
 import { FilterPipe } from './pipes/filter.pipe';
 import { filter } from 'rxjs';
 import { DisabledIfDirective } from './directiva/disabled-if.directive';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 /* import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
@@ -34,6 +35,7 @@ const config: SocketIoConfig = { url: environment.url, options: {} }; */
     UppercaseDirective,
     //DisabledIfDirective,
     FilterPipe,
+    
   ],
   imports: [
     BrowserModule,
@@ -46,9 +48,12 @@ const config: SocketIoConfig = { url: environment.url, options: {} }; */
     //MatSliderModule,
     NgxPaginationModule,
     DisabledIfDirective,
+   
     // SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [
+    provideCharts(withDefaultRegisterables())
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

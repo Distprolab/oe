@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormGroup,
@@ -23,15 +23,21 @@ import { PedidoStock } from 'src/app/models/cargaPedidoStock.module';
 import { pedidoStock } from 'src/app/interfaces/pedidos-stocks.interface';
 import { StockReserva } from 'src/app/interfaces/cargarStockReserva.interface';
 import { StockService } from 'src/app/services/stock.service';
-
+import { finalize, map } from 'rxjs';
+import { event } from 'jquery';
+declare var $: any;
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
   styleUrl: './pedidos.component.css',
 })
 export class PedidosComponent {
+  @ViewChild('inputRef') inputRef: ElementRef;
+  selectedProductIndex: number | null = null;
   pedidosForm!: FormGroup;
-
+  public isLoading = false;
+  public src: string;
+  public data$: any;
   filtroProducto: string = '';
   listaproductos: Producto[] = [];
   listamarca: Marca[] = [];
@@ -52,16 +58,6 @@ export class PedidosComponent {
     this.crearFormulario();
   }
 
-  ngOnInit(): void {
-    this.getAllProductos();
-    this.getMarca();
-    this.getCliente();
-
-    //this.activatedRoute.params.subscribe(({ id }) => this.crearStock(id));
-    this.activatedRoute.params.subscribe((resp) => 
-      console.log(`PARAMS`,resp));
-  }
-
   get AREA() {
     return (
       this.importForm.get('AREA')!.invalid &&
@@ -79,10 +75,18 @@ export class PedidosComponent {
     return this.importForm.get('PRODUCTOS') as FormArray;
     // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
   }
+  ngOnInit(): void {
+    this.getAllProductos();
+    this.getMarca();
+    this.getCliente();
 
+    this.activatedRoute.params.subscribe(({ id }) => this.crearStock(id));
+    //this.activatedRoute.params.subscribe((resp) => console.log(`PARAMS`, resp));
+  }
   getAllProductos() {
     let array = 'hola';
     this.inportService.getProductos().subscribe((productos) => {
+      console.log(productos);
       this.listaproductos = productos;
       //this.listaproductos = productos.slice(0, 5);
     });
@@ -98,7 +102,7 @@ export class PedidosComponent {
     return this.fb.group({
       ID_PRODUCTO: ['', [Validators.required]],
       NOMBRE: ['', [Validators.required]],
-      UNIDAD: ['', [Validators.required]],
+      UNIDAD: ['', ],
       CANTIDAD: ['', [Validators.required]],
       ENTREGADO: [''],
       LOTE: [''],
@@ -106,35 +110,58 @@ export class PedidosComponent {
   }
   agregarproductos() {
     const add = this.importForm.get('PRODUCTOS') as FormArray;
+    this.selectedProductIndex = add.length;
 
-    this.PRODUCTOS.push(this.crearItemProducto());
-
-    /* console.log(`add`, add.pristine);
-    console.log(`add`, add.status); */
+    add.push(this.crearItemProducto());
   }
 
-  actualizarInputs(i: number, $event: any) {
-    // console.log(i);
-    const productoId = Number($event.target.value);
+  actualizarInputs(item: any, index: number | null) {
+    console.log(index);
+    const pruebasArray = this.importForm.get('PRODUCTOS') as FormArray;
+    console.log(pruebasArray.length);
+    const pruebaExistente = pruebasArray.value;
+    console.log(pruebaExistente);
+    const encontrar = pruebaExistente.find(
+      (control) => control.ID_PRODUCTO === item.id,
+    );
+    console.log(encontrar);
+    if (encontrar === 'undefined' || encontrar === undefined) {
+      const filaSeleccionada = (
+        this.importForm.get('PRODUCTOS') as FormArray
+      ).at(index);
+      filaSeleccionada.patchValue({
+        ID_PRODUCTO: item.id,
+        NOMBRE: item.NOMBRE,
+        UNIDAD: item.UNIDAD,
+        CANTIDAD: null,
+        ENTREGADO: null,
+        LOTE: null,
+      });
+      $('#modal-info').modal('hide');
 
+      this.inputRef.nativeElement.value = '';
+    }else{
+
+    }
+  }
+
+  //  console.log(item);
+
+  /*   const productoId = Number($event.target.value);
     const productoSeleccionado = this.listaproductos.find(
       (producto) => producto.id === productoId,
     );
-
-    const filaSeleccionada = (this.importForm.get('PRODUCTOS') as FormArray).at(
-      i,
-    );
-    // console.log(filaSeleccionada);
+    const filaSeleccionada = (this.importForm.get('PRODUCTOS') as FormArray).at(i,    );    
     if (productoSeleccionado) {
       filaSeleccionada.patchValue({
         NOMBRE: productoSeleccionado.NOMBRE,
         UNIDAD: productoSeleccionado.UNIDAD,
         CANTIDAD: null,
         ENTREGADO: null,
-        LOTE:null
+        LOTE: null,
       });
-    }
-  }
+  } */
+
   onreset() {}
   borrarProducto(i: number) {
     this.PRODUCTOS.removeAt(i);
@@ -152,6 +179,7 @@ export class PedidosComponent {
     this.PRODUCTOS.disable();
 
     this.inportService.obtenerStockById(id).subscribe((pedidoStock) => {
+      console.log(`data BD`, pedidoStock);
       !pedidoStock
         ? this.router.navigateByUrl('/dashboard/solicitudes-pedidos')
         : console.log(`data BD`, pedidoStock);
@@ -179,16 +207,15 @@ export class PedidosComponent {
     });
   }
   guardar() {
-  /*   if (this.importForm.invalid) {
-      this.importForm.markAllAsTouched();
-      return;
-    } */
+    /*   if (this.importForm.invalid) {
+        this.importForm.markAllAsTouched();
+        return;
+      } */
     if (this.importForm.invalid) {
       this.importForm.markAllAsTouched();
       return;
     }
-   
-    
+
     if (this.pedidoseleccionado) {
       const data = {
         ...this.importForm.value,
@@ -205,18 +232,18 @@ export class PedidosComponent {
       });
     } else {
       this.inportService
-      .getPedidoStock(this.importForm.value)
-      .subscribe((resp: any) => {
-        const { msg } = resp;
-        Swal.fire({
-          icon: 'success',
-          title: `${msg}`,
-          showConfirmButton: false,
+        .getPedidoStock(this.importForm.value)
+        .subscribe((resp: any) => {
+          const { msg } = resp;
+          Swal.fire({
+            icon: 'success',
+            title: `${msg}`,
+            showConfirmButton: false,
+          });
+          this.router.navigateByUrl('/dashboard/solicitud-pedidos');
+          this.importForm.reset();
+          this.importForm.disable();
         });
-        this.router.navigateByUrl('/dashboard/solicitud-pedidos');
-        this.importForm.reset();
-        this.importForm.disable();
-      });
       /* this.inportService
         .getRegistroImport(this.importForm.value)
         .subscribe((resp: any) => {
@@ -230,7 +257,7 @@ export class PedidosComponent {
           this.importForm.reset();
           this.importForm.disable();
         }); */
-    } 
+    }
   }
   getMarca() {
     this.llenarcomboService.getMarca().subscribe((marcas) => {
@@ -253,27 +280,42 @@ export class PedidosComponent {
     this.btnVal = 'Guardar';
   }
 
-  comprobarCantidad(pedido:any) {
-   
+  comprobarCantidad(pedido: any) {
+    const itemstockString = JSON.stringify(pedido);
+    const encodedItemstock = encodeURIComponent(itemstockString);
+    this.inportService
+      .obtenerReservaTotal(encodedItemstock)
+      .subscribe((resp) => {
+        this.pedidoStockseleccionado = resp;
+        console.log(resp);
 
-    const itemstockString = JSON.stringify(pedido);    
-    const encodedItemstock = encodeURIComponent(itemstockString);      
-     this.inportService.obtenerReservaTotal(encodedItemstock).subscribe((resp)=>{
-      this.pedidoStockseleccionado=resp;
-      console.log(resp)
-      
-      const productosFormArray = this.importForm.get('PRODUCTOS') as FormArray;
+        const productosFormArray = this.importForm.get(
+          'PRODUCTOS',
+        ) as FormArray;
 
-      // Iterar sobre cada producto y establecer el valor de ENTREGADO
-      this.pedidoStockseleccionado.cantidadReservada.detalle.map((item, index) => {
-        productosFormArray.at(index).get('ENTREGADO').patchValue(item.cantidadReservada);
-        productosFormArray.at(index).get('LOTE').patchValue(item.lote);
+        // Iterar sobre cada producto y establecer el valor de ENTREGADO
+        this.pedidoStockseleccionado.cantidadReservada.detalle.map(
+          (item, index) => {
+            productosFormArray
+              .at(index)
+              .get('ENTREGADO')
+              .patchValue(item.cantidadReservada);
+            productosFormArray.at(index).get('LOTE').patchValue(item.lote);
+          },
+        );
       });
-        
-      
-    });
-    
+  }
 
+  searchReactivos(value: any): any {
+    console.log(value);
+    this.isLoading = true;
 
+    this.data$ = this.llenarcomboService.pruebasreactivos({ q: value });
+    //this.isLoading=false;
+    /* .subscribe((productos) => {
+        console.log(productos);
+
+        this.listaproductos=productos;
+      }); */
   }
 }

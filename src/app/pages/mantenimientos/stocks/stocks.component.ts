@@ -35,8 +35,17 @@ export class StocksComponent implements OnInit {
       this.cargando = false;
     });
   }
-
-  calcularMeses(caducidad: string) {
+  getAlertClass(caducidad: Date): string {
+    const meses = this.calcularMeses(caducidad);
+    if (meses <= 3) {
+      return 'alerta-rojo';
+    } else if (meses > 3 && meses <= 11) {
+      return 'alerta-amarillo';
+    } else {
+      return 'alerta-verde';
+    }
+  }
+  calcularMeses(caducidad: Date) {
     console.log(this.fechaActual);
     const fechaconvertida = new Date(caducidad);
     const miliSegundos = fechaconvertida.getTime() - this.fechaActual.getTime();
@@ -47,14 +56,20 @@ export class StocksComponent implements OnInit {
 
   calcularMesesParaTodos() {
     this.listaSotck.forEach((item) => {
-      this.calcularMeses(item.caducidad);
+      console.log(item.detalles)
+     // const fecha=item.detalles.map((cad)=>cad.caducidad)
+      console.log(item)
+     // this.calcularMeses();
     });
   }
   obtenerFechaActualFormateada() {
     return this.fechaActual.toISOString().split('T')[0];
   }
-  obtenerFechaCaducidadFormateada(caducidad: string): string {
-    return caducidad.split('T')[0]; // Obtenemos solo la parte de la fecha
+  obtenerFechaCaducidadFormateada(caducidad: Date):any {
+    console.log(new Date(caducidad).toLocaleDateString('en-US'))
+   // const date = caducidad.getDate()
+    //console.log(date)
+    return new Date(caducidad).toLocaleDateString('en-US'); // Obtenemos solo la parte de la fecha
   }
 
   buscarProductos(termino: string) {

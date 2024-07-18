@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, map, Observable, tap } from 'rxjs';
+import { delay, finalize, map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { cargaGetlistdoctor } from '../interfaces/carga-getllistdoctor.interface';
 import { cargarPruebas } from '../interfaces/cargarPruebas.interface';
@@ -13,9 +13,20 @@ import { OrdenMicro } from '../interfaces/micro-form.interface';
 import { cargarImpresora } from '../interfaces/impresora.interface';
 import { PanelPruebas } from '../interfaces/cargarPanelPruebas.interface';
 import { Marca, Marcas } from '../interfaces/cargaMarca.interface';
-import { Cliente, Clientes } from '../interfaces/cargaCliente.interface';
+import {  Cliente, Clientes } from '../interfaces/cargaCliente.interface';
 import { Modalidad } from '../interfaces/cargaModalidad.interface';
 import { Modelo, Modelos } from '../interfaces/cargaModelo.interface';
+import { Ubicacion, Ubicaciones } from '../interfaces/cargaUbicacioninterface';
+import { Estado, Estados } from '../interfaces/cargaEstado.interface';
+import { Equipo, Equipos } from '../interfaces/carga-equipos.interfaces';
+import { Tipocontrato } from '../interfaces/cargarTipocontrato.interface';
+import { TipoContrato } from '../interfaces/cargarcontrato.interface';
+import { AccCoti, Accesorio } from '../interfaces/cargaAccCotizacion.interface';
+import { Correo, Correos } from '../interfaces/cargaCorreo.interface';
+import { Producto, Productos } from '../interfaces/carga-productosImport.interfaces';
+import { producerUpdateValueVersion } from '@angular/core/primitives/signals';
+
+
 
 const baseUrl = environment.url;
 @Injectable({
@@ -24,7 +35,7 @@ const baseUrl = environment.url;
 export class LlenarCombosService {
   userToken!: string;
   constructor(private http: HttpClient) {}
-
+  public isLoading = false;
   get token(): string {
     return localStorage.getItem('token') || '';
   }
@@ -105,6 +116,18 @@ export class LlenarCombosService {
       `${baseUrl}/api/pruebaMicro/${q}`,
       this.headers,
     );
+  }
+
+
+  pruebasreactivos({ q }): Observable<any> {
+    return this.http.get<Productos>(
+      `${baseUrl}/api/productos/${q}`,
+      this.headers,
+    ).pipe(
+      map(({productos})=>productos),
+    finalize(() => (this.isLoading = false)) 
+  );
+   
   }
 
   getOrigin() {
@@ -268,6 +291,34 @@ export class LlenarCombosService {
       .get<Marcas>(`${baseUrl}/api/marca`, this.headers)
       .pipe(map(({ marcas }) => marcas));
   }
+
+  getCorreo(): Observable<Correo[]> {
+    return this.http
+      .get<Correos>(`${baseUrl}/api/correos`, this.headers)
+      .pipe(map(({ correo }) => correo));
+  }
+ /*  getCliente(): Observable<Cliente[]> {
+    return this.http
+      .get<Clientes>(`${baseUrl}/api/cliente`, this.headers)
+      .pipe(map(({ clientes }) => clientes));
+  } */
+  getEstado(): Observable<Estado[]> {
+    return this.http
+      .get<Estados>(`${baseUrl}/api/estado`, this.headers)
+      .pipe(map(({ estado }) => estado));
+  }
+
+  getUbicacion(): Observable<Ubicacion[]> {
+    return this.http
+      .get<Ubicaciones>(`${baseUrl}/api/ubicacion`, this.headers)
+      .pipe(map(({ ubicacion }) => ubicacion));
+  }
+  getEquipo(): Observable<Equipo[]> {
+    return this.http
+      .get<Equipos>(`${baseUrl}/api/equipos`, this.headers)
+      .pipe(map(({ equipos }) => equipos));
+  }
+
   getModelo(): Observable<Modelo[]> {
     return this.http
       .get<Modelos>(`${baseUrl}/api/modelo`, this.headers)
@@ -283,5 +334,21 @@ export class LlenarCombosService {
     return this.http
       .get<Modalidad>(`${baseUrl}/api/modalidad`, this.headers)
       .pipe(map(({ modalidad }) => modalidad));
+  }
+  getContrato(): Observable<TipoContrato[]> {
+    return this.http
+      .get<TipoContrato>(`${baseUrl}/api/tipocontrato`, this.headers)
+      .pipe(map(({ tipocontrato }) => tipocontrato));
+  }
+  getParticipacion(): Observable<Tipocontrato[]> {
+    return this.http
+      .get<Tipocontrato>(`${baseUrl}/api/tipocontrato`, this.headers)
+      .pipe(map(({ tipocontrato }) => tipocontrato));
+  }
+
+  getAccCotizacion(): Observable<Accesorio[]> {
+    return this.http
+      .get<AccCoti>(`${baseUrl}/api/accesoriocotizacion`, this.headers)
+      .pipe(map(({ accesorio }) => accesorio));
   }
 }

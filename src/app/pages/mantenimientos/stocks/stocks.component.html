@@ -4,13 +4,12 @@
       <div class="card">
         <div class="card-body">
           <input
-          type="text"
-          class="form-control"
-          placeholder="Buscar producto por referencia..."
-          (keyup)="buscarProductos(txtTermino.value.toUpperCase())"
-          #txtTermino
-        />
-           
+            type="text"
+            class="form-control"
+            placeholder="Buscar producto por referencia..."
+            (keyup)="buscarProductos(txtTermino.value.toUpperCase())"
+            #txtTermino
+          />
         </div>
       </div>
     </div>
@@ -42,21 +41,69 @@
                   <thead>
                     <tr>
                       <th>Referencia</th>
-                      <th>Lote</th>
-                      <th>Cantidad</th>
-
-                      <th>Caducidad</th>
-
+                      <th>Nombre</th>
+                      <th>Total</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <tr *ngFor="let stock of listaSotck   | paginate: { itemsPerPage: 10, currentPage: page }">
+                    <tr
+                      *ngFor="
+                        let stock of listaSotck
+                          | paginate: { itemsPerPage: 10, currentPage: page }
+                      "
+                      data-widget="expandable-table"
+                      aria-expanded="true"
+                    >
                       <td>{{ stock.referencia }}</td>
-                      <td>{{ stock.lote }}</td>
-                      <td>{{ stock.cantidad }}</td>
-                      <td
+                      <td>{{ stock.nombre }}</td>
+                      <td>{{ stock.total_referencia }}</td>
+                      <td>
+                        <a [ngClass]="{
+                          'disabled-icon':  stock.total_referencia == 0
+                        }"  class="nav-link" data-toggle="dropdown" href="#">
+                          <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
+                        <div
+                          class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                        >
+                          <a href="#" class="dropdown-item">
+                            <!-- Message Start -->
+                            <div
+                              class="media"
+                              *ngFor="let item of stock.detalles"
+                            >
+                              <div class="media-body">
+                                <p class="text-md">
+                                  <strong>Lote:</strong> {{ item.lote }}
+                                </p>
+
+                                <p class="text-md">
+                                  <strong>Cantidad:</strong> {{ item.TOTAL }}
+                                </p>
+
+                                <p
+                                  class="text-md"
+                                  
+                                >
+                                  <strong>Fecha de Caducidad:</strong>
+                                  {{ item.caducidad | utcDate: "yyyy-MM-dd" }}
+
+                                  <i [ngClass]="getAlertClass(item.caducidad)"
+                                  class='bx bx-calendar bx-md'></i>
+                                   
+                                </p>
+                                <div class="dropdown-divider"></div>
+                              </div>
+                            </div>
+                            <!-- Message End -->
+                          </a>
+                        </div>
+                      </td>
+                      <!--  <td>{{ stock.lote }}</td>
+                      <td>{{ stock.cantidad }}</td> -->
+                      <!--  <td
                         [ngClass]="{
                           'alerta-rojo':
                             obtenerFechaCaducidadFormateada(stock.caducidad) ===
@@ -66,11 +113,11 @@
                         }"
                       >
                         {{ stock.caducidad | utcDate: "yyyy-MM-dd" }}
-                      </td>
+                      </td> -->
                       <!--  <td  >{{stock.caducidad | utcDate:'yyyy-MM-dd'}}</td> -->
-                      <td>
+                      <!-- <td>
                         <span>Activo </span>
-                      </td>
+                      </td> -->
                       <!--    <td>
                           <span   class="cursor">
   
@@ -92,13 +139,20 @@
                           ></span>
                         </td> -->
                     </tr>
+                    <!--  <tr class="expandable-body">
+                      <td colspan="5">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                      </td>
+                    </tr> -->
                   </tbody>
                 </table>
                 <pagination-controls
-              (pageChange)="page = $event"
-              previousLabel="Anterior"
-              nextLabel="Siguiente"
-            ></pagination-controls>
+                  (pageChange)="page = $event"
+                  previousLabel="Anterior"
+                  nextLabel="Siguiente"
+                ></pagination-controls>
               </div>
               <!-- <pagination-controls
                   (pageChange)="page = $event"

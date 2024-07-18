@@ -62,11 +62,30 @@ import { ManualAs400Component } from './mantenimientos/manual-as400/manual-as400
 import { ManualComponent } from './mantenimientos/manual/manual.component';
 import { ReactivosComponent } from './mantenimientos/reactivos/reactivos.component';
 import { CategoriaComponent } from './mantenimientos/categoria/categoria.component';
+import { EstadoComponent } from './mantenimientos/estado/estado.component';
+import { UbicacionComponent } from './mantenimientos/ubicacion/ubicacion.component';
+import { EquipoComponent } from './mantenimientos/equipo/equipo.component';
+import { ReactivoComponent } from './mantenimientos/reactivo/reactivo.component';
+import { ModalidadComponent } from './mantenimientos/modalidad/modalidad.component';
+import { ParticipacionComponent } from './mantenimientos/participacion/participacion.component';
+import { CotizacionComponent } from './mantenimientos/cotizacion/cotizacion.component';
+import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
+import { CorreosComponent } from './mantenimientos/correos/correos.component';
+import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
 
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
+    StockManualComponent,
+    CotizacionComponent,
+    CorreosComponent,
+    ParticipacionComponent,
+    ModalidadComponent,
+    ReactivoComponent,
+    EquipoComponent,
+    EstadoComponent,
+    UbicacionComponent,
     CategoriaComponent,
     ReactivosComponent,
     StockPruebasComponent,
@@ -112,7 +131,9 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     StocksComponent,
     PedidosComponent,
     SolicitudesPedidosComponent,
+
     //FilterPipe,
+    
   ],
 
   exports: [
@@ -133,7 +154,9 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     RouterModule,
     SharedModule,
     HttpClientModule,
-
+    BarcodeScannerLivestreamModule,
+   
+   
     ReactiveFormsModule,
     NgxPaginationModule,
     FullCalendarModule,

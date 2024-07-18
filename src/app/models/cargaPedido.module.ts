@@ -23,5 +23,6 @@ export class Product {
     public CATEGORIA: string,
     public UNIDAD: string,
     public GENERACION: string,
+    public COMENTARIO:String,
   ) {}
 }

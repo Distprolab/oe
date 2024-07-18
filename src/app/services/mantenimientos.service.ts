@@ -9,6 +9,7 @@ import { Marca } from '../models/marca.module';
 import { Observable, map } from 'rxjs';
 import { Prueba, Pruebastock } from '../interfaces/pruebastock.interfaces';
 import { Equipos } from '../interfaces/carga-equipos.interfaces';
+import { Correo } from '../models/correo.module';
 
 
 const baseUrl = environment.url;
@@ -36,6 +37,26 @@ export class MantenimientosService {
     return this.http.post(`${baseUrl}/api/marca`, formData, this.headers);
   }
 
+  getCrearCorreo(formData: Correo) {
+    return this.http.post(`${baseUrl}/api/correos`, formData, this.headers);
+  }
+
+  getCrearModalidad(formData: Marca) {
+    return this.http.post(`${baseUrl}/api/modalidad`, formData, this.headers);
+  }
+  getCrearContrato(formData: Marca) {
+    return this.http.post(`${baseUrl}/api/tipocontrato`, formData, this.headers);
+  }
+
+  getCrearEstado(formData: Marca) {
+    return this.http.post(`${baseUrl}/api/estado`, formData, this.headers);
+  }
+
+  getCrearUbicacion(formData: Marca) {
+    return this.http.post(`${baseUrl}/api/ubicacion`, formData, this.headers);
+  }
+
+
   getCrearCliente(formData: Cliente) {
     return this.http.post(`${baseUrl}/api/cliente`, formData, this.headers);
   }
@@ -44,11 +65,7 @@ export class MantenimientosService {
     return this.http.post(`${baseUrl}/api/equipos`, formData, this.headers);
   }
 
-  getEquipo():Observable<Equipo[]> {
-    return this.http
-      .get<Equipos>(`${baseUrl}/api/equipos`, this.headers)
-      .pipe(map(({ equipos }) => equipos));
-  }
+  
 
   getDeleteEquipo(equipo: Equipo) {
     return this.http.delete(`${baseUrl}/api/equipos/${equipo.id}`, this.headers);

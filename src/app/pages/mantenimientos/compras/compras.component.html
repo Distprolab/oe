@@ -178,7 +178,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <input
                   type="radio"
@@ -190,7 +190,7 @@
               </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <input
                   type="radio"
@@ -202,7 +202,23 @@
               </div>
             </div>
 
-            <small *ngIf="terceraopcion" class="text-danger"
+           <!--  <div class="col-md-4">
+              <div class="form-group">
+                <select
+                  class="custom-select"
+                  formControlName="ASIGNADO"
+                  [class.is-invalid]="ASIGNADO"
+                >
+                  <option value="">--Seleccione--</option>
+                  <option>NO APLICA</option>
+                  <option *ngFor="let usu of usuarios" [value]="usu.id">
+                    {{ usu.doctor }}
+                  </option>
+                </select>
+              </div>
+            </div> -->
+
+            <small *ngIf="ASIGNADO" class="text-danger"
               >Campo obligatorio
             </small>
           </div>
@@ -811,14 +827,15 @@
                 let i = index
               "
             >
-            <label class="">
-              <input
-                type="checkbox"
-                class="check_item"
-                [formControlName]="i"
-                [class.is-invalid]="licenciaEquiposHematologico"
-              />
-             {{ licencia[i].value }}</label>
+              <label class="">
+                <input
+                  type="checkbox"
+                  class="check_item"
+                  [formControlName]="i"
+                  [class.is-invalid]="licenciaEquiposHematologico"
+                />
+                {{ licencia[i].value }}</label
+              >
             </div>
             <small *ngIf="licenciaEquiposHematologico" class="text-danger"
               >campo obligatorio</small
@@ -859,7 +876,7 @@
     </div>
   </form>
 </div>
-<!-- <hr />
+<hr />
 <pre>
       Estado del formulario: {{ RegistroForm.valid }}
       <br>
@@ -871,4 +888,4 @@
       {{ RegistroForm.value | json }}
   
       </pre
->  -->
+>

@@ -36,7 +36,13 @@ export class ImportacionService {
 
   getAllImportacion(): Observable<Pedido[]> {
     return this.http
-      .get<ImportProductos>(`${baseUrl}/api/pedido-importacion`, this.headers)
+      .get<ImportProductos>(`${baseUrl}/api/pedido-importacion`, this.headers)//pedidos-stock //pedido-importacion
+      .pipe(map(({ pedido }) => pedido));
+  }
+
+  getAllImportacionS(): Observable<Pedido[]> {
+    return this.http
+      .get<ImportProductos>(`${baseUrl}/api/pedidos-stock`, this.headers)//pedidos-stock //pedido-importacion
       .pipe(map(({ pedido }) => pedido));
   }
 

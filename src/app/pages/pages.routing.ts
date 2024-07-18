@@ -49,6 +49,16 @@ import { ManualComponent } from './mantenimientos/manual/manual.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ReactivosComponent } from './mantenimientos/reactivos/reactivos.component';
 import { CategoriaComponent } from './mantenimientos/categoria/categoria.component';
+import { EstadoComponent } from './mantenimientos/estado/estado.component';
+import { UbicacionComponent } from './mantenimientos/ubicacion/ubicacion.component';
+import { EquipoComponent } from './mantenimientos/equipo/equipo.component';
+import { ReactivoComponent } from './mantenimientos/reactivo/reactivo.component';
+import { Modalidad } from '../models/cargaModalidad.module';
+import { ModalidadComponent } from './mantenimientos/modalidad/modalidad.component';
+import { ParticipacionComponent } from './mantenimientos/participacion/participacion.component';
+import { CotizacionComponent } from './mantenimientos/cotizacion/cotizacion.component';
+import { CorreosComponent } from './mantenimientos/correos/correos.component';
+import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
 
 const routes: Routes = [
   {
@@ -127,6 +137,11 @@ const routes: Routes = [
         component: ProductosComponent,
         data: { titulo: 'productos' },
       },
+      {
+        path: 'cotizacion',
+        component: CotizacionComponent,
+        data: { titulo: 'cotizacion' },
+      },
 
       {
         path: 'producto/:id',
@@ -147,6 +162,11 @@ const routes: Routes = [
         path: 'muestras-rechazo',
         component: MuestrasRechazoComponent,
         data: { titulo: 'muestras-rechazo' },
+      },
+      {
+        path: 'correos',
+        component: CorreosComponent,
+        data: { titulo: 'correos' },
       },
       {
         path: 'muestras-actualización',
@@ -254,10 +274,16 @@ const routes: Routes = [
         data: { titulo: 'panelPruebas' },
       },
       {
+        path: 'equipo',
+        component: EquipoComponent,
+        data: { titulo: 'equipo' },
+      },
+      {
         path: 'equipos',
         component: EquiposComponent,
         data: { titulo: 'equipos' },
       },
+
       {
         path: 'stock',
         component: StockComponent,
@@ -267,6 +293,11 @@ const routes: Routes = [
         path: 'stocks',
         component: StocksComponent,
         data: { titulo: 'stocks' },
+      },
+      {
+        path: 'stock-manual',
+        component: StockManualComponent,
+        data: { titulo: 'stock-manual' },
       },
       {
         path: 'solicitud-pedidos',
@@ -299,6 +330,11 @@ const routes: Routes = [
         data: { titulo: 'reactivos' },
       },
       {
+        path: 'reactivo',
+        component: ReactivoComponent,
+        data: { titulo: 'reactivo' },
+      },
+      {
         path: 'reactivos/:id',
         component: ReactivosComponent,
         data: { titulo: 'reactivos' },
@@ -307,6 +343,26 @@ const routes: Routes = [
         path: 'categoria',
         component: CategoriaComponent,
         data: { titulo: 'categoria' },
+      },
+      {
+        path: 'modalidad',
+        component: ModalidadComponent,
+        data: { titulo: 'modalidad' },
+      },
+      {
+        path: 'contrato',
+        component: ParticipacionComponent,
+        data: { titulo: 'contrato' },
+      },
+      {
+        path: 'estado',
+        component: EstadoComponent,
+        data: { titulo: 'estado' },
+      },
+      {
+        path: 'ubicacion',
+        component: UbicacionComponent,
+        data: { titulo: 'ubicacion' },
       },
     ],
   },

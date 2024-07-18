@@ -59,6 +59,7 @@ export class CategoriaComponent implements OnInit {
       .getCrearcategoria(this.categoriaForm.value)
       .subscribe(
         (resp: any) => {
+          this.getCategoria();
           const { msg } = resp;
           Swal.fire({
             icon: 'success',

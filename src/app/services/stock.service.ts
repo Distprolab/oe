@@ -41,7 +41,7 @@ export class StockService {
 
   getDeletePedidoStock(pedido:pedidoStock) {
     return this.http
-      .delete(`${baseUrl}/api/pedidos-stock/${pedido.id}`, this.headers)
+      .delete(`${baseUrl}/api/pedidos/${pedido.id}`, this.headers)
      
   }
   getByfiltroStock(termino: string) {

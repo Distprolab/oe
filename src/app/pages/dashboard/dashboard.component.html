@@ -2,82 +2,56 @@
   <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
+     <!--  <div class="col-lg-3 col-6">
+       
         <div class="small-box bg-info">
-          <div class="inner">
-            <h3>{{ totalAceptas }}</h3>
-
-            <p>Ordenes Creadas</p>
-          </div>
-          <div class="icon">
-            <i class="bx bx-receipt"></i>
-          </div>
-          <!--  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
           <div class="inner">
             <h3>{{ totalIngresada }}</h3>
 
-            <p>Ordenes Ingresadas</p>
+            <p>Procesos</p>
           </div>
           <div class="icon">
             <i class="bx bx-receipt"></i>
           </div>
-          <!--      <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+         
         </div>
-      </div>
+      </div> -->
       <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-warning">
-          <div class="inner">
-            <h3>{{ totalIngresadaTubo }}</h3>
 
-            <p>Muestras recibidas</p>
+      <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Procesos</span>
+            <span class="info-box-number">
+              {{ totalIngresada }}
+             <!--  <small>%</small> -->
+            </span>
           </div>
-          <div class="icon">
-            <i class="bx bx-test-tube"></i>
-          </div>
-          <!--   <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+         
         </div>
+        
       </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-danger">
-          <div class="inner">
-            <h3>{{ totalIngresadaRecahzoTubo }}</h3>
+   
+      <div class="col-12 col-sm-6 col-md-3" *ngFor="let data of listaporAporbar">
+        <div class="info-box">
+          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
-            <p>Muestras Rechazadas</p>
+          <div class="info-box-content" >
+            <span class="info-box-text"> {{data['estado_aprobar_bi']}}</span>
+            <span class="info-box-number">
+             
+              {{data.total }}
+             <!--  <small>%</small> -->
+            </span>
           </div>
-          <div class="icon">
-            <i class="bx bx-test-tube"></i>
-          </div>
-          <!--    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+         
         </div>
+        
       </div>
+     
 
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-danger">
-          <div class="inner">
-            <h3>{{ TotalEmergencia }}</h3>
-
-            <p>Ordenes Emergencia</p>
-          </div>
-          <div class="icon">
-            <!-- <i class='bx bx-receipt'></i> -->
-            <i class="bx bx-plus-medical"></i>
-          </div>
-          <!--    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-        </div>
-      </div>
-      <!-- ./col -->
     </div>
     <!-- /.row -->
     <!-- Main row -->

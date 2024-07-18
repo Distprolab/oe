@@ -5,7 +5,7 @@ import { Marca } from 'src/app/interfaces/cargaMarca.interface';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
-
+declare var $: any;
 @Component({
   selector: 'app-marca',
   templateUrl: './marca.component.html',
@@ -78,6 +78,7 @@ export class MarcaComponent implements OnInit {
     this.manteniemintoService.getCrearMarca(this.marcaForm.value).subscribe(
       (resp:any) => {
 
+        this.getMarca();
         const {msg}=resp
         Swal.fire({
           icon: 'success',
@@ -85,6 +86,7 @@ export class MarcaComponent implements OnInit {
           titleText: `${msg}`,
           timer:1500
         });
+        $('#modal-info').modal('hide');
         this.marcaForm.reset({
          
           NOMBRE: '',

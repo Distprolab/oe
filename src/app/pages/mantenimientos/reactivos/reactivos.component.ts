@@ -24,12 +24,13 @@ import { pedidoStock } from 'src/app/interfaces/pedidos-stocks.interface';
 import { StockReserva } from 'src/app/interfaces/cargarStockReserva.interface';
 import { StockService } from 'src/app/services/stock.service';
 import { RegistroService } from 'src/app/services/registro.service';
-
+import { Proceso } from 'src/app/interfaces/cargaProceso.interface';
+declare var $: any;
 @Component({
   selector: 'app-reactivos',
 
   templateUrl: './reactivos.component.html',
-  styleUrl: './reactivos.component.css'
+  styleUrl: './reactivos.component.css',
 })
 export class ReactivosComponent {
   pedidosForm!: FormGroup;
@@ -40,7 +41,7 @@ export class ReactivosComponent {
   listacliente: Cliente[] = [];
   importado: Pedido[] = [];
   importadoTemp: Pedido[] = [];
-  pedidoseleccionado: PedidoStock;
+  pedidoSseleccionado: Proceso;
   pedidoStockseleccionado: StockReserva;
   importForm!: FormGroup;
   btnVal = 'Guardar';
@@ -49,7 +50,7 @@ export class ReactivosComponent {
     private inportService: ImportacionService,
     private llenarcomboService: LlenarCombosService,
     private activatedRoute: ActivatedRoute,
-    private registroService:RegistroService,
+    private registroService: RegistroService,
     private router: Router,
   ) {
     this.crearFormulario();
@@ -76,7 +77,7 @@ export class ReactivosComponent {
       this.importForm.get('CODIGO')!.invalid &&
       this.importForm?.get('CODIGO')!.touched
     );
-  } 
+  }
   get PRODUCTOS() {
     return this.importForm.get('PRODUCTOS') as FormArray;
     // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
@@ -133,7 +134,7 @@ export class ReactivosComponent {
         UNIDAD: productoSeleccionado.UNIDAD,
         CANTIDAD: null,
         ENTREGADO: null,
-        LOTE:null
+        LOTE: null,
       });
     }
   }
@@ -149,79 +150,47 @@ export class ReactivosComponent {
 
       return;
     }
-    this.btnVal = 'Editar';
-    this.importForm.disable();
-    this.PRODUCTOS.disable();
+    this.btnVal = 'Guardar';
+    /* this.importForm.disable();
+    this.PRODUCTOS.disable(); */
 
     this.registroService.getByIdRegistro(id).subscribe((proceso) => {
       !proceso
         ? this.router.navigateByUrl('/dashboard/consulta-procesos')
         : console.log(`data BD`, proceso);
 
-      const { institucion ,codigo} = proceso;
-console.log(institucion)
-     // this.pedidoseleccionado = pedidoStock;
+      const { institucion, codigo } = proceso;
+      this.pedidoSseleccionado = proceso;
+      console.log(institucion);
 
       this.importForm.setValue({
-       AREA:institucion,
-        CODIGO:codigo,
-        PRODUCTOS:''
+        AREA: institucion,
+        CODIGO: codigo,
+        PRODUCTOS: '',
       });
     });
   }
   guardar() {
-  /*   if (this.importForm.invalid) {
-      this.importForm.markAllAsTouched();
-      return;
-    } */
     if (this.importForm.invalid) {
       this.importForm.markAllAsTouched();
       return;
     }
-   
-    
-    if (this.pedidoseleccionado) {
+    if (this.pedidoSseleccionado) {
       const data = {
+        id: this.pedidoSseleccionado.id,
         ...this.importForm.value,
-        id: this.pedidoseleccionado.id,
       };
-
-      console.log(data);
-      this.inportService.getUpdateStock(data).subscribe((resp: any) => {
+      this.inportService.getRegistroImport(data).subscribe((resp: any) => {
         const { msg } = resp;
-        Swal.fire('Actualizado', `${msg}`, 'success');
-
-        this.importForm.disable();
-        this.btnVal = 'Editar';
-      });
-    } else {
-      this.inportService
-      .getPedidoStock(this.importForm.value)
-      .subscribe((resp: any) => {
-        const { msg } = resp;
+        $('#modal-info').modal('hide');
         Swal.fire({
           icon: 'success',
           title: `${msg}`,
           showConfirmButton: false,
         });
-        this.router.navigateByUrl('/dashboard/solicitud-pedidos');
-        this.importForm.reset();
-        this.importForm.disable();
+        this.router.navigateByUrl('/dashboard/consulta-compras');
       });
-      /* this.inportService
-        .getRegistroImport(this.importForm.value)
-        .subscribe((resp: any) => {
-          const { msg } = resp;
-          Swal.fire({
-            icon: 'success',
-            title: `${msg}`,
-            showConfirmButton: false,
-          });
-          this.router.navigateByUrl('/dashboard/pedidos');
-          this.importForm.reset();
-          this.importForm.disable();
-        }); */
-    } 
+    }
   }
   getMarca() {
     this.llenarcomboService.getMarca().subscribe((marcas) => {
@@ -244,27 +213,29 @@ console.log(institucion)
     this.btnVal = 'Guardar';
   }
 
-  comprobarCantidad(pedido:any) {
-   
+  comprobarCantidad(pedido: any) {
+    const itemstockString = JSON.stringify(pedido);
+    const encodedItemstock = encodeURIComponent(itemstockString);
+    this.inportService
+      .obtenerReservaTotal(encodedItemstock)
+      .subscribe((resp) => {
+        this.pedidoStockseleccionado = resp;
+        console.log(resp);
 
-    const itemstockString = JSON.stringify(pedido);    
-    const encodedItemstock = encodeURIComponent(itemstockString);      
-     this.inportService.obtenerReservaTotal(encodedItemstock).subscribe((resp)=>{
-      this.pedidoStockseleccionado=resp;
-      console.log(resp)
-      
-      const productosFormArray = this.importForm.get('PRODUCTOS') as FormArray;
+        const productosFormArray = this.importForm.get(
+          'PRODUCTOS',
+        ) as FormArray;
 
-      // Iterar sobre cada producto y establecer el valor de ENTREGADO
-      this.pedidoStockseleccionado.cantidadReservada.detalle.map((item, index) => {
-        productosFormArray.at(index).get('ENTREGADO').patchValue(item.cantidadReservada);
-        productosFormArray.at(index).get('LOTE').patchValue(item.lote);
+        // Iterar sobre cada producto y establecer el valor de ENTREGADO
+        this.pedidoStockseleccionado.cantidadReservada.detalle.map(
+          (item, index) => {
+            productosFormArray
+              .at(index)
+              .get('ENTREGADO')
+              .patchValue(item.cantidadReservada);
+            productosFormArray.at(index).get('LOTE').patchValue(item.lote);
+          },
+        );
       });
-        
-      
-    });
-    
-
-
   }
 }
