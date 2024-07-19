@@ -6,10 +6,19 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import {
+  NgxScannerQrcodeService,
+  ScannerQRCodeConfig,
+  ScannerQRCodeSelectedFiles,
+} from 'ngx-scanner-qrcode';
+import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
 import { Router } from '@angular/router';
 import { error } from 'console';
-import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
-import { Subscriber, Subscription } from 'rxjs';
+import {
+  NgxScannerQrcodeComponent,
+  ScannerQRCodeResult,
+} from 'ngx-scanner-qrcode';
+import { Subject, Subscriber, Subscription } from 'rxjs';
 import { Product } from 'src/app/models/cargaPedido.module';
 import { StockService } from 'src/app/services/stock.service';
 import Swal from 'sweetalert2';
@@ -21,19 +30,19 @@ type AOA = any[][];
   styleUrls: ['./stock.component.css'],
 })
 export class StockComponent implements OnInit {
-  @ViewChild(BarcodeScannerLivestreamComponent)
-  barcodeScanner: BarcodeScannerLivestreamComponent;
+  barcodeValue: string;
+  dataStore = [];
+  cantidad: number = 0;
   cargando = false;
   jsonData: any[];
   page;
+  private barcodeSubject = new Subject<string>();
   stockForm!: FormGroup;
   selectedFile: [] = [];
   inputsBloqueados: boolean = false;
   subscription?: Subscription;
-  barcodeValue;
-  //swipper
-  // timer
-  // geoloqueitor
+  public isScanning = false;
+  @ViewChild('barcodeInput') barcodeInput;
 
   get productos() {
     return this.stockForm.get('productos') as FormArray;
@@ -48,28 +57,106 @@ export class StockComponent implements OnInit {
     private fb: FormBuilder,
     private stockService: StockService,
     private router: Router,
+    private qrcode: NgxScannerQrcodeService,
   ) {
     this.crearFormulario();
   }
 
   ngOnInit(): void {
-    this.barcodeScanner.start();
+    // this.focusOnBarcodeInput();
   }
 
-  onValueChanges(result) {
-    this.barcodeValue = result.codeResult.code;
+  onBarcodeInput(event: Event): void {
+    const inputBarcode = event.target as HTMLInputElement;
+    const barcodeFragment = inputBarcode.value.trim();
+    if (barcodeFragment) {
+      this.barcodeSubject.next(barcodeFragment);
+      //inputElement.value = ''; // Clear input after processing
+    }
+    console.log(barcodeFragment);
+
+    if (barcodeFragment.length === 68) {
+      this.actualizarCantidad(barcodeFragment);
+
+      setTimeout(() => {
+        inputBarcode.value = '';
+        inputBarcode.focus(); // Re-enfocar el campo de entrada
+      }, 300);
+    }
+  }
+  actualizarCantidad(barcodeS) {
+    const barcode = barcodeS.split('<gs>');
+
+    const lote = barcode[1] || '';
+    const ven = barcode[2] || '';
+    const ref = barcode[2] || '';
+    const elb = barcode[3] || '';
+    const loteFinal = lote.slice(-8);
+    const venFinal = ven.slice(2, 8);
+    const refFinal = ref.slice(-11);
+    const elbFinal = elb.slice(2);
+    const item = this.dataStore.find(
+      (entry) => entry.lote === loteFinal && entry.ref === refFinal,
+    );
+    if (item) {
+      item.cant++;
+      this.dataStore.forEach((it) => {
+        if (it.lote === item.lote && it.ref === item.ref) {
+          console.log(item.cant);
+          it.cant = item.cant;
+        }
+      });
+    } else {
+      this.dataStore.push({ lote: loteFinal, ref: refFinal, cant: 1 });
+    }
+    this.updateTable();
+
+    // console.log(`ok`, this.dataStore);
   }
 
-  onStarted(started) {
-    console.log(started);
+  updateTable() {
+    const data = this.stockForm.get('productos') as FormArray;
+    const pruebaExistente = data.value;
+    console.log(pruebaExistente);
+
+    pruebaExistente.forEach((item, i) => {
+      const encontrar = this.dataStore.find((ot) => item.referencia === ot.ref);
+
+      console.log(encontrar);
+      if (encontrar) {
+        console.log(encontrar);
+        data.at(i).patchValue({
+          cantidad_recibida: encontrar.cant,
+        });
+      }
+    });
   }
+
+  focusOnBarcodeInput() {
+    if (this.barcodeInput) {
+      this.barcodeInput.nativeElement.focus();
+    }
+  }
+
   crearFormulario() {
     this.stockForm = this.fb.group({
       guia: ['', [Validators.required]],
       productos: this.fb.array([]),
     });
   }
-
+  crearProductos(): FormGroup {
+    return this.fb.group({
+      referencia: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      caducidad: ['', [Validators.required]],
+      lote: ['', [Validators.required]],
+      cantidad: ['', [Validators.required]],
+      cantidad_recibida: ['', [Validators.required]],
+      fabricante: ['', [Validators.required]],
+      sanitario: ['', [Validators.required]],
+      coemntario: [''],
+    });
+  }
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -79,7 +166,7 @@ export class StockComponent implements OnInit {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       this.jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-      //  this.productos.push({guia:this.jsonData['Documento origen']})
+
       console.log(this.jsonData);
       if (this.jsonData && this.jsonData.length > 0) {
         this.jsonData.forEach((item) => {
@@ -100,28 +187,27 @@ export class StockComponent implements OnInit {
             descripcion: item['Operaciones/Producto/Nombre'],
             lote: item['Operaciones/Lote/Lote/Nº de serie'],
             caducidad: item['Operaciones/Lote/Fecha caducidad'],
-            cantidad: item['Operaciones/Cantidad Pedida'], //cantidad_recibida
-            cantidad_recibida: item['Operaciones/Cantidad Pedida'], //cantidad_recibida: item['Operaciones/Cantidad Pedida'],//cantidad_recibida
+            cantidad: item['Operaciones/Cantidad Pedida'],
+            cantidad_recibida: '',
             fabricante: item['Operaciones/Producto/Fabricante'],
             sanitario: item['Operaciones/Producto/Registro Sanitario'],
             comentario: '',
           }),
         );
       });
+      this.focusOnBarcodeInput();
     };
     reader.readAsArrayBuffer(file);
   }
   guardar() {
-    // this.productos.disable();
     console.log(this.stockForm.value);
-    /*  if (this.stockForm.invalid) {
-       return Object.values(this.stockForm.controls).forEach((control) => {
-         control.markAsTouched();
-       });
-     } */
-    this.stockService
-      .getCreateStock(this.stockForm.value)
-      .subscribe((resp: any) => {
+    if (this.stockForm.invalid) {
+      return Object.values(this.stockForm.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+    }
+    this.stockService.getCreateStock(this.stockForm.value).subscribe(
+      (resp: any) => {
         const { msg } = resp;
         Swal.fire({
           icon: 'success',
@@ -131,13 +217,14 @@ export class StockComponent implements OnInit {
         });
         this.router.navigateByUrl('/dashboard/stocks');
       },
-    (err)=>{
-      Swal.fire({
-        icon:'error',
-        title: 'Error ',
-        text:err.error.msg
-      });
-    });
+      (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error ',
+          text: err.error.msg,
+        });
+      },
+    );
   }
   convertirAFecha(fechaExcel: number) {
     const d1 = new Date((fechaExcel - 25567 - 2) * 86400 * 1000);
@@ -151,12 +238,6 @@ export class StockComponent implements OnInit {
     // this.productos.disable();
   }
 
-  toggleInputs() {
-    console.log(this.inputsBloqueados);
-    /* this.subscription = this.productos.valueChanges.subscribe((productos) =>
-      productos === this.inputsBloqueados ? this.productos.disable() : this.productos.enable(),
-    ); */
-  }
   borrarStock(i: number) {
     this.productos.removeAt(i);
   }
@@ -174,14 +255,9 @@ export class StockComponent implements OnInit {
       showCancelButton: true,
     });
     if (text) {
-      //  Swal.fire(text);
       console.log(`text`, text);
       this.productos.at(index).get('comentario')?.setValue(text);
-      //   producto.COMENTARIO=text;
+      this.focusOnBarcodeInput();
     }
-    /*   const data={
-      ...producto
-    }
-    console.log(`******agregar impre***`, data); */
   }
 }

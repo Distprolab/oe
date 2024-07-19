@@ -90,7 +90,7 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     ReactivosComponent,
     StockPruebasComponent,
     CargaOrdenesComponent,
-   // ManualAs400Component,
+   
    ManualComponent,
     DashboardComponent,
     PagesComponent,
@@ -155,7 +155,8 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     SharedModule,
     HttpClientModule,
     BarcodeScannerLivestreamModule,
-   
+
+  
    
     ReactiveFormsModule,
     NgxPaginationModule,

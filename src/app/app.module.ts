@@ -26,7 +26,7 @@ import { environment } from 'src/environments/environment.prod';
 import { ModalComponent } from './components/modal/modal.component';
 
 const config: SocketIoConfig = { url: environment.url, options: {} }; */
-
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,9 +48,12 @@ const config: SocketIoConfig = { url: environment.url, options: {} }; */
     //MatSliderModule,
     NgxPaginationModule,
     DisabledIfDirective,
+    NgxScannerQrcodeModule
+    
    
     // SocketIoModule.forRoot(config)
   ],
+ 
   providers: [
     provideCharts(withDefaultRegisterables())
   ],
