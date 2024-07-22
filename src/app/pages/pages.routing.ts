@@ -59,6 +59,7 @@ import { ParticipacionComponent } from './mantenimientos/participacion/participa
 import { CotizacionComponent } from './mantenimientos/cotizacion/cotizacion.component';
 import { CorreosComponent } from './mantenimientos/correos/correos.component';
 import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
+import { StockmanoComponent } from './mantenimientos/stockmano/stockmano.component';
 
 const routes: Routes = [
   {
@@ -363,6 +364,12 @@ const routes: Routes = [
         path: 'ubicacion',
         component: UbicacionComponent,
         data: { titulo: 'ubicacion' },
+      },
+
+      {
+        path: 'validacion',
+        component: StockmanoComponent,
+        data: { titulo: 'validacion' },
       },
     ],
   },

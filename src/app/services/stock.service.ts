@@ -22,7 +22,7 @@ export class StockService {
   get headers() {
     return {
       // headers: { 'x-token': this.token },
-      headers: { 'x-token': this.token, responseType: 'blob' as 'json' },
+      headers: { 'x-token': this.token, responseType: 'blob'  },
     };
   }
 
@@ -41,8 +41,14 @@ export class StockService {
 
   getDeletePedidoStock(pedido:pedidoStock) {
     return this.http
-      .delete(`${baseUrl}/api/pedidos/${pedido.id}`, this.headers)
+      .delete(`${baseUrl}/api/pedidos-stock/${pedido.id}`, this.headers)
      
+  }
+
+  getPdfPedidoStock(pedido:pedidoStock) {
+    return this.http
+      .get(`${baseUrl}/api/pedidos-stock/reporte-pdf/${pedido.id}`,
+       {    responseType: 'blob'})
   }
   getByfiltroStock(termino: string) {
     return this.http

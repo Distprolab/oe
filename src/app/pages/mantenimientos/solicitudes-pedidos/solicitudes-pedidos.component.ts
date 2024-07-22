@@ -46,7 +46,7 @@ export class SolicitudesPedidosComponent implements OnInit {
         this.stockService.getDeletePedidoStock(pedido).subscribe(
           (resp: any) => {
             const { msg } = resp;
-            // this.cargarOrdenes();
+             this.getAllStocks();
             Swal.fire('Pedido Eliminado', `${msg} `, 'success');
           },
           (err) => {
@@ -61,5 +61,20 @@ export class SolicitudesPedidosComponent implements OnInit {
       }
     });
   }
-  ImprimirPDf(pedido: any) {}
+  ImprimirPDf(pedido: pedidoStock) {
+
+    console.log(pedido)
+this.stockService.getPdfPedidoStock(pedido).subscribe
+((blob: Blob)=>{
+  const url = window.URL.createObjectURL(blob);
+  console.log(url)
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'archivo.pdf';
+  link.click();
+  window.URL.revokeObjectURL(url);
+  
+})
+
+  }
 }

@@ -25,11 +25,12 @@ import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 type AOA = any[][];
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-  styleUrls: ['./stock.component.css'],
+  selector: 'app-stockmano',
+ 
+  templateUrl: './stockmano.component.html',
+  styleUrl: './stockmano.component.css'
 })
-export class StockComponent implements OnInit {
+export class StockmanoComponent {
   barcodeValue: string;
   dataStore = [];
   cantidad: number = 0;
@@ -75,7 +76,7 @@ export class StockComponent implements OnInit {
     }
     console.log(barcodeFragment);
 
-    if (barcodeFragment.length === 68) {
+    if (barcodeFragment.length === 56) {
       this.actualizarCantidad(barcodeFragment);
 
       setTimeout(() => {
@@ -84,17 +85,21 @@ export class StockComponent implements OnInit {
       }, 300);
     }
   }
-  actualizarCantidad(barcodeS) {
-    const barcode = barcodeS.split('<gs>');
+  actualizarCantidad(barcode) {
+        console.log(barcode)
 
-    const lote = barcode[1] || '';
-    const ven = barcode[2] || '';
-    const ref = barcode[2] || '';
-    const elb = barcode[3] || '';
-    const loteFinal = lote.slice(-8);
-    const venFinal = ven.slice(2, 8);
-    const refFinal = ref.slice(-11);
-    const elbFinal = elb.slice(2);
+    //const barcode = barcodeS.split('<gs>');
+    
+
+    const lote = barcode || '';
+    const ven = barcode || '';
+    const ref = barcode || '';
+    const elb = barcode || '';
+    const venFinal = lote.slice(0,16);//venFinal
+    const loteFinal = ven.slice(18,26);//loteFinal
+    const refFinal = ref.slice(38,48);
+    const elbFinal = elb.slice(-5);
+//console.log(`lote: ${venFinal} --referencia:${refFinal}`)
     const item = this.dataStore.find(
       (entry) => entry.lote === loteFinal && entry.ref === refFinal,
     );
@@ -111,7 +116,7 @@ export class StockComponent implements OnInit {
     }
     this.updateTable();
 
-    // console.log(`ok`, this.dataStore);
+      // console.log(`ok`, this.dataStore);01069471455115861724120710292230111240130656002M
   }
 
   updateTable() {
@@ -120,6 +125,7 @@ export class StockComponent implements OnInit {
     console.log(pruebaExistente);
 
     pruebaExistente.forEach((item, i) => {
+      console.log(i)
       const encontrar = this.dataStore.find((ot) => item.referencia === ot.ref);
 
       console.log(encontrar);
@@ -148,13 +154,15 @@ export class StockComponent implements OnInit {
     return this.fb.group({
       referencia: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
+      ubicacion: ['', [Validators.required]],
       caducidad: ['', [Validators.required]],
       lote: ['', [Validators.required]],
       cantidad: ['', [Validators.required]],
+      reserva: ['', [Validators.required]],
       cantidad_recibida: ['', [Validators.required]],
-      fabricante: ['', [Validators.required]],
+  /*     fabricante: ['', [Validators.required]],
       sanitario: ['', [Validators.required]],
-      comentario: [''],
+      comentario: [''], */
     });
   }
   onFileSelected(event: any) {
@@ -170,10 +178,10 @@ export class StockComponent implements OnInit {
       console.log(this.jsonData);
       if (this.jsonData && this.jsonData.length > 0) {
         this.jsonData.forEach((item) => {
-          if (item['Operaciones/Lote/Fecha caducidad']) {
-            const fechaExcel = item['Operaciones/Lote/Fecha caducidad'];
+          if (item['Lote/Nº de serie/Fecha caducidad']) {
+            const fechaExcel = item['Lote/Nº de serie/Fecha caducidad'];
             const fecha = this.convertirAFecha(fechaExcel);
-            item['Operaciones/Lote/Fecha caducidad'] = fecha;
+            item['Lote/Nº de serie/Fecha caducidad'] = fecha;
           }
         });
       }
@@ -183,15 +191,17 @@ export class StockComponent implements OnInit {
       this.jsonData.forEach((item) => {
         this.productos.push(
           this.fb.group({
-            referencia: item['Operaciones/Producto/Referencia Interna'],
-            descripcion: item['Operaciones/Producto/Nombre'],
-            lote: item['Operaciones/Lote/Lote/Nº de serie'],
-            caducidad: item['Operaciones/Lote/Fecha caducidad'],
-            cantidad: item['Operaciones/Cantidad Pedida'],
+            referencia: item['Producto/Referencia Interna'],
+            descripcion: item['Producto/Nombre'],
+            ubicacion:item['Ubicación/Nombre mostrado'],
+            lote: item['Lote/Nº de serie/Lote/Nº de serie'],
+            caducidad: item['Lote/Nº de serie/Fecha caducidad'],
+            cantidad: item['Cantidad'],
+            reserva:item['Reserved Quantity'],
             cantidad_recibida: '',
-            fabricante: item['Operaciones/Producto/Fabricante'],
+         /*    fabricante: item['Operaciones/Producto/Fabricante'],
             sanitario: item['Operaciones/Producto/Registro Sanitario'],
-            comentario: '',
+            comentario: '', */
           }),
         );
       });
@@ -226,6 +236,8 @@ export class StockComponent implements OnInit {
       },
     );
   }
+
+  
   convertirAFecha(fechaExcel: number) {
     const d1 = new Date((fechaExcel - 25567 - 2) * 86400 * 1000);
     console.log(d1);

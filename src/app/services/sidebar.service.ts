@@ -317,6 +317,12 @@ export class SidebarService {
           url: 'solicitudes-pedidos',
           roles: ['ADMIN', 'INVENTARIO'],
         },
+
+        {
+          titulo: 'Validacion',
+          url: 'validacion',
+          roles: ['ADMIN', 'INVENTARIO'],
+        },
       ],
     },
   ];

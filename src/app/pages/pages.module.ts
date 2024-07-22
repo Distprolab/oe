@@ -72,11 +72,13 @@ import { CotizacionComponent } from './mantenimientos/cotizacion/cotizacion.comp
 import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
 import { CorreosComponent } from './mantenimientos/correos/correos.component';
 import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
+import { StockmanoComponent } from './mantenimientos/stockmano/stockmano.component';
 
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
+    StockmanoComponent,
     StockManualComponent,
     CotizacionComponent,
     CorreosComponent,
