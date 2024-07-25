@@ -19,7 +19,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { filter } from 'rxjs';
 import { DisabledIfDirective } from './directiva/disabled-if.directive';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-
+import { QRCodeModule } from 'angularx-qrcode';
 /* import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment.prod';
 
@@ -27,6 +27,9 @@ import { ModalComponent } from './components/modal/modal.component';
 
 const config: SocketIoConfig = { url: environment.url, options: {} }; */
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { RouterModule } from '@angular/router';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +38,7 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     UppercaseDirective,
     //DisabledIfDirective,
     FilterPipe,
-    
+    //SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,15 +51,14 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     //MatSliderModule,
     NgxPaginationModule,
     DisabledIfDirective,
-    NgxScannerQrcodeModule
-    
-   
+    NgxScannerQrcodeModule,
+    RouterModule,
+
+    QRCodeModule,
     // SocketIoModule.forRoot(config)
   ],
- 
-  providers: [
-    provideCharts(withDefaultRegisterables())
-  ],
+
+  providers: [provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

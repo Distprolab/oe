@@ -36,7 +36,7 @@ export class StockmanoComponent {
   cantidad: number = 0;
   cargando = false;
   jsonData: any[];
-  page;
+  page:number;
   private barcodeSubject = new Subject<string>();
   stockForm!: FormGroup;
   selectedFile: [] = [];
@@ -65,6 +65,7 @@ export class StockmanoComponent {
 
   ngOnInit(): void {
     // this.focusOnBarcodeInput();
+    console.log(this.page)
   }
 
   onBarcodeInput(event: Event): void {

@@ -6,6 +6,8 @@ export class cargaProductos {
     public id: number,
     public UNIDAD: string,
     public GENERACION: string,
+    
+    public VALOR: string,
     public ESTADO: number,
   ) {}
 }

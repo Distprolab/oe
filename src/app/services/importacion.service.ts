@@ -81,13 +81,29 @@ export class ImportacionService {
   }
   obtenerProductoById(id: string) {
     return this.http
-      .get(`${baseUrl}/api/productos/${id}`, this.headers)
+      .get(`${baseUrl}/api/productos/producto/${id}`, this.headers)
       .pipe(
         map(
           (resp: { ok: boolean; productos: cargaProductos }) => resp.productos,
         ),
       );
   }
+
+  UpdateProducto(data: cargaProductos) {
+    return this.http
+      .put(`${baseUrl}/api/productos/${data.id}`,data, this.headers)
+      
+      
+  }
+
+  PostProducto(data: FormData) {
+    return this.http
+      .post(`${baseUrl}/api/productos/producto`,data, this.headers)
+      
+      
+  }
+
+
 
   getUpdateImport(data: Import) {
     return this.http.put(

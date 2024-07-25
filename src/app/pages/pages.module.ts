@@ -69,16 +69,18 @@ import { ReactivoComponent } from './mantenimientos/reactivo/reactivo.component'
 import { ModalidadComponent } from './mantenimientos/modalidad/modalidad.component';
 import { ParticipacionComponent } from './mantenimientos/participacion/participacion.component';
 import { CotizacionComponent } from './mantenimientos/cotizacion/cotizacion.component';
-import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
+import { BarcodeScannerLivestreamModule } from 'ngx-barcode-scanner';
 import { CorreosComponent } from './mantenimientos/correos/correos.component';
 import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
 import { StockmanoComponent } from './mantenimientos/stockmano/stockmano.component';
-
+import { QRCODEComponent } from './mantenimientos/qrcode/qrcode.component';
+import { QRCodeModule } from 'angularx-qrcode';
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
     StockmanoComponent,
+    QRCODEComponent,
     StockManualComponent,
     CotizacionComponent,
     CorreosComponent,
@@ -92,8 +94,8 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     ReactivosComponent,
     StockPruebasComponent,
     CargaOrdenesComponent,
-   
-   ManualComponent,
+
+    ManualComponent,
     DashboardComponent,
     PagesComponent,
     OrdenComponent,
@@ -135,7 +137,6 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     SolicitudesPedidosComponent,
 
     //FilterPipe,
-    
   ],
 
   exports: [
@@ -157,13 +158,12 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     SharedModule,
     HttpClientModule,
     BarcodeScannerLivestreamModule,
-
-  
-   
+    QRCodeModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     FullCalendarModule,
     UtcDatePipe,
+
     SocketIoModule.forRoot(config),
   ],
 })

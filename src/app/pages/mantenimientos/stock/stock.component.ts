@@ -34,8 +34,10 @@ export class StockComponent implements OnInit {
   dataStore = [];
   cantidad: number = 0;
   cargando = false;
+  page:number=1;
+  count: number = 10;
   jsonData: any[];
-  page;
+ 
   private barcodeSubject = new Subject<string>();
   stockForm!: FormGroup;
   selectedFile: [] = [];
@@ -64,6 +66,7 @@ export class StockComponent implements OnInit {
 
   ngOnInit(): void {
     // this.focusOnBarcodeInput();
+ 
   }
 
   onBarcodeInput(event: Event): void {

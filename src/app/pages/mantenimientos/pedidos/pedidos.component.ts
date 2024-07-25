@@ -48,6 +48,7 @@ export class PedidosComponent {
   pedidoStockseleccionado: StockReserva;
   importForm!: FormGroup;
   btnVal = 'Guardar';
+  tittle='Solicitud'
   constructor(
     private fb: FormBuilder,
     private inportService: ImportacionService,
@@ -174,6 +175,7 @@ export class PedidosComponent {
 
       return;
     }
+    this.tittle='Despacho';
     this.btnVal = 'Editar';
     this.importForm.disable();
     this.PRODUCTOS.disable();

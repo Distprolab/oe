@@ -124,10 +124,13 @@
                   </td>
 
                   <td>
-                    <i
-                      class="bx bx-comment-detail"
-                      (click)="comments(i)"
-                    ></i>
+                    <i class="bx bx-comment-detail bx-sm" (click)="comments(i)">
+                    </i>
+                    <span *ngIf="d.comentario.length >0" class="badge badge-danger comment-badge">
+                    1
+                     </span
+                    
+                  >
                   </td>
                   <td>
                     <i
@@ -154,9 +157,9 @@
   </form>
 </div>
 
-<hr />
+<!-- <hr />
 <pre>{{ importForm.valid }}</pre>
-<pre>{{ importForm.value | json }}</pre>
+<pre>{{ importForm.value | json }}</pre> -->
 
 <div class="modal fade" id="modal-info">
   <div class="modal-dialog">

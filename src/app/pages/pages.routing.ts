@@ -60,6 +60,8 @@ import { CotizacionComponent } from './mantenimientos/cotizacion/cotizacion.comp
 import { CorreosComponent } from './mantenimientos/correos/correos.component';
 import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
 import { StockmanoComponent } from './mantenimientos/stockmano/stockmano.component';
+import { QRCODEComponent } from './mantenimientos/qrcode/qrcode.component';
+
 
 const routes: Routes = [
   {
@@ -370,6 +372,11 @@ const routes: Routes = [
         path: 'validacion',
         component: StockmanoComponent,
         data: { titulo: 'validacion' },
+      },
+      {
+        path: 'QRCode',
+        component: QRCODEComponent,
+        data: { titulo: 'QRCode' },
       },
     ],
   },

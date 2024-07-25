@@ -18,48 +18,9 @@ export class CotizacionComponent implements OnInit {
     private fb: FormBuilder,
     private llenarcomboService: LlenarCombosService,
   ) {
-    //this.crearFormulario();
+    this.crearFormulario();
   }
-  listamodelo: Modelo[] = [];
-   listaAcccotizacion: Accesorio[] = [];
-  selectedModelo: any;
-  equipos: Equipo[] = [];
-  btnVal = 'Guardar';
 
-  ngOnInit(): void {
-    this.getModelo();
-   // this.getAcCotizacion();
-   this.llenarcomboService.getAccCotizacion().subscribe((accesorio) => {
-    this.listaAcccotizacion = accesorio;
-   const ctrls = this.listaAcccotizacion.map((control) =>
-    this.fb.control(false),
-  );
-  console.log(ctrls);
-   this.cotizacionForm = this.fb.group(
-    {
-      razonsocial: ['', Validators.required],
-      ruc: ['', Validators.required],
-      correo: ['', Validators.required],
-      modalidad: ['', Validators.required],
-      estadistica: ['', Validators.required],
-      carga:[''],
-      acc: this.fb.array(ctrls),
-      comentarios: ['', Validators.required],
-
-      EQUIPO_ID: this.fb.array([]),
-    },
-    { validators: this.validatePruebas },
-  );
-
-
-  });
-    console.log(this.listaAcccotizacion)
-  }
-/*   getAcCotizacion() {
-    this.llenarcomboService.getAccCotizacion().subscribe((accesorio) => {
-      this.listaAcccotizacion = accesorio;
-    });
-  } */
   get razonsocial() {
     return (
       this.cotizacionForm?.get('razonsocial')!.invalid &&
@@ -107,12 +68,28 @@ export class CotizacionComponent implements OnInit {
     return this.cotizacionForm.get('acc') as FormArray;
   }
 
- /*  get carga() {
-    return this.cotizacionForm.get('carga') as FormArray;
-  } */
   get EQUIPO_ID() {
     return this.cotizacionForm.get('EQUIPO_ID') as FormArray;
-    // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
+  }
+
+ 
+  listamodelo: Modelo[] = [];
+  listaAcccotizacion: Accesorio[] = [];
+  selectedModelo: any;
+  equipos: Equipo[] = [];
+  btnVal = 'Guardar';
+
+  ngOnInit(): void {
+    this.getModelo();
+
+    /*  this.llenarcomboService.getAccCotizacion().subscribe((accesorio) => {
+      this.listaAcccotizacion = accesorio;
+      const ctrls = this.listaAcccotizacion.map((control) =>
+        this.fb.control(false),
+      );
+      console.log(ctrls);
+    });
+    console.log(this.listaAcccotizacion); */
   }
 
   getModelo() {
@@ -122,14 +99,7 @@ export class CotizacionComponent implements OnInit {
       this.listamodelo = modelo;
     });
   }
-
-/*   crearFormulario() {
-    console.log(this.listaAcccotizacion);
-    const ctrls = this.listaAcccotizacion.map((control) =>
-      this.fb.control(false),
-    );
-    console.log(ctrls);
-
+  crearFormulario() {
     this.cotizacionForm = this.fb.group(
       {
         razonsocial: ['', Validators.required],
@@ -138,27 +108,27 @@ export class CotizacionComponent implements OnInit {
         modalidad: ['', Validators.required],
         estadistica: ['', Validators.required],
         carga: [''],
-        acc: this.fb.array(ctrls),
+        // acc: this.fb.array(ctrls),
         comentarios: ['', Validators.required],
 
         EQUIPO_ID: this.fb.array([]),
       },
-      { validators: this.validatePruebas },
+      /* { validators: this.validatePruebas }, */
     );
-  } */
+  }
   getSelectedRoles() {
     return this.cotizacionForm.value.areas
       .map((checked, i) => (checked ? this.listaAcccotizacion[i].CODIGO : null))
       .filter((CODIGO) => CODIGO !== 'null');
   }
 
-  validatePruebas(formGroup: FormGroup) {
+ /*  validatePruebas(formGroup: FormGroup) {
     const pruebasArray = formGroup.get('acc') as FormArray;
     if (pruebasArray.length === 0) {
       return { noPruebas: true };
     }
     return null;
-  }
+  } */
 
   guardar() {
     if (this.cotizacionForm.invalid) {
@@ -189,9 +159,11 @@ export class CotizacionComponent implements OnInit {
       //const EQUIPO_ID = this.cotizacionForm.get('EQUIPO_ID') as FormArray;
       this.EQUIPO_ID.push(
         this.fb.group({
-          Itemequipo: selectedEquipo.id,
-          modeloEquipo: this.selectedModelo.NOMBRE,
-          nombre: selectedEquipo.NOMBRE,
+          itemAnalizador: selectedEquipo.id,
+          nombreAnalizador: selectedEquipo.NOMBRE,
+          idEquipo: this.selectedModelo.id,
+          nombreEquipo: this.selectedModelo.NOMBRE,
+          
           CANTIDAD: '',
         }),
       );
@@ -202,9 +174,7 @@ export class CotizacionComponent implements OnInit {
     return this.cotizacionForm.get('acc')?.value.includes(value);
   }
   onFileSelected(event: any) {
-  console.log(event.target.files)
-
-
+    console.log(event.target.files);
   }
 
   enviarArchivo() {}

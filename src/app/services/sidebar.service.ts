@@ -212,6 +212,11 @@ export class SidebarService {
           url: 'productos',
           roles: ['ADMIN', 'IMPORT', 'INVENTARIO'],
         },
+        {
+          titulo: 'CREAR PRODUCTO MANUAL',
+          url: 'producto/Nuevo',
+          roles: ['ADMIN', 'IMPORT', 'INVENTARIO'],
+        },
       ],
     },
 
@@ -291,37 +296,42 @@ export class SidebarService {
       icono: 'right fas fa-angle-left',
       submenu: [
         {
-          titulo: 'Stock',
+          titulo: 'CARGA STOCK EXCEL',
           url: 'stock',
           roles: ['ADMIN', 'INVENTARIO'],
         },
         {
-          titulo:'STOCK MANUAL',
+          titulo:'CARGA STOCK MANUAL',
           url:'stock-manual',
           roles:['ADMIN', 'INVENTARIO']
         },
         {
-          titulo: 'Stocks',
+          titulo: 'DETALLE DE STOCK',
           url: 'stocks',
           roles: ['ADMIN', 'INVENTARIO'],
         },
         {
-          titulo: 'solicitud-pedidos',
+          titulo: 'SOLICITUD BODEGA',
           url: 'solicitud-pedidos/Nuevo',
           // url: 'pedido-importacion/Nuevo',
-          roles: ['ADMIN'],
+          roles: ['ADMIN','INVENTARIO'],
         },
 
         {
-          titulo: 'solicitudes-pedidos',
+          titulo: 'SOLICITUDES GENERADAS',//QRCode
           url: 'solicitudes-pedidos',
+          roles: ['ADMIN', 'INVENTARIO'],
+        },
+        {
+          titulo: 'QRCode',//QRCode
+          url: 'QRCode',
           roles: ['ADMIN', 'INVENTARIO'],
         },
 
         {
           titulo: 'Validacion',
           url: 'validacion',
-          roles: ['ADMIN', 'INVENTARIO'],
+          roles: ['ADMIN', ],
         },
       ],
     },

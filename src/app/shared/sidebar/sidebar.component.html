@@ -39,7 +39,8 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item" *ngFor="let subMenuItem of item.submenu">
-              <a
+              
+               <a
                 class="nav-link"
                 [routerLink]="subMenuItem.url"
                 routerLinkActive="active"
@@ -47,7 +48,8 @@
               >
                 <i class="far fa-circle nav-icon"></i>
                 <p>{{ subMenuItem.titulo }}</p>
-              </a>
+              </a>  
+             
             </li>
           </ul>
         </li>

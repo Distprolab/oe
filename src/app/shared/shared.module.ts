@@ -5,9 +5,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumsComponent } from './breadcrums/breadcrums.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
+/* import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { MatSliderModule } from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider'; */
 
 @NgModule({
   declarations: [
@@ -16,12 +16,17 @@ import { MatSliderModule } from '@angular/material/slider';
     BreadcrumsComponent,
     FooterComponent,
   ],
-  imports: [CommonModule, RouterModule, MatToolbarModule, MatSliderModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    /* MatToolbarModule, MatSliderModule */
+  ],
   exports: [
     HeaderComponent,
     SidebarComponent,
     BreadcrumsComponent,
     FooterComponent,
+    RouterModule
   ],
 })
 export class SharedModule {}

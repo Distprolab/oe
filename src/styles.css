@@ -109,6 +109,14 @@ td {
   border: 1px solid black;
   background-color: #bcbab4;
 }
+
+
+.comment-badge {
+  position: absolute;
+  padding: 2px 4px;
+  margin: -5px -10px;
+}
+
 /* 
 
 table {
