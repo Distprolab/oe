@@ -25,6 +25,9 @@ import { StockReserva } from 'src/app/interfaces/cargarStockReserva.interface';
 import { StockService } from 'src/app/services/stock.service';
 import { finalize, map } from 'rxjs';
 import { event } from 'jquery';
+import { MantenimientosService } from 'src/app/services/mantenimientos.service';
+import { Bodega } from 'src/app/interfaces/cargaBodega.interface';
+import { Correo } from 'src/app/interfaces/cargaCorreo.interface';
 declare var $: any;
 @Component({
   selector: 'app-stock-manual',
@@ -48,7 +51,11 @@ export class StockManualComponent {
   importadoTemp: Pedido[] = [];
   pedidoseleccionado: PedidoStock;
   pedidoStockseleccionado: StockReserva;
+  listacorreo: Correo[] = [];
+
   importForm!: FormGroup;
+  listabodega: Bodega[] = [];
+
   btnVal = 'Guardar';
   constructor(
     private fb: FormBuilder,
@@ -56,6 +63,7 @@ export class StockManualComponent {
     private stockService:StockService,
     private llenarcomboService: LlenarCombosService,
     private activatedRoute: ActivatedRoute,
+    private manteniemintoService: MantenimientosService,
     private router: Router,
   ) {
     this.crearFormulario();
@@ -78,15 +86,44 @@ export class StockManualComponent {
     );
   }
 
+  get bodegaId() {
+    return (
+      this.importForm?.get('bodegaId')!.invalid &&
+      this.importForm?.get('bodegaId  ')!.touched
+    );
+  }
 
+  get correo() {
+    return (
+      this.importForm?.get('correo')!.invalid &&
+      this.importForm?.get('correo')!.touched
+    );
+  }
   get productos() {
     return this.importForm.get('productos') as FormArray;
     // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
+  }
+
+  getBodega() {
+    this.manteniemintoService.getBodega().subscribe((bodega) => {
+      console.log(bodega);
+
+      this.listabodega = bodega;
+    });
+  }
+  getProveedor(){
+    this.llenarcomboService.getCorreo().subscribe((correo) => {
+      console.log(correo);
+
+      this.listacorreo = correo;
+    });
   }
   ngOnInit(): void {
     this.getAllProductos();
     this.getMarca();
     this.getCliente();
+    this.getBodega();
+this.getProveedor();
 
     //this.activatedRoute.params.subscribe(({ id }) => this.crearStock(id));
     //this.activatedRoute.params.subscribe((resp) => console.log(`PARAMS`, resp));
@@ -102,7 +139,8 @@ export class StockManualComponent {
   crearFormulario() {
     this.importForm = this.fb.group({
       guia: ['', [Validators.required]],
-      /*   MARCA: ['', [Validators.required]], */
+         bodegaId: ['', [Validators.required]], 
+         correo:['', [Validators.required]], 
       productos: this.fb.array([]),
     });
   }

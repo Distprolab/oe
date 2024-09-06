@@ -13,9 +13,9 @@ export interface stocksPedido {
     updatedAt?: Date;
     usuarioId?: number;
     userId?: number;
-    items?: Item[];
-    user?: User;
-
+    itemstock?: Item[];
+    usuario?: Usuario;
+    user?: Usuario;
     clientes?: Clientes;
     marcas?: Marcas;
   }
@@ -23,12 +23,12 @@ export interface stocksPedido {
   export interface Item {
     ID_PRODUCTO?: number;
     CANTIDAD?: number;
-    product?: Product | null;
+    product:     Product;
   }
   
-  export interface User {
-    doctor?: string;
-  }
+  export interface Usuario {
+    doctor: string;
+}
   
   export interface Product {
     NOMBRE?: string;

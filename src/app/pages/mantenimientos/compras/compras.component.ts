@@ -334,7 +334,7 @@ export class ComprasComponent implements OnInit {
       {
         institucion: ['', [Validators.required]],
         codigo: ['', [Validators.required]], //ASIGNADO
-       // ASIGNADO: ['', [Validators.required]], //ASIGNADO
+        // ASIGNADO: ['', [Validators.required]], //ASIGNADO
         linkproceso: ['', [Validators.required]],
         tiempoconsumo: ['', [Validators.required]],
         determinacion: ['', [Validators.required]],
@@ -475,7 +475,6 @@ export class ComprasComponent implements OnInit {
     });
   }
   getSelectedRoles() {
-  
     return this.RegistroForm.value.areas
       .map((checked, i) => (checked ? this.equipos[i].value : null))
       .filter((value) => value !== 'null');
@@ -578,7 +577,7 @@ export class ComprasComponent implements OnInit {
       }),
     );
   }
- /*  select(value: string): boolean {
+  /*  select(value: string): boolean {
     console.log(value);
     return this.RegistroForm.get('areas')?.value.includes(value);
   } */

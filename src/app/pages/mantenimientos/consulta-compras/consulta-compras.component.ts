@@ -90,7 +90,8 @@ export class ConsultaComprasComponent implements OnInit {
   listaequipos: Equipo[] = [];
   equipos: Equipo[] = [];
   listamodelo: Modelo[] = [];
-  listatipocontrato: Modelo[] = [];
+  //listatipocontrato: Modelo[] = [];
+  listatipocontrato;
   listaproductos: Producto[] = [];
   openCoverages = false;
   indexSelectedCoverage = 1;

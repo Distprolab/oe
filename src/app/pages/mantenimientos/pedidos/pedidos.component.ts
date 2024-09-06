@@ -146,22 +146,7 @@ export class PedidosComponent {
     }
   }
 
-  //  console.log(item);
 
-  /*   const productoId = Number($event.target.value);
-    const productoSeleccionado = this.listaproductos.find(
-      (producto) => producto.id === productoId,
-    );
-    const filaSeleccionada = (this.importForm.get('PRODUCTOS') as FormArray).at(i,    );    
-    if (productoSeleccionado) {
-      filaSeleccionada.patchValue({
-        NOMBRE: productoSeleccionado.NOMBRE,
-        UNIDAD: productoSeleccionado.UNIDAD,
-        CANTIDAD: null,
-        ENTREGADO: null,
-        LOTE: null,
-      });
-  } */
 
   onreset() {}
   borrarProducto(i: number) {
@@ -209,10 +194,7 @@ export class PedidosComponent {
     });
   }
   guardar() {
-    /*   if (this.importForm.invalid) {
-        this.importForm.markAllAsTouched();
-        return;
-      } */
+   
     if (this.importForm.invalid) {
       this.importForm.markAllAsTouched();
       return;
@@ -246,19 +228,7 @@ export class PedidosComponent {
           this.importForm.reset();
           this.importForm.disable();
         });
-      /* this.inportService
-        .getRegistroImport(this.importForm.value)
-        .subscribe((resp: any) => {
-          const { msg } = resp;
-          Swal.fire({
-            icon: 'success',
-            title: `${msg}`,
-            showConfirmButton: false,
-          });
-          this.router.navigateByUrl('/dashboard/pedidos');
-          this.importForm.reset();
-          this.importForm.disable();
-        }); */
+     
     }
   }
   getMarca() {
@@ -313,11 +283,6 @@ export class PedidosComponent {
     this.isLoading = true;
 
     this.data$ = this.llenarcomboService.pruebasreactivos({ q: value });
-    //this.isLoading=false;
-    /* .subscribe((productos) => {
-        console.log(productos);
-
-        this.listaproductos=productos;
-      }); */
+  
   }
 }

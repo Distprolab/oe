@@ -9,71 +9,72 @@ import Swal from 'sweetalert2';
 declare var $: any;
 @Component({
   selector: 'app-correos',
-  
-  templateUrl: './correos.component.html',
-  styleUrl: './correos.component.css'
-})
-export class CorreosComponent  implements OnInit{
 
+  templateUrl: './correos.component.html',
+  styleUrl: './correos.component.css',
+})
+export class CorreosComponent implements OnInit {
   correoForm!: FormGroup;
-  cargando:false;
-  listacorreo:Correo[]=[];
+  cargando: false;
+  listacorreo: Correo[] = [];
   public page!: number;
-  constructor( 
+  constructor(
     private manteniemintoService: MantenimientosService,
     private fb: FormBuilder,
     private router: Router,
-    private llenarcomboService:LlenarCombosService,
-    private activatedRoute: ActivatedRoute,) { this.crearFormulario();}
-    get nombres() {
-      return (
-        this.correoForm?.get('nombres')!.invalid &&
-        this.correoForm?.get('nombres')!.touched
-      );
-    }
-  
-    get apellidos() {
-      return (
-        this.correoForm?.get('apellidos')!.invalid &&
-        this.correoForm?.get('apellidos')!.touched
-      );
-    }
+    private llenarcomboService: LlenarCombosService,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.crearFormulario();
+  }
+  get nombres() {
+    return (
+      this.correoForm?.get('nombres')!.invalid &&
+      this.correoForm?.get('nombres')!.touched
+    );
+  }
 
+  get apellidos() {
+    return (
+      this.correoForm?.get('apellidos')!.invalid &&
+      this.correoForm?.get('apellidos')!.touched
+    );
+  }
 
-    get correo() {
-      return (
-        this.correoForm?.get('correo')!.invalid &&
-        this.correoForm?.get('correo')!.touched
-      );
-    }
+  get correo() {
+    return (
+      this.correoForm?.get('correo')!.invalid &&
+      this.correoForm?.get('correo')!.touched
+    );
+  }
+
+  get empresa() {
+    return (
+      this.correoForm?.get('empresa')!.invalid &&
+      this.correoForm?.get('empresa')!.touched
+    );
+  }
   ngOnInit(): void {
-
     this.getCorreo();
   }
   getCorreo() {
     this.llenarcomboService.getCorreo().subscribe((correo) => {
       console.log(correo);
 
-      this.listacorreo= correo;
+      this.listacorreo = correo;
     });
   }
 
   crearFormulario() {
-    this.correoForm = this.fb.group(
-      {
-       
-        nombres: ['', [Validators.required]],
-        apellidos: ['', [Validators.required]],
-        correo: ['', [Validators.required]],
-       
-      },
-      
-    );
+    this.correoForm = this.fb.group({
+      nombres: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
+      correo: ['', [Validators.required]],
+      empresa: ['', [Validators.required]],
+    });
   }
 
-
   crearCorreo() {
-
     if (this.correoForm.invalid) {
       this.correoForm.markAllAsTouched();
       return;
@@ -88,22 +89,21 @@ export class CorreosComponent  implements OnInit{
     });
     Swal.showLoading(null);
     this.manteniemintoService.getCrearCorreo(this.correoForm.value).subscribe(
-      (resp:any) => {
-
+      (resp: any) => {
         this.getCorreo();
-        const {msg}=resp
+        const { msg } = resp;
         Swal.fire({
           icon: 'success',
 
           titleText: `${msg}`,
-          timer:1500
+          timer: 1500,
         });
         $('#modal-info').modal('hide');
         this.correoForm.reset({
-         
-          NOMBRE: '',
-          CATEGORIA: '',
-          
+          nombres: '',
+          apellidos: '',
+          empresa: '',
+          correo: '',
         });
         //this.router.navigateByUrl('/dashboard/usuarios');
       },
@@ -117,7 +117,5 @@ export class CorreosComponent  implements OnInit{
       },
     );
   }
-  borrarcorreo(){
-
-}
+  borrarcorreo() {}
 }

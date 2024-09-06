@@ -22,12 +22,12 @@
                 <input
                   type="text"
                   class="form-control"
-                  formControlName="razonsocial"
-                  [class.is-invalid]="razonsocial"
+                  formControlName="RAZONSOCIAL"
+                  [class.is-invalid]="RAZONSOCIAL"
                   placeholder="Ingrese nombre de la institucion"
                   appUppercase
                 />
-                <small *ngIf="razonsocial" class="text-danger"
+                <small *ngIf="RAZONSOCIAL" class="text-danger"
                   >Campo obligatorio
                 </small>
               </div>
@@ -41,10 +41,10 @@
                   type="text"
                   class="form-control"
                   placeholder="Ingrese codigos de procesos"
-                  formControlName="ruc"
-                  [class.is-invalid]="ruc"
+                  formControlName="RUC"
+                  [class.is-invalid]="RUC"
                 />
-                <small *ngIf="ruc" class="text-danger"
+                <small *ngIf="RUC" class="text-danger"
                   >Campo obligatorio
                 </small>
               </div>
@@ -52,16 +52,16 @@
 
             <div class="col-md-3">
               <div class="form-group">
-                <label for="">Correo</label>
+                <label for="">CORREO</label>
 
                 <input
                   type="text"
                   class="form-control"
                   placeholder="Ingrese codigos de procesos"
-                  formControlName="correo"
-                  [class.is-invalid]="correo"
+                  formControlName="CORREO"
+                  [class.is-invalid]="CORREO"
                 />
-                <small *ngIf="correo" class="text-danger"
+                <small *ngIf="CORREO" class="text-danger"
                   >Campo obligatorio
                 </small>
               </div>
@@ -71,20 +71,21 @@
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="">Modalidad de la oferta</label>
+                <label for="">MODALIDAD de la oferta</label>
                 <select
                   name=""
                   id=""
-                  formControlName="modalidad"
-                  [class.is-invalid]="modalidad"
+                  formControlName="MODALIDAD"
+                  [class.is-invalid]="MODALIDAD"
                   class="form-control"
                 >
                   <option value="">--Seleccione--</option>
-                  <option value="1">VENTA</option>
-                  <option value="2">
-                    ALQUILER (Solo disponible en plataformas Roche)
+                  <option
+                    *ngFor="let modalidad of listamodalidad"
+                    [value]="modalidad.id"
+                  >
+                    {{ modalidad.NOMBRE }}
                   </option>
-                  <option value="2">COMODATO</option>
                 </select>
                 <!-- <input
                     type="text"
@@ -93,7 +94,7 @@
                     formControlName="codigo"
                     [class.is-invalid]=""
                   /> -->
-                <small *ngIf="modalidad" class="text-danger"
+                <small *ngIf="MODALIDAD" class="text-danger"
                   >Campo obligatorio
                 </small>
               </div>
@@ -137,7 +138,6 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="" class="">Area:</label>
-
                 <select
                   class="form-control"
                   id="modelo-select"
@@ -165,10 +165,7 @@
                   formControlName="EQUIPO_ID"
                   [class.is-invalid]=""
                   (change)="onSelectEquipo($event)"
-
                 >
-
-
                   <option value="">--Seleccione--</option>
                   <option *ngFor="let equipo of equipos" [value]="equipo.id">
                     {{ equipo.NOMBRE }}
@@ -218,7 +215,7 @@
         </div>
       </div>
 
- <!--      <div class="card card-info">
+      <!--      <div class="card card-info">
 
         <div class="card-header">
           <h6 class="card-title">Equipos complementarios</h6>
@@ -258,7 +255,7 @@
       <div class="card">
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title">Informacion estadistica</h3>
+            <h3 class="card-title">Informacion ESTADISTICA</h3>
           </div>
         </div>
         <div class="card-body">
@@ -270,9 +267,9 @@
           <div class="form-group col-md-4">
             <input
               type="radio"
-              value="si"
-              formControlName="estadistica"
-              [class.is-invalid]="estadistica"
+              value="1"
+              formControlName="ESTADISTICA"
+              [class.is-invalid]="ESTADISTICA"
             />
             <label class="labelcheck" for="">Si</label>
           </div>
@@ -280,45 +277,44 @@
           <div class="form-group col-md-4">
             <input
               type="radio"
-              value="no"
-              formControlName="estadistica"
-              [class.is-invalid]="estadistica"
+              value="0"
+              formControlName="ESTADISTICA"
+              [class.is-invalid]="ESTADISTICA"
             />
             <label class="labelcheck" for="">No</label>
           </div>
         </div>
       </div>
-      <div *ngIf="cotizacionForm.value.estadistica == 'si'" class="card">
+      <div *ngIf="cotizacionForm.value.ESTADISTICA == '1'" class="card">
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title">Carga de archivo.</h3>
+            <h3 class="card-title">FILE de archivo.</h3>
           </div>
         </div>
         <div class="card-body">
           <div class="form-group col-md-12">
-            <label for="" class="form-ItemName"
-              >Cargar archivo que contenga información estadística de
-              ventas/consumo del cliente</label
+            <label for="" class="form-ItemName">
+              archivo que contenga información estadística de ventas/consumo del
+              cliente</label
             >
           </div>
 
           <input
-            formControlName="carga"
             type="file"
             multiple="multiple"
             (change)="onFileSelected($event)"
             class="input-file"
           />
 
-          <button (click)="enviarArchivo()" class="btn btn-primary">
+          <!--  <button (click)="enviarArchivo()" class="btn btn-primary">
             Subir archivo
-          </button>
+          </button> -->
         </div>
       </div>
       <div class="card">
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title" for="">Comentarios</h3>
+            <h3 class="card-title" for="">COMENTARIOS</h3>
           </div>
         </div>
         <div class="card-body">
@@ -327,7 +323,7 @@
               <div class="form-group">
                 <div class="form-group col-md-12">
                   <label for="" class="form-ItemName"
-                    >Si tiene comentarios sobre la información proporcionada por
+                    >Si tiene COMENTARIOS sobre la información proporcionada por
                     el cliente para el requerimiento, por favor detalle.</label
                   >
                 </div>
@@ -335,7 +331,7 @@
                 <textarea
                   class="form-control textarea-mod"
                   rows="5"
-                  formControlName="comentarios"
+                  formControlName="COMENTARIOS"
                   placeholder="Enter ..."
                 ></textarea>
               </div>
@@ -355,7 +351,7 @@
       </div>
     </div>
   </form>
-</div> 
+</div>
 
 <hr />
 <pre>
@@ -369,4 +365,4 @@
         {{ cotizacionForm.value | json }}
     
         </pre
-> 
+>

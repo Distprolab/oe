@@ -49,68 +49,91 @@
                   <th class="text-table">RESPONSABLE</th>
                   <th class="text-table">Estado</th>
                   <th class="text-table">Acciones</th>
+                  
                 </tr>
               </thead>
 
               <tbody>
-                <tr
+                <ng-container
                   *ngFor="
                     let pedido of listaPedidoStock
-                      | paginate: { itemsPerPage: 8, currentPage: page }
+                      | paginate: { itemsPerPage: 10, currentPage: page };
+                    let i = index
                   "
                 >
-                  <td>{{ pedido.FECHAPEDIDOSTOCK }}</td>
-                  <td>{{ pedido.AREA }}</td>
-                  <td>{{ pedido.user.doctor }}</td>
-                  <td>
-                    <span
-                      *ngIf="pedido.ESTADO == 1 "
-                      class="rounded shadow bg-pen"
-                      >Creado</span
-                    >
+                  <tr>
+                    <td>{{ pedido.FECHAPEDIDOSTOCK }}</td>
+                    <td></td>
+                    <td>{{ pedido.usuario.doctor }}</td>
+                    <td>
+                      <span
+                        *ngIf="pedido.ESTADO == 1"
+                        class="rounded shadow bg-pen"
+                        >Creado</span
+                      >
 
-                    <span
-                      *ngIf="pedido.ESTADO == 2"
-                      class="rounded shadow bg-com"
-                      >Despachado</span
-                    >
-                    <span
-                    *ngIf="pedido.ESTADO == 0"
-                    class="rounded shadow "
-                    >Anulado</span
-                  >
-                  </td>
+                      <span
+                        *ngIf="pedido.ESTADO == 2"
+                        class="rounded shadow bg-com"
+                        >Despachado</span
+                      >
+                      <span *ngIf="pedido.ESTADO == 0" class="rounded shadow"
+                        >Anulado</span
+                      >
+                    </td>
 
-                  <td class="text-nowrap">
-                    <a
-                      [ngClass]="{ 'disabled-icon': pedido.ESTADO != 1 }"
-                      [routerLink]="[
-                        '/dashboard',
-                        'solicitud-pedidos',
-                        pedido.id
-                      ]"
-                    >
-                      <i class="bx bx-edit-alt bx-sm"></i>
-                    </a>
-
-                    <span class="cursor">
-                      <a [ngClass]="{ 'disabled-icon': pedido.ESTADO != 1 }">
-                        <i
-                          (click)="borrarPedido(pedido)"
-                          class="bx bxs-trash bx-sm"
-                        ></i>
+                    <td class="text-nowrap">
+                      <a
+                        [ngClass]="{ 'disabled-icon': pedido.ESTADO != 1 }"
+                        [routerLink]="[
+                          '/dashboard',
+                          'solicitud-pedidos',
+                          pedido.id
+                        ]"
+                      >
+                        <i class="bx bx-edit-alt"></i>
                       </a>
-                    </span>
-                    <span class="cursor">
-                      <a>
+
+                      <span class="cursor">
+                        <a [ngClass]="{ 'disabled-icon': pedido.ESTADO != 1 }">
+                          <i
+                            (click)="borrarPedido(pedido)"
+                            class="bx bxs-trash "
+                          ></i>
+                        </a>
+                      </span>
+                      <span class="cursor">
+                        <a>
+                          <i
+                            (click)="ImprimirPDf(pedido)"
+                            class="bx bxs-file-pdf "
+                          ></i>
+                        </a>
+                      </span>
+
+                      <span (click)="toggleDetails(i)">
                         <i
-                          (click)="ImprimirPDf(pedido)"
-                          class="bx bxs-file-pdf bx-sm"
-                        ></i>
-                      </a>
-                    </span>
-                  </td>
-                </tr>
+                        class="bx"
+                        [ngClass]="{
+                          'bxs-down-arrow ': showDetails[i],
+                          'bxs-right-arrow ': !showDetails[i]
+                        }"
+                      ></i>
+                      </span>
+                    </td>
+                  
+                  </tr>
+                  <ng-container *ngIf="showDetails[i]">
+                    <ng-container *ngFor="let item of pedido.itemstock">
+                      <tr>
+                        <td colspan="2"></td>
+                        <td>{{ item.ID_PRODUCTO }}</td>
+                        <td>{{ item.product.NOMBRE }}</td>
+                        <td>{{ item.CANTIDAD }}</td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
               </tbody>
             </table>
           </div>

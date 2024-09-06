@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Marca } from 'src/app/interfaces/cargaMarca.interface';
+import { Modalidad } from 'src/app/interfaces/cargaModalidad.interface';
+
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
@@ -16,7 +18,7 @@ export class ModalidadComponent {
 
   modalidadForm!: FormGroup;
   cargando: false;
-  listamodalidad: Marca[] = [];
+  listamodalidad: Modalidad[] = [];
   public page!: number;
   constructor(
     private manteniemintoService: MantenimientosService,

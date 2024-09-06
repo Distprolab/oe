@@ -2,7 +2,7 @@
   text-decoration: none;
   color: #f00;
   list-style: none;
-  z-index: -99;
+  margin-top: 50px;
   /* Color de texto para el enlace "Cerrar sesión" */
 }
 

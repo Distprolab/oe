@@ -1,6 +1,9 @@
 import { panelPrueba } from '../models/panelPruebas.module';
-
-export interface PanelPruebas {
+ export interface PanelPruebas {
   ok: boolean;
   pruebas: panelPrueba[];
-}
+} 
+
+
+
+

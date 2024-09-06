@@ -5,7 +5,11 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
 import { Usuario } from '../../../models/usuario.module';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-usuarios',
@@ -86,7 +90,10 @@ export class UsuariosComponent implements OnInit {
   }
 
   UpdateP() {
-    if (this.passwordforma.invalid || !this.passwordforma.get('password')?.value) {
+    if (
+      this.passwordforma.invalid ||
+      !this.passwordforma.get('password')?.value
+    ) {
       // Si el formulario es inválido o el campo de contraseña está vacío, no hagas nada
       return;
     }

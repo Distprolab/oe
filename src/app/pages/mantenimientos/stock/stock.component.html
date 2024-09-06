@@ -33,19 +33,57 @@
                   Cancelar
                 </button>
               </div>
-              <div class="form-group col-md-3">
-                <label for="">Guia</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="guia"
-                  [class.is-invalid]="guia"
-                  [readOnly]="true"
-                  placeholder="Ingrese guia.."
-                />
-                <small *ngIf="guia" class="text-danger"
-                  >Ingrese un caracter</small
-                >
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label for="">Guia</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="guia"
+                    [class.is-invalid]="guia"
+                    [readOnly]="true"
+                    placeholder="Ingrese guia.."
+                  />
+                  <small *ngIf="guia" class="text-danger"
+                    >Ingrese un caracter</small
+                  >
+                </div>
+
+                <div class="form-group col-md-3">
+                  <label for="">Bodega</label>
+                  <select class="form-control"
+                  formControlName="bodegaId">
+                    <option value="">--selecione--</option>
+                    <option
+                      *ngFor="let bodega of listabodega"
+                      [value]="bodega.id"
+                    >
+                      {{ bodega.NOMBRE }}
+                    </option>
+                  </select>
+                  <small *ngIf="guia" class="text-danger"
+                    >Ingrese un caracter</small
+                  >
+                </div>
+
+
+                <div class="form-group col-md-3">
+                  <label for="">Proveedor</label>
+                  <select class="form-control"
+                  formControlName="proveedor">
+                    <option value="">--selecione--</option>
+                    <option
+                      *ngFor="let bodega of listacorreo"
+                      [value]="bodega.empresa"
+                    >
+                      {{ bodega.empresa }}
+                    </option>
+                  </select>
+                  <small *ngIf="guia" class="text-danger"
+                    >Ingrese un caracter</small
+                  >
+                </div>
+
               </div>
               <!-- style="opacity: 0; position: absolute; top: -9999px;" -->
 
@@ -67,14 +105,12 @@
                       <th>#</th>
                       <th>Referencia</th>
                       <th>Descripcion</th>
-
                       <th>Lote</th>
-                      <th>F. caducidad</th>
+                      <th>F.caducidad</th>
                       <th>Cantidad</th>
-                      <th>Cantidad Recibida</th>
+                      <th>Cant Recibida</th>
                       <th>Fabricante</th>
                       <th>Registro Sanitario</th>
-                      
                     </tr>
                   </thead>
 
@@ -82,12 +118,13 @@
                     <tr
                       *ngFor="
                         let producto of stockForm.controls['productos']?.value
-                          | paginate: { itemsPerPage: count, currentPage: page };
+                          | paginate
+                            : { itemsPerPage: count, currentPage: page };
                         let i = index
                       "
                       [formGroupName]="i"
                     >
-                      <td>{{(page )  }}</td>
+                      <td>{{ page }}</td>
                       <td>{{ producto.referencia }}</td>
                       <td>{{ producto.descripcion }}</td>
                       <td>{{ producto.lote }}</td>
@@ -97,15 +134,18 @@
                       <td>{{ producto.cantidad_recibida }}</td>
                       <td>{{ producto.fabricante }}</td>
                       <td>{{ producto.sanitario }}</td>
-                      <td >
-              
-                          <i class="bx bx-comment-detail bx-sm" (click)="comments(i)">
-                          </i>
-                          <span *ngIf="producto.comentario.length >0" class="badge badge-danger comment-badge">
-                          1
-                           </span
-                          
+                      <td>
+                        <i
+                          class="bx bx-comment-detail bx-sm"
+                          (click)="comments(i)"
                         >
+                        </i>
+                        <span
+                          *ngIf="producto.comentario.length > 0"
+                          class="badge badge-danger comment-badge"
+                        >
+                          1
+                        </span>
                       </td>
                     </tr>
                   </tbody>
@@ -113,7 +153,6 @@
               </div>
               <pagination-controls
                 (pageChange)="page = $event"
-               
               ></pagination-controls>
             </form>
           </div>
@@ -141,7 +180,7 @@
     </div>
   </div>
 </div>-->
-<!-- <hr />
+<hr />
 <pre>
     Estado del formulario: {{ stockForm.valid }}
     <br>
@@ -153,4 +192,4 @@
     {{ stockForm.value | json }}
 
     </pre
->  -->
+>

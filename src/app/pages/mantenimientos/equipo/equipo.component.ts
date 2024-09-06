@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormGroup,
@@ -7,9 +7,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { event } from 'jquery';
 import { Equipo, Equipos } from 'src/app/interfaces/carga-equipos.interfaces';
+import { Analizador } from 'src/app/interfaces/cargaAnalizador.interface';
+import { Estado } from 'src/app/interfaces/cargaEstado.interface';
 import { Marca } from 'src/app/interfaces/cargaMarca.interface';
 import { Modelo } from 'src/app/interfaces/cargaModelo.interface';
+import { Equipocomplementario } from 'src/app/interfaces/cargarEquipocomplementarios.interface';
+import { Estadocliente } from 'src/app/interfaces/cargarEstadoCliente.interface';
+import { Estadoproveedor } from 'src/app/interfaces/cargarEstadoProveedores.interface';
+import { EquipoID } from 'src/app/interfaces/cargarIDEquipos.interface';
+import { Ubicacion } from 'src/app/interfaces/cargaUbicacioninterface';
 
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
@@ -19,16 +27,27 @@ import Swal from 'sweetalert2';
   templateUrl: './equipo.component.html',
   styleUrl: './equipo.component.css',
 })
-export class EquipoComponent {
+export class EquipoComponent implements OnInit {
   equipoForm!: FormGroup;
   cargando = false;
   public page!: number;
-  listaequipos: Equipo[] = [];
-
+  listacategoria: Marca[] = [];
+  listacategorias: Analizador[] = [];
+  listamarcaeq: any[] = [];
+  listaequipos: any[] = [];
+  listaequipocomplementario: Equipocomplementario[] = [];
   listamarca: Marca[] = [];
-  listaubicacion: Marca[] = [];
-  listaestado: Marca[] = [];
+  listaequipomarca: Marca[] = [];
+  listaubicacion: Ubicacion[] = [];
+  listaestadocliente: Estadocliente[] = [];
+  listaestadoproveedor: Estadoproveedor[] = [];
+  listaestado: Estado[] = [];
   listamodelo: Modelo[] = [];
+  selectedModelo: any;
+  showAge;
+  selectedmarca: any;
+  listaseleccioandoequipo: EquipoID;
+  btnVal = 'Guardar';
   constructor(
     private manteniemintoService: MantenimientosService,
     private fb: UntypedFormBuilder,
@@ -45,17 +64,17 @@ export class EquipoComponent {
     );
   }
 
-  get CATEGORIA() {
+  get modeloId() {
     return (
-      this.equipoForm?.get('CATEGORIA')!.invalid &&
-      this.equipoForm?.get('CATEGORIA')!.touched
+      this.equipoForm?.get('modeloId')!.invalid &&
+      this.equipoForm?.get('modeloId')!.touched
     );
   }
 
-  get MARCA_ID() {
+  get marcaId() {
     return (
-      this.equipoForm?.get('MARCA_ID')!.invalid &&
-      this.equipoForm?.get('MARCA_ID')!.touched
+      this.equipoForm?.get('marcaId')!.invalid &&
+      this.equipoForm?.get('marcaId')!.touched
     );
   }
   isSerieDisabled(index: number): boolean {
@@ -81,46 +100,200 @@ export class EquipoComponent {
       this.equipoForm?.get('SERIE')!.touched
     );
   }
-/*   get SERIEACC(){
+
+  get ESTADOPROVEEDOR() {
+    return (
+      this.equipoForm?.get('ESTADOPROVEEDOR')!.invalid &&
+      this.equipoForm?.get('ESTADOPROVEEDOR')!.touched
+    );
+  }
+  get ESTADOCLIENTE() {
+    return (
+      this.equipoForm?.get('ESTADOCLIENTE')!.invalid &&
+      this.equipoForm?.get('ESTADOCLIENTE')!.touched
+    );
+  }
+
+  /*   get SERIEACC(){
     return (
       this.ACC?.contro('SERIEACC')!.invalid &&
       this.ACC?.get('SERIEACC')!.touched
     );
   } */
 
-  get ACC() {
+  get ACC(): FormArray {
     return this.equipoForm.get('ACC') as FormArray;
     // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
   }
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(({ id }) => this.CrearEquipos(id));
+
     this.getEquipo();
     this.getMarca();
     this.getModelo();
     this.getEstado();
     this.getUbicacion();
+    this.getEquipocomplementario();
+    this.getAnalizador();
+    this.getEstadoProveedor();
+    this.getEstadoCliente();
   }
+  getModelo() {
+    this.llenarcomboServices.getModelo().subscribe((modelo) => {
+      console.log(modelo);
+
+      this.listamodelo = modelo.filter((item) => item.ESTADO === 1);
+    });
+  }
+  CrearEquipos(id: string) {
+    console.log(id);
+    if (id === 'Nuevo') {
+      this.equipoForm.reset();
+      return;
+    }
+    this.btnVal = 'Editar';
+    this.equipoForm.disable();
+
+    this.manteniemintoService.getIdEquipo(id).subscribe((equipos) => {
+      !equipos
+        ? this.router.navigateByUrl('/dashboard/equipos')
+        : console.log(equipos);
+      const {
+        instrumentoId,
+        analizadorId,
+        SERIE,
+        fecha,
+        marcaId,
+        modeloId,      
+        historicoubicacion,
+        historicoestado,
+        estadoproveedorId,
+        estadoclienteId,
+        acc,
+      } = equipos;
+
+      console.log(modeloId, modeloId);
+      this.updateCategoriaAndModelo(marcaId, modeloId);
+      this.equipoForm.patchValue({
+        NOMBRE: instrumentoId,
+         modeloId,
+         marcaId,   
+         fecha:`${fecha}`.slice(0,10),   
+        SERIE,
+        ESTADOPROVEEDOR: estadoproveedorId,
+        ESTADOCLIENTE: estadoclienteId,
+        ESTADO_ID: historicoestado[0].estadoId,
+        UBICACION_ID: historicoubicacion[0].ubicacionId,     
+        ACC: acc.map((ac) =>
+          this.ACC.push(
+            this.fb.group({
+              DESCRIPCION: ac.DESCRIPCION,
+              equipocomplementariosId: ac.equipocomplementariosId,
+              MARCA: ac.MARCA,
+              SERIEACC: ac.SERIEACC,
+            }),
+          ),
+        ),
+      });
+
+      this.listaseleccioandoequipo = equipos;
+
+      console.log(this.listaseleccioandoequipo.id)
+    });
+  }
+  CalculateAge() {
+    if (this.equipoForm.value.fecha) {
+      console.log(this.equipoForm.value.fecha);
+      const convertAge = new Date(this.equipoForm.value.fecha);
+
+      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+
+      return (this.showAge = Math.floor(timeDiff / (1000 * 3600 * 24) / 365));
+    } else {
+      return null;
+    }
+  }
+
+
+  updateCategoriaAndModelo(marcaId: number, categoriaId: number): void {
+    // Actualizar categorías según la marca seleccionada
+    console.log(categoriaId);
+    const selectedMarca = this.listamarca.find((m) => m.id === marcaId);
+    console.log(selectedMarca);
+    if (selectedMarca) {
+      this.listacategoria = selectedMarca.modelo;
+      console.log(selectedMarca.modelo);
+
+      // Actualizar modelos según la categoría seleccionada
+      console.log(this.listacategoria);
+   /*    const selectedCategoria = this.listacategoria.find((c) =>
+        c.instrumento.some((inst) => inst.id === categoriaId),
+      ); */
+      const selectedCategoria = this.listacategoria.find(c =>
+       c.id === categoriaId);
+      
+      console.log(selectedCategoria.instrumento);
+
+      if (selectedCategoria) {
+        this.listaequipos = selectedCategoria.instrumento;
+      }
+    }
+  }
+
   crearFormulario() {
     this.equipoForm = this.fb.group({
       NOMBRE: ['', [Validators.required]],
-      CATEGORIA: ['', [Validators.required]],
-      MARCA_ID: ['', [Validators.required]],
+      modeloId: ['', [Validators.required]],
+      marcaId: ['', [Validators.required]],
+      fecha:[''],
+      edad:[''],
       ESTADO_ID: ['', [Validators.required]],
       UBICACION_ID: ['', [Validators.required]],
       SERIE: ['', [Validators.required]],
+      ESTADOPROVEEDOR: ['', [Validators.required]],
+      ESTADOCLIENTE: ['', [Validators.required]],
       ACC: this.fb.array([]),
     });
   }
 
   crearItemACC(): FormGroup {
     return this.fb.group({
-      MODELO_ID: ['', [Validators.required]],
+      DESCRIPCION: ['', [Validators.required]],
+      MARCA: ['', [Validators.required]],
+      equipocomplementariosId: ['', [Validators.required]],
       SERIEACC: ['', [Validators.required]],
-      CANTIDAD: ['', [Validators.required]],
     });
   }
 
   addACC() {
     this.ACC.push(this.crearItemACC());
+  }
+  onSelectMarca(event: Event) {
+    const selectedId = (event.target as HTMLSelectElement).value;
+    console.log(selectedId);
+
+    const selectedmarca = this.listamarca.find(
+      (m) => m.id === Number(selectedId),
+    );
+    console.log(selectedmarca);
+    //  this.equipoForm.get('marcaId')?.setValue(this.selectedmarca.marca.id);
+
+    this.listacategoria = selectedmarca ? selectedmarca.modelo : [];
+
+    console.log(this.listacategoria);
+  }
+  onSelectModelo(event: Event) {
+    const selectedId = (event.target as HTMLSelectElement).value;
+    console.log(selectedId);
+
+    const selectedCategoria = this.listacategoria.find(
+      (m) => m.id === Number(selectedId),
+    );
+
+    console.log(selectedCategoria);
+    this.listaequipos = selectedCategoria ? selectedCategoria.instrumento : [];
+
+    console.log(this.listaequipos);
   }
 
   actualizarInputs(i: number, $event: any) {
@@ -135,39 +308,56 @@ export class EquipoComponent {
     // console.log(filaSeleccionada);
     if (productoSeleccionado) {
       filaSeleccionada.patchValue({
-        MODELO_ID: productoSeleccionado.NOMBRE,
+        DESCRIPCION: null,
+        equipocomplementariosId: productoSeleccionado.NOMBRE,
+        MARCA: null,
         SERIEACC: null,
-        CANTIDAD: null,
       });
     }
   }
   getMarca() {
     this.llenarcomboServices.getMarca().subscribe((marcas) => {
       console.log(marcas);
+      this.listamarca = marcas.filter((item) => item.ESTADO === 1);
 
-      this.listamarca = marcas;
+      //this.listamarca = marcas;
     });
   }
   getEstado() {
     this.llenarcomboServices.getEstado().subscribe((estado) => {
       console.log(estado);
 
-      this.listaestado = estado;
+      this.listaestado = estado.filter((item) => item.ESTADO === 1);
     });
   }
   getUbicacion() {
     this.llenarcomboServices.getUbicacion().subscribe((ubicacion) => {
       console.log(ubicacion);
 
-      this.listaubicacion = ubicacion;
+      this.listaubicacion = ubicacion.filter((item) => item.ESTADO === 1);
     });
   }
 
-  getModelo() {
-    this.llenarcomboServices.getModelo().subscribe((modelo) => {
-      console.log(modelo);
+  getEstadoProveedor() {
+    this.manteniemintoService
+      .getEstadoProveedor()
+      .subscribe((estadoproveedor) => {
+        console.log(estadoproveedor);
 
-      this.listamodelo = modelo;
+        this.listaestadoproveedor = estadoproveedor.filter(
+          (item) => item.ESTADO === 1,
+        );
+        console.log(this.listaestadoproveedor);
+      });
+  }
+
+  getEstadoCliente() {
+    this.manteniemintoService.getEstadoCliente().subscribe((estadocliente) => {
+      console.log(estadocliente);
+
+      this.listaestadocliente = estadocliente.filter(
+        (item) => item.ESTADO === 1,
+      );
     });
   }
 
@@ -178,47 +368,86 @@ export class EquipoComponent {
       this.listaequipos = equipos;
     });
   }
+  getAnalizador() {
+    this.llenarcomboServices.getAnalizador().subscribe((analizador) => {
+      console.log(analizador);
+
+      this.listacategorias = analizador;
+    });
+  }
+  getEquipocomplementario() {
+    this.manteniemintoService
+      .getEquipoComplementario()
+      .subscribe((equipocomplementario) => {
+        console.log(equipocomplementario);
+        this.listaequipocomplementario = equipocomplementario.filter(
+          (item) => item.estado == true,
+        );
+      });
+  }
+
   crearEquipo() {
     if (this.equipoForm.invalid) {
       this.equipoForm.markAllAsTouched();
       return;
     }
-    console.log(this.equipoForm.value);
 
-    Swal.fire({
-      allowOutsideClick: false,
+    console.log(this.listaseleccioandoequipo);
 
-      icon: 'info',
-      text: 'Espere por favor ...',
-    });
-
-    Swal.showLoading(null);
-    this.manteniemintoService.getCrearEquipo(this.equipoForm.value).subscribe(
-      (resp: any) => {
+    if (this.listaseleccioandoequipo) {
+      const data = {
+        ...this.equipoForm.value,
+        id: this.listaseleccioandoequipo.id,
+      };
+      console.log(`=======>`, data);
+      this.manteniemintoService.getUpdateEquipo(data).subscribe((resp: any) => {
         const { msg } = resp;
-        Swal.fire({
-          icon: 'success',
 
-          titleText: `${msg}`,
-          timer: 1500,
-        });
+        Swal.fire('Actualizado', `${msg}`, 'success');
+        this.getEquipo();
+        this.equipoForm.disable();
+        this.btnVal = 'Editar';
+        this.listaseleccioandoequipo = undefined;
+      });
 
-        // this.router.navigateByUrl('/dashboard/equipos');
-        this.equipoForm.reset(/* {
-          NOMBRE: '',
-          CATEGORIA: '',
-        } */);
-        this.router.navigateByUrl('/dashboard/equipos');
-      },
-      (err) => {
-        console.log('error', err.error.msg);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al autenticar',
-          text: err.error.msg,
-        });
-      },
-    );
+      this.router.navigateByUrl('/dashboard/equipos');
+    } else {
+      console.log(`=======>`, this.equipoForm.value);
+      Swal.fire({
+        allowOutsideClick: false,
+
+        icon: 'info',
+        text: 'Espere por favor ...',
+      });
+
+      Swal.showLoading(null);
+      this.manteniemintoService.getCrearEquipo(this.equipoForm.value).subscribe(
+        (resp: any) => {
+          const { msg } = resp;
+          Swal.fire({
+            icon: 'success',
+
+            titleText: `${msg}`,
+            timer: 1500,
+          });
+
+          // this.router.navigateByUrl('/dashboard/equipos');
+          this.equipoForm.reset(/* {
+        NOMBRE: '',
+        modeloId '',
+      } */);
+          this.router.navigateByUrl('/dashboard/equipos');
+        },
+        (err) => {
+          console.log('error', err.error.msg);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al autenticar',
+            text: err.error.msg,
+          });
+        },
+      );
+    }
   }
 
   borrarequipo(equipo: Equipo) {
@@ -250,9 +479,19 @@ export class EquipoComponent {
   borrarAccesorio(i: number) {
     this.ACC.removeAt(i);
   }
-  onreset(){
+  onreset() {
     this.equipoForm.reset();
     this.ACC.reset();
-
+    this.equipoForm.enable();
+    this.ACC.clear();
+    this.router.navigateByUrl('/dashboard/equipo/Nuevo');
+  }
+  cambioEstado() {
+    if (this.btnVal != 'Editar') {
+      console.log(this.btnVal);
+      this.crearEquipo();
+    }
+    this.equipoForm.enable();
+    this.btnVal = 'Guardar';
   }
 }

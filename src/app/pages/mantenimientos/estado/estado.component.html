@@ -7,6 +7,8 @@
             type="text"
             class="form-control"
             placeholder="Buscar por nombre"
+            (keyup)="buscar(txtTermino.value.toUpperCase())"
+            #txtTermino
           />
 
           <!--  <button (click)="enviarArchivo()" class="btn btn-primary">
@@ -27,8 +29,8 @@
               data-toggle="modal"
               data-target="#modal-info"
             >
-            <i class='bx bxs-plus-circle'></i>
-               Agregar
+              <i class="bx bxs-plus-circle"></i>
+              Agregar
             </button>
           </div>
           <!--  <h6 class="title">Lista de equipos</h6> -->
@@ -52,10 +54,7 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
-                   <!--  <th>Categoria</th>
-                    <th>Marca</th>
                    
-                    <th>Serie</th> -->
                     <th>Estado</th>
 
                     <th>Actions</th>
@@ -70,36 +69,31 @@
                     "
                   >
                     <td>{{ marca.NOMBRE }}</td>
-                   <td>
-                    <div [ngSwitch]="marca.ESTADO">
-                      <div *ngSwitchCase="1">Activo</div>
-                      <div *ngSwitchDefault>Inactivo</div>
-                    </div>
-                   </td>
-                   <!--  <td>
-                      <span
-                        *ngIf="marca.ESTADO == '1'"
-                        class="rounded shadow bg-pen"
-                        >Activo
-                      </span>
-                    </td> -->
-                     <!--  <td>
-                    <span class="cursor">
+                    <td>
+                      <div [ngSwitch]="marca.ESTADO">
+                        <div *ngSwitchCase="1">Activo</div>
+                        <div *ngSwitchDefault>Inactivo</div>
+                      </div>
+                    </td>
+
+                    <td>
+                      <span class="cursor">
                         <a
-                          [ngClass]="{ 'disabled-icon': marca.ESTADO == '2' }"
-                          [routerLink]="['/dashboard', 'marca', marca.id]"
+                          [ngClass]="{ 'disabled-icon': marca.ESTADO != 1 }"
+                          [routerLink]="['/dashboard', 'estado', marca.id]"
                         >
                           <i
                             class="bx bxs-edit bx-sm"
                             data-toggle="modal"
                             data-target="#modal-info"
-                          ></i> </a
-                      ></span> -->
-                      <td>
-                        <span (click)="borrarMarca()" class="cursor">
-                          <i class="bx bxs-edit bx-sm"></i
-                        ></span>
-                      <span (click)="borrarMarca()" class="cursor">
+                          ></i>
+                        </a>
+                      </span>
+                      <span
+                        [ngClass]="{ 'disabled-icon': marca.ESTADO != 1 }"
+                        (click)="borrarMarca(marca)"
+                        class="cursor"
+                      >
                         <i class="bx bxs-trash bx-sm"></i
                       ></span>
                     </td>
@@ -119,19 +113,18 @@
   </div>
 </div>
 
-
- <div class="modal fade" id="modal-info">
+<div class="modal fade" id="modal-info">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Crear Marca</h4>
+        <h4 class="modal-title">Crear Estado</h4>
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
         >
-          <span aria-hidden="true">&times;</span>
+          <span (click)="reset()" aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-">
@@ -139,141 +132,54 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-body">
-                <form  autocomplete="off"
-                [formGroup]="estadoForm"
-                (ngSubmit)="crearMarca()"
-                id="estadoForm">
+                <form
+                  autocomplete="off"
+                  [formGroup]="estadoForm"
+                  (ngSubmit)="crearMarca()"
+                  id="estadoForm"
+                >
                   <div class="card-body">
                     <div class="row">
                       <div class="form-group col-md-6">
                         <label for="">NOMBRE</label>
-                        <input 
-                        appUppercase
-                          type="email"
+                        <input
+                          appUppercase
+                          type="text"
                           class="form-control"
                           formControlName="NOMBRE"
                           [class.is-invalid]="NOMBRE"
                           placeholder="Ingrese un nombre.."
                         />
                         <small *ngIf="NOMBRE" class="text-danger"
-                        >Ingrese un nombre</small
-                      >
+                          >Ingrese un nombre</small
+                        >
                       </div>
-                     
+
+                      <div class="form-group col-md-1">
+                        <label for="">Color</label>
+                        <input class="form-control"
+                        formControlName="color" type="color">
+
+                      </div>
                     </div>
-          
-                
                   </div>
-                 
-          
+
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">
-                      <i class='bx bx-save'></i>
-                      Guardar</button>
+                    <a
+                      (click)="cambioEstado()"
+                      type="submit"
+                      class="btn btn-primary"
+                    >
+                      <i class="bx bx-save"></i>
+                      {{ btnVal }}</a
+                    >
                   </div>
                 </form>
-              </div> 
-              <!-- <div class="container-fluid rounded shadow">
-  <div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Crear Equipos</h3>
-    </div>
-
-    <form
-      autocomplete="off"
-      [formGroup]="equipoForm"
-      (ngSubmit)="crearEquipo()"
-      id="panelform"
-    >
-      <div class="card-body">
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="">NOMBRE</label>
-            <input
-            
-
-
-
-            
-              type="text"
-              class="form-control"
-              formControlName="NOMBRE"
-              [class.is-invalid]="NOMBRE"
-              placeholder="Ingrese referencia.."
-            />
-            <small *ngIf="NOMBRE" class="text-danger"
-              >Ingrese un caracter</small
-            >
-          </div>
-          <div class="form-group col-md-6">
-            <label for="">CATEGORIA</label>
-            <input
-              appUppercase
-              type="text"
-              class="form-control"
-              formControlName="CATEGORIA"
-              [class.is-invalid]="CATEGORIA"
-              placeholder="Ingrese descrpcion ..."
-            />
-            <small *ngIf="CATEGORIA" class="text-danger"
-              >Ingrese un caracter</small
-            >
+              </div>
+            </div>
           </div>
         </div>
       </div>
-     
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>
- -->
-
-
-
-
-
-
-
-<!-- <div class="container-fluid rounded shadow">
-          
-    <div class="card card-primary">
-      <div class="card-header">
-        <h3 class="card-title">Crear marca</h3>
-      </div>
-
-      <form  autocomplete="off"
-      [formGroup]="estadoForm"
-      (ngSubmit)="crearMarca()"
-      id="estadoForm">
-        <div class="card-body">
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="">NOMBRE</label>
-              <input
-                type="email"
-                class="form-control"
-                formControlName="NOMBRE"
-                [class.is-invalid]="NOMBRE"
-                placeholder="Ingrese referencia.."
-              />
-              <small *ngIf="NOMBRE" class="text-danger"
-              >Ingrese un caracter</small
-            >
-            </div>
-           
-          </div>
-
-      
-        </div>
-       
-
-        <div class="card-footer">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-      </form>
-    </div>
-  
-</div> -->

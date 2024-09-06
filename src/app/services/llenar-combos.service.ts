@@ -13,20 +13,29 @@ import { OrdenMicro } from '../interfaces/micro-form.interface';
 import { cargarImpresora } from '../interfaces/impresora.interface';
 import { PanelPruebas } from '../interfaces/cargarPanelPruebas.interface';
 import { Marca, Marcas } from '../interfaces/cargaMarca.interface';
-import {  Cliente, Clientes } from '../interfaces/cargaCliente.interface';
-import { Modalidad } from '../interfaces/cargaModalidad.interface';
+import { Cliente, Clientes } from '../interfaces/cargaCliente.interface';
+import { Modalidad, Modalidades } from '../interfaces/cargaModalidad.interface';
 import { Modelo, Modelos } from '../interfaces/cargaModelo.interface';
 import { Ubicacion, Ubicaciones } from '../interfaces/cargaUbicacioninterface';
 import { Estado, Estados } from '../interfaces/cargaEstado.interface';
-import { Equipo, Equipos } from '../interfaces/carga-equipos.interfaces';
+import {
+  Equipo,
+  Equipos,
+  Resultado,
+} from '../interfaces/carga-equipos.interfaces';
 import { Tipocontrato } from '../interfaces/cargarTipocontrato.interface';
 import { TipoContrato } from '../interfaces/cargarcontrato.interface';
 import { AccCoti, Accesorio } from '../interfaces/cargaAccCotizacion.interface';
 import { Correo, Correos } from '../interfaces/cargaCorreo.interface';
-import { Producto, Productos } from '../interfaces/carga-productosImport.interfaces';
+import {
+  Producto,
+  Productos,
+} from '../interfaces/carga-productosImport.interfaces';
 import { producerUpdateValueVersion } from '@angular/core/primitives/signals';
-
-
+import {
+  Analizador,
+  Analizadors,
+} from '../interfaces/cargaAnalizador.interface';
 
 const baseUrl = environment.url;
 @Injectable({
@@ -118,16 +127,21 @@ export class LlenarCombosService {
     );
   }
 
-
   pruebasreactivos({ q }): Observable<any> {
-    return this.http.get<Productos>(
-      `${baseUrl}/api/productos/${q}`,
-      this.headers,
-    ).pipe(
-      map(({productos})=>productos),
-    finalize(() => (this.isLoading = false)) 
-  );
-   
+    return this.http
+      .get<Productos>(`${baseUrl}/api/productos/${q}`, this.headers)
+      .pipe(
+        map(({ productos }) => productos),
+        finalize(() => (this.isLoading = false)),
+      );
+  }
+
+  getStocks(termino:string) {
+    return this.http.get<any>(`${baseUrl}/api/stock/buscar/${termino}`, this.headers)
+    .pipe(
+      map(({ resultados }) => resultados),
+      finalize(() => (this.isLoading = false)),
+    );
   }
 
   getOrigin() {
@@ -297,7 +311,7 @@ export class LlenarCombosService {
       .get<Correos>(`${baseUrl}/api/correos`, this.headers)
       .pipe(map(({ correo }) => correo));
   }
- /*  getCliente(): Observable<Cliente[]> {
+  /*  getCliente(): Observable<Cliente[]> {
     return this.http
       .get<Clientes>(`${baseUrl}/api/cliente`, this.headers)
       .pipe(map(({ clientes }) => clientes));
@@ -318,12 +332,23 @@ export class LlenarCombosService {
       .get<Equipos>(`${baseUrl}/api/equipos`, this.headers)
       .pipe(map(({ equipos }) => equipos));
   }
-
+  /*   getTotalEquipo():Observable<Resultado[]> {
+    return this.http
+      .get<Equipos>(`${baseUrl}/api/equipos`, this.headers)
+      .pipe(map(({  resultados }) =>resultados ));
+  } */
   getModelo(): Observable<Modelo[]> {
     return this.http
       .get<Modelos>(`${baseUrl}/api/modelo`, this.headers)
       .pipe(map(({ modelo }) => modelo));
   }
+
+  getAnalizador(): Observable<Analizador[]> {
+    return this.http
+      .get<Analizadors>(`${baseUrl}/api/analizador`, this.headers)
+      .pipe(map(({ analizador }) => analizador));
+  }
+
   getCliente(): Observable<Cliente[]> {
     return this.http
       .get<Clientes>(`${baseUrl}/api/cliente`, this.headers)
@@ -332,7 +357,7 @@ export class LlenarCombosService {
 
   getModalidad(): Observable<Modalidad[]> {
     return this.http
-      .get<Modalidad>(`${baseUrl}/api/modalidad`, this.headers)
+      .get<Modalidades>(`${baseUrl}/api/modalidad`, this.headers)
       .pipe(map(({ modalidad }) => modalidad));
   }
   getContrato(): Observable<TipoContrato[]> {

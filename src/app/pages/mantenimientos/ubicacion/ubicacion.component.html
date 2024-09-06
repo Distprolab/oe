@@ -7,6 +7,8 @@
             type="text"
             class="form-control"
             placeholder="Buscar por nombre"
+            (keyup)="buscar(txtTermino.value.toUpperCase())"
+            #txtTermino
           />
 
           <!--  <button (click)="enviarArchivo()" class="btn btn-primary">
@@ -76,30 +78,24 @@
                       <div *ngSwitchDefault>Inactivo</div>
                     </div>
                    </td>
-                   <!--  <td>
-                      <span
-                        *ngIf="marca.ESTADO == '1'"
-                        class="rounded shadow bg-pen"
-                        >Activo
-                      </span>
-                    </td> -->
-                     <!--  <td>
-                    <span class="cursor">
-                        <a
-                          [ngClass]="{ 'disabled-icon': marca.ESTADO == '2' }"
-                          [routerLink]="['/dashboard', 'marca', marca.id]"
+                  
+                      <td>
+                        <span  class="cursor">
+                          <a
+                          [ngClass]="{ 'disabled-icon': marca.ESTADO != 1 }"
+                          [routerLink]="[
+                            '/dashboard',
+                            'ubicacion',
+                            marca.id
+                          ]"
                         >
                           <i
                             class="bx bxs-edit bx-sm"
                             data-toggle="modal"
                             data-target="#modal-info"
                           ></i> </a
-                      ></span> -->
-                      <td>
-                        <span (click)="borrarMarca()" class="cursor">
-                          <i class="bx bxs-edit bx-sm"></i
-                        ></span>
-                      <span (click)="borrarMarca()" class="cursor">
+                      ></span>
+                      <span (click)="borrarMarca(marca)" class="cursor">
                         <i class="bx bxs-trash bx-sm"></i
                       ></span>
                     </td>
@@ -131,7 +127,7 @@
           data-dismiss="modal"
           aria-label="Close"
         >
-          <span aria-hidden="true">&times;</span>
+          <span (click)="reset()" aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-">
@@ -149,7 +145,7 @@
                         <label for="">NOMBRE</label>
                         <input 
                         appUppercase
-                          type="email"
+                          type="text"
                           class="form-control"
                           formControlName="NOMBRE"
                           [class.is-invalid]="NOMBRE"
@@ -159,6 +155,8 @@
                         >Ingrese un nombre</small
                       >
                       </div>
+
+                     
                      
                     </div>
           
@@ -173,107 +171,9 @@
                   </div>
                 </form>
               </div> 
-              <!-- <div class="container-fluid rounded shadow">
-  <div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Crear Equipos</h3>
-    </div>
 
-    <form
-      autocomplete="off"
-      [formGroup]="equipoForm"
-      (ngSubmit)="crearEquipo()"
-      id="panelform"
-    >
-      <div class="card-body">
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="">NOMBRE</label>
-            <input
-            
-
-
-
-            
-              type="text"
-              class="form-control"
-              formControlName="NOMBRE"
-              [class.is-invalid]="NOMBRE"
-              placeholder="Ingrese referencia.."
-            />
-            <small *ngIf="NOMBRE" class="text-danger"
-              >Ingrese un caracter</small
-            >
-          </div>
-          <div class="form-group col-md-6">
-            <label for="">CATEGORIA</label>
-            <input
-              appUppercase
-              type="text"
-              class="form-control"
-              formControlName="CATEGORIA"
-              [class.is-invalid]="CATEGORIA"
-              placeholder="Ingrese descrpcion ..."
-            />
-            <small *ngIf="CATEGORIA" class="text-danger"
-              >Ingrese un caracter</small
-            >
-          </div>
-        </div>
-      </div>
-     
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
- -->
-
-
-
-
-
-
-
-<!-- <div class="container-fluid rounded shadow">
-          
-    <div class="card card-primary">
-      <div class="card-header">
-        <h3 class="card-title">Crear marca</h3>
-      </div>
-
-      <form  autocomplete="off"
-      [formGroup]="ubicacionForm"
-      (ngSubmit)="crearMarca()"
-      id="ubicacionForm">
-        <div class="card-body">
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="">NOMBRE</label>
-              <input
-                type="email"
-                class="form-control"
-                formControlName="NOMBRE"
-                [class.is-invalid]="NOMBRE"
-                placeholder="Ingrese referencia.."
-              />
-              <small *ngIf="NOMBRE" class="text-danger"
-              >Ingrese un caracter</small
-            >
-            </div>
-           
-          </div>
-
-      
-        </div>
-       
-
-        <div class="card-footer">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-      </form>
-    </div>
-  
-</div> -->
+             <!--  <hr>
+              <pre>
+                {{ubicacionForm.value | json}}
+              </pre> -->
+              

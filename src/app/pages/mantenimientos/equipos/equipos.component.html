@@ -7,6 +7,8 @@
             type="text"
             class="form-control"
             placeholder="Buscar por nombre"
+            (keyup)="buscar(txtTermino.value.toUpperCase())"
+            #txtTermino
           />
         </div>
       </div>
@@ -35,110 +37,159 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Nombre Equipo</th>
+                    <th>Equipo</th>
                     <th>Categoria</th>
                     <th>Marca</th>
-                    <!--  <th>Modelo</th> -->
-                    <th>Serie</th>
-
-                    <th>Estado Equipo</th>
-                    <th>Ubicacion</th>
+                    <th>Tiempo servicio</th>
+                    <th>Modalidad proveedor</th>
+                    <th>Modalidad cliente</th>
+                    <th>Condición</th>
+                    <th>Ubicación</th>
                     <th>Estado</th>
                     <th>Actions</th>
-                    <th>ACC</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr
+                  <ng-container
                     *ngFor="
                       let equipo of listaequipos
-                        | paginate: { itemsPerPage: 10, currentPage: page }
+                        | paginate: { itemsPerPage: 10, currentPage: page };
+                      let i = index
                     "
-                    class="table-row-not-expanded"
                   >
-                    <!-- <td class="cell" (click)="equipo.isExpanded = !equipo.isExpanded"> -->
-                    <td>{{ equipo.NOMBRE }}</td>
-                    <td>{{ equipo.modelo.NOMBRE }}</td>
-                    <td>{{ equipo.marca.NOMBRE }}</td>
-                    <!--    <td>{{ equipo.MODELO_ID }}</td> -->
-                    <td>{{ equipo.SERIE }}</td>
-                    <!-- <td>
-                      <ul>
-                        <li *ngFor="let acc of equipo.acc">
-                          Modelo ID: {{ acc.ACCMODELO_ID }}, Serie:
-                          {{ acc.SERIE }}
-                        </li>
-                      </ul>
-                    </td> -->
+                    <tr class="table-row-not-expanded">
+                      <td>{{ equipo.instrumento.NOMBRE }}</td>
+                      <td>{{ equipo.modelo.NOMBRE }}</td>
+                      <td>{{ equipo.marca.NOMBRE }}</td>
 
-                    <td
-                      [ngClass]="{
-                        'alerta-disponible':
-                          equipo.estado.NOMBRE == 'DISPONIBLE',
-                        'alerta-reparacion':
-                          equipo.estado.NOMBRE == 'REPARACION',
-                        'alerta-obsoleto': equipo.estado.NOMBRE == 'OBSOLETO'
-                      }"
-                    >
-                      {{ equipo.estado.NOMBRE }}
-                    </td>
-                    <td>{{ equipo.ubicacion.NOMBRE }}</td>
-                    <td>
-                      <div [ngSwitch]="equipo.ESTADO">
-                        <div *ngSwitchCase="1">Activo</div>
-                        <div *ngSwitchDefault>Inactivo</div>
-                      </div>
-                      <!--  <span
-                        *ngIf="equipo.ESTADO == '1'"
-                        class="rounded shadow bg-pen"
-                        >Activo
-                      </span> -->
-                    </td>
+                      <td>{{ getEdad(equipo.fecha) }} AÑOS</td>
+                      <td>{{ equipo.estadoproveedor.NOMBRE }}</td>
+                      <td>{{ equipo.estadocliente.NOMBRE }}</td>
+                      <!--  [ngStyle]="{ 'border-left': '5px solid ' + equipo.estado.color }" -->
 
-                    <!-- <td>
-                      <i
-                        class="expandable-table-caret fas fa-caret-right fa-fw"
-                      ></i>
-                    </td> -->
-                    <td>
-                      <span class="cursor">
-                        <a
-                          [ngClass]="{ 'disabled-icon': equipo.ESTADO == '2' }"
-                          [routerLink]="['/dashboard', 'equipo', equipo.id]"
+                      <ng-container
+                        *ngFor="let estados of equipo.historicoestado"
+                      >
+                        <td>
+                          <div
+                            [ngStyle]="{
+                              'border-left':
+                                '5px solid ' + estados.estado.color,
+                              'padding': '10px',
+                              'border-radius': '5px',
+
+                              'display': 'inline-block',
+                              'transition': 'border-left 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55)'  
+                            }"
+                          >
+                            {{ estados.estado.NOMBRE }}
+                          </div>
+                        </td>
+                      </ng-container>
+                      <ng-container
+                        *ngFor="let ubicaciones of equipo.historicoubicacion"
+                      >
+                        <td>{{ ubicaciones.ubicacion.NOMBRE | slice:0:32 }}</td>
+                      </ng-container>
+                      <td>
+                        <div [ngSwitch]="equipo.ESTADO">
+                          <div *ngSwitchCase="1">Activo</div>
+                          <div *ngSwitchDefault>Inactivo</div>
+                        </div>
+                      </td>
+
+                      <td>
+                        <span class="cursor">
+                          <a
+                            [ngClass]="{ 'disabled-icon': equipo.ESTADO !== 1 }"
+                            [routerLink]="['/dashboard', 'equipo', equipo.id]"
+                          >
+                            <i
+                              class="bx bxs-edit"
+                              data-toggle="modal"
+                              data-target="#modal-info"
+                            ></i> </a
+                        ></span>
+
+                        <span (click)="borrarequipo(equipo)" class="cursor">
+                          <i class="bx bxs-trash"></i
+                        ></span>
+
+                        <span
+                          *ngIf="equipo.acc.length"
+                          (click)="toggleDetails(i)"
                         >
                           <i
-                            class="bx bxs-edit bx-sm"
-                            data-toggle="modal"
-                            data-target="#modal-info"
-                          ></i> </a
+                            class="bx"
+                            [ngClass]="{
+                              'bxs-down-arrow': showDetails[i],
+                              'bxs-right-arrow': !showDetails[i]
+                            }"
+                          ></i
+                        ></span>
+                        <!--      <span
+                        class="cursor"
+                        [ngClass]="{
+                          'disabled-icon': !equipo.acc
+                        }"
+                        data-toggle="dropdown"
+                        href="#"
+                      >
+                        <i class="fa fa-eye" aria-hidden="true"></i
                       ></span>
-                      <span (click)="borrarequipo(equipo)" class="cursor">
-                        <i class="bx bxs-trash bx-sm"></i
-                      ></span>
-                    </td>
-                    <td>
-                      <i
-                        class="expandable-table-caret fas fa-caret-right fa-fw"
-                        (click)="toggleExpand(equipo)"
-                      ></i>
-                    </td>
-                  </tr>
-                  <!--  <tr >
-                    <td colspan="9">
-                      <div class="p-0">
-                        <table class="table table-hover">
-                          <tbody>
-                            <tr >
-                              <td>Modelo ID: </td>
-                              <td>Serie</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </td>
-                 
-                  </tr> -->
+
+                      <div
+                        class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                      >
+                        <a href="#" class="dropdown-item">
+                          <div class="media" >
+                            <div class="media-body">
+                              <p class="text-md">
+                                <strong> Equipo:</strong>
+                                <i class="bx bx-devices"></i>
+                              
+                              </p>
+
+                              <p class="text-md">
+                              
+                              </p>
+
+                              <p class="text-md">
+                                <strong>Serie:</strong>
+                              
+                              </p>
+
+                              <p class="text-md">
+                                <strong>Descripcion:</strong>
+                             
+                              </p>
+                              <div class="dropdown-divider"></div>
+                            </div>
+                          </div>
+                        </a>
+                      </div> -->
+                      </td>
+                    </tr>
+                    <ng-container *ngIf="showDetails[i]">
+                      <tr>
+                        <th colspan="3">Categoria</th>
+
+                        <th >Marca</th>
+                        <th colspan="2">Modelo</th>
+                        <th colspan="2">Serie</th>
+                      </tr>
+                      <ng-container *ngFor="let item of equipo.acc">
+                        <tr>
+                          <td colspan="3">{{ item.equipocomplementarios.equipo }}</td>
+
+                          <td>{{ item.SERIEACC }}</td>
+                          <td colspan="2">{{ item.DESCRIPCION }}</td>
+                          <td colspan="2">{{ item.MARCA }}</td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
                 </tbody>
               </table>
             </div>

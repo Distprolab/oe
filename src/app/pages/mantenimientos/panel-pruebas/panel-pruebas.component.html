@@ -1,84 +1,275 @@
 <div class="container-fluid rounded shadow">
-  <div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Crear Panel de pruebas</h3>
+  <div class="row py-4 animated fadeIn fast">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar por nombre"
+          />
+        </div>
+      </div>
     </div>
+  </div>
 
-    <form
-      autocomplete="off"
-      [formGroup]="panelform"
-      (ngSubmit)="crearPanel()"
-      id="panelform"
-    >
-      <div class="card-body">
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="">CODIGO</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="CODIGO"
-              [class.is-invalid]="CODIGO"
-              placeholder="Ingrese codigo.."
-            />
-            <small *ngIf="CODIGO" class="text-danger"
-              >Ingrese un caracter</small
+  <div class="row animated fadeIn fast">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="button">
+            <button
+              class="btn btn-primary btn-sm"
+              data-toggle="modal"
+              data-target="#modal-info"
             >
+              <i class="bx bxs-plus-circle"></i>
+              Agregar
+            </button>
           </div>
-          <div class="form-group col-md-6">
-            <label for="">NOMBRE</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="NOMBRE"
-              [class.is-invalid]="NOMBRE"
-              placeholder="Ingrese nombre ..."
-            />
-            <small *ngIf="NOMBRE" class="text-danger"
-              >Ingrese un caracter</small
+          <div class="col-md-3 button"></div>
+
+          <div class="table-responsive">
+            <div
+              *ngIf="cargando"
+              class="alert alert-info text-center mt-3 animated fadeIn faster"
             >
+              <h4 class="alert-heading">Cargando</h4>
+              <p>
+                <i class="fas fa-sync-alt fa-spin fa-2x"></i>
+              </p>
+              <p class="mb-0">Espere por favor</p>
+            </div>
+
+            <div *ngIf="!cargando" class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+
+                    <th>Categoria</th>
+                    <th>Tiempo de resultado</th>
+                    <th>Valor</th>
+                    <th>Estado</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let pruebas of listapruebas
+                        | paginate: { itemsPerPage: 10, currentPage: page }
+                    "
+                    class="table-row-not-expanded"
+                  >
+                    <!-- <td class="cell" (click)="equipo.isExpanded = !equipo.isExpanded"> -->
+                    <td>{{ pruebas.CODIGO }}</td>
+                    <td>{{ pruebas.NOMBRE }}</td>
+                    <td>{{ pruebas.modelo.NOMBRE }}</td>
+
+                    <td>{{ pruebas.TIEMPO }} horas</td>
+
+                  
+                    <td>{{ pruebas.VALOR }}</td>
+                    <td>
+                      <div [ngSwitch]="pruebas.ESTADO">
+                        <div *ngSwitchCase="1">Activo</div>
+                        <div *ngSwitchDefault>Inactivo</div>
+                      </div>
+                    
+                    </td>
+
+                    <td>
+                      <span class="cursor">
+                        <a
+                          [ngClass]="{ 'disabled-icon': pruebas.ESTADO != 1 }"
+                          [routerLink]="[
+                            '/dashboard',
+                            'panelPruebas',
+                            pruebas.id
+                          ]"
+                        >
+                          <i
+                            class="bx bxs-edit bx-sm"
+                            data-toggle="modal"
+                            data-target="#modal-info"
+                          ></i> </a
+                      ></span>
+                      <span (click)="borrarequipo(pruebas)" class="cursor">
+                        <i class="bx bxs-trash bx-sm"></i
+                      ></span>
+                    
+                      <a [routerLink]="['/dashboard', 'rangos']">
+                        <i class="bx bx-bar-chart-square bx-sm"></i>
+                      </a>
+                  
+                    </td>
+                    <td>
+                      <!--  <i
+                        class="expandable-table-caret fas fa-caret-right fa-fw"
+                        (click)="toggleExpand(equipo)"
+                      ></i> -->
+                    </td>
+                  </tr>
+                  <!--  <tr >
+                    <td colspan="9">
+                      <div class="p-0">
+                        <table class="table table-hover">
+                          <tbody>
+                            <tr >
+                              <td>Modelo ID: </td>
+                              <td>Serie</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                 
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
+            <pagination-controls
+              (pageChange)="page = $event"
+              previousLabel="Anterior"
+              nextLabel="Siguiente"
+            ></pagination-controls>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="">CATEGORIA</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="CATEGORIA"
-              [class.is-invalid]="CATEGORIA"
-              placeholder="Ingrese categoria .."
-            />
-            <small *ngIf="CATEGORIA" class="text-danger"
-              >Ingrese un caracter</small
-            >
+<div class="modal fade" id="modal-info">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Crear Prueba</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="borrarPruebas()"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--       <div class=""> -->
+      <div>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <form
+                autocomplete="off"
+                [formGroup]="panelform"
+                (ngSubmit)="crearPanel()"
+                id="panelform"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="">CODIGO</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="CODIGO"
+                        [class.is-invalid]="CODIGO"
+                        placeholder="Ingrese codigo de la prueba.."
+                      />
+                      <small *ngIf="CODIGO" class="text-danger"
+                        >Ingrese un codigo</small
+                      >
+                    </div>
+                    <div class="form-group col-md-8">
+                      <label for="">NOMBRE</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="NOMBRE"
+                        [class.is-invalid]="NOMBRE"
+                        placeholder="Ingrese nombre de al prueba ..."
+                      />
+                      <small *ngIf="NOMBRE" class="text-danger"
+                        >Ingrese un nombre</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="">CATEGORIA</label>
+                     <!--  <input
+                        type="text"
+                        class="form-control"
+                        formControlName="CATEGORIA"
+                        [class.is-invalid]="CATEGORIA"
+                        placeholder="Ingrese categoria de al prueba .."
+                      /> -->
+                      <select name="" id=""
+                      [(ngModel)]="selectedCategoria"
+                      formControlName="modeloId"
+                      [class.is-invalid]="modeloId"
+                      class="form-control"
+                      >
+
+                         <option *ngFor="let categoria of listacategoria" [value]="categoria.id">{{categoria.NOMBRE}}</option>
+
+                      </select>
+                      <small *ngIf="modeloId" class="text-danger"
+                        >Ingrese una categoria</small
+                      >
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="">Tiempo duracion</label>
+                      <input
+                        type="number"
+                        formControlName="TIEMPO"
+                        class="form-control"
+                        [class.is-invalid]="TIEMPO"
+                        id=""
+                        placeholder="Ingrese tiempo de la prueba .."
+                      />
+                      <small *ngIf="TIEMPO" class="text-danger"
+                        >Ingrese un tiempo de duracion</small
+                      >
+                    </div>
+
+                    <div class="form-group col-md-4">
+                      <label for="">Valor</label>
+                      <input
+                        formControlName="VALOR"
+                        type="text"
+                        class="form-control"
+                        [class.is-invalid]="VALOR"
+                        id=""
+                        placeholder="Ingrese valor de prueba..."
+                      />
+                      <small *ngIf="VALOR" class="text-danger"
+                        >Ingrese un valor</small
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <a (click)="cambioEstado()" class="btn btn-primary">{{
+                    btnVal
+                  }}</a>
+                </div>
+              </form>
+            </div>
           </div>
-          <!-- <div class="form-group col-md-6">
-            <label for="">UNIDAD</label>
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-              placeholder="Ingrese unidad .."
-            />
-          </div> -->
-        </div>
-        <!--    <div class="form-group col-md-6">
-            <label for="">GENERACION</label>
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-              placeholder="Ingrese generacion..."
-            />
-          </div> -->
-      </div>
-      <!-- /.card-body -->
+        <!--   <hr />
+          <pre>{{ panelform.valid }}</pre>
+          <pre>{{ panelform.value | json }}</pre>
+        </div> -->
 
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Guardar</button>
+       
       </div>
-    </form>
+    </div>
   </div>
 </div>

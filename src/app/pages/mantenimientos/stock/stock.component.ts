@@ -23,6 +23,10 @@ import { Product } from 'src/app/models/cargaPedido.module';
 import { StockService } from 'src/app/services/stock.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
+import { MantenimientosService } from 'src/app/services/mantenimientos.service';
+import { Bodega } from 'src/app/interfaces/cargaBodega.interface';
+import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
+import { Correo } from 'src/app/interfaces/cargaCorreo.interface';
 type AOA = any[][];
 @Component({
   selector: 'app-stock',
@@ -34,15 +38,18 @@ export class StockComponent implements OnInit {
   dataStore = [];
   cantidad: number = 0;
   cargando = false;
-  page:number=1;
+  page: number = 1;
   count: number = 10;
   jsonData: any[];
- 
+
   private barcodeSubject = new Subject<string>();
   stockForm!: FormGroup;
+  listabodega: Bodega[] = [];
   selectedFile: [] = [];
   inputsBloqueados: boolean = false;
   subscription?: Subscription;
+  listacorreo: Correo[] = [];
+
   public isScanning = false;
   @ViewChild('barcodeInput') barcodeInput;
 
@@ -55,10 +62,20 @@ export class StockComponent implements OnInit {
       this.stockForm?.get('guia')!.touched
     );
   }
+
+  get bodegaId() {
+    return (
+      this.stockForm?.get('bodegaId')!.invalid &&
+      this.stockForm?.get('bodegaId  ')!.touched
+    );
+  }
+
   constructor(
     private fb: FormBuilder,
     private stockService: StockService,
     private router: Router,
+    private manteniemintoService: MantenimientosService,
+    private llenarcomboService: LlenarCombosService,
     private qrcode: NgxScannerQrcodeService,
   ) {
     this.crearFormulario();
@@ -66,9 +83,27 @@ export class StockComponent implements OnInit {
 
   ngOnInit(): void {
     // this.focusOnBarcodeInput();
- 
+    this.getBodega();
+    this.getProveedor();
   }
 
+  getProveedor() {
+    this.llenarcomboService.getCorreo().subscribe((correo) => {
+      console.log(correo);
+
+      this.listacorreo = correo.filter(
+        (objeto, index, self) =>
+          self.findIndex((o) => o.empresa === objeto.empresa) === index,
+      );
+    });
+  }
+  getBodega() {
+    this.manteniemintoService.getBodega().subscribe((bodega) => {
+      console.log(bodega);
+
+      this.listabodega = bodega;
+    });
+  }
   onBarcodeInput(event: Event): void {
     const inputBarcode = event.target as HTMLInputElement;
     const barcodeFragment = inputBarcode.value.trim();
@@ -144,6 +179,8 @@ export class StockComponent implements OnInit {
   crearFormulario() {
     this.stockForm = this.fb.group({
       guia: ['', [Validators.required]],
+      bodegaId: ['', [Validators.required]],
+      proveedor: ['', [Validators.required]],
       productos: this.fb.array([]),
     });
   }
@@ -195,6 +232,7 @@ export class StockComponent implements OnInit {
             fabricante: item['Operaciones/Producto/Fabricante'],
             sanitario: item['Operaciones/Producto/Registro Sanitario'],
             comentario: '',
+            //bodegaId:'',
           }),
         );
       });
@@ -263,4 +301,10 @@ export class StockComponent implements OnInit {
       this.focusOnBarcodeInput();
     }
   }
+
+  /*  async bodega(index: number) {
+    const currentComment =
+      this.productos.at(index).get('bodegaId')?.value || '';
+
+  } */
 }

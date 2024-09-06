@@ -7272,7 +7272,8 @@ a.disabled.mailbox-attachment-close {
   }
 
   .modal-sm {
-    max-width: 300px;
+    /* 300 */
+    max-width: 550px;
   }
 }
 
@@ -15797,7 +15798,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   display: none;
   list-style: none;
   padding: 0;
-  padding-left: 25px;
+ /*  padding-left: 25px; se coemnto el padding para ajustar  */  
   margin: 10px auto;
 }
 

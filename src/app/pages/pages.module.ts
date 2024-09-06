@@ -75,10 +75,52 @@ import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual
 import { StockmanoComponent } from './mantenimientos/stockmano/stockmano.component';
 import { QRCODEComponent } from './mantenimientos/qrcode/qrcode.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { AnalizadorComponent } from './mantenimientos/analizador/analizador.component';
+import { AnalizadorsComponent } from './mantenimientos/analizadors/analizadors.component';
+import { CotizacionsComponent } from './mantenimientos/cotizacions/cotizacions.component';
+import { TipomuestrasComponent } from './mantenimientos/tipomuestras/tipomuestras.component';
+import { TubosComponent } from './mantenimientos/tubos/tubos.component';
+import { RangoreferenciaComponent } from './mantenimientos/rangoreferencia/rangoreferencia.component';
+import { IngresordenesComponent } from './mantenimientos/ingresordenes/ingresordenes.component';
+import { PanelPerfilesComponent } from './mantenimientos/panel-perfiles/panel-perfiles.component';
+import { GruposexamenesComponent } from './mantenimientos/gruposexamenes/gruposexamenes.component';
+import { TiposervicioComponent } from './mantenimientos/tiposervicio/tiposervicio.component';
+import { TipoatencionComponent } from './mantenimientos/tipoatencion/tipoatencion.component';
+import { TipogrupoComponent } from './mantenimientos/tipogrupo/tipogrupo.component';
+import { DiagnosticoComponent } from './mantenimientos/diagnostico/diagnostico.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { EquiposcomplementarioComponent } from './mantenimientos/equiposcomplementario/equiposcomplementario.component';
+import { EstadofinancieroclienteComponent } from './mantenimientos/estadofinancierocliente/estadofinancierocliente.component';
+import { EstadofinancieroproveedorComponent } from './mantenimientos/estadofinancieroproveedor/estadofinancieroproveedor.component';
+import { BodegaComponent } from './mantenimientos/bodega/bodega.component';
+import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
+import { ReportesResultadosComponent } from './mantenimientos/reportes-resultados/reportes-resultados.component';
+import { TransferenciaComponent } from './mantenimientos/transferencia/transferencia.component';
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
+    TransferenciaComponent,
+    ReportesResultadosComponent,
+    EstadofinancieroclienteComponent,
+    BodegaComponent,
+    ResultadosComponent,
+    EstadofinancieroproveedorComponent,
+    EquiposcomplementarioComponent,
+    TiposervicioComponent,
+    TipoatencionComponent,
+    TipogrupoComponent,
+    DiagnosticoComponent,
+
+    PanelPerfilesComponent,
+    GruposexamenesComponent,
+    IngresordenesComponent,
+    RangoreferenciaComponent,
+    TipomuestrasComponent,
+    TubosComponent,
+    CotizacionsComponent,
+    AnalizadorsComponent,
+    AnalizadorComponent,
     StockmanoComponent,
     QRCODEComponent,
     StockManualComponent,
@@ -163,7 +205,7 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
     NgxPaginationModule,
     FullCalendarModule,
     UtcDatePipe,
-
+    NgxChartsModule,
     SocketIoModule.forRoot(config),
   ],
 })

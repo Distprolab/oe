@@ -61,6 +61,26 @@ import { CorreosComponent } from './mantenimientos/correos/correos.component';
 import { StockManualComponent } from './mantenimientos/stock-manual/stock-manual.component';
 import { StockmanoComponent } from './mantenimientos/stockmano/stockmano.component';
 import { QRCODEComponent } from './mantenimientos/qrcode/qrcode.component';
+import { AnalizadorComponent } from './mantenimientos/analizador/analizador.component';
+import { AnalizadorsComponent } from './mantenimientos/analizadors/analizadors.component';
+import { CotizacionsComponent } from './mantenimientos/cotizacions/cotizacions.component';
+import { TipomuestrasComponent } from './mantenimientos/tipomuestras/tipomuestras.component';
+import { TubosComponent } from './mantenimientos/tubos/tubos.component';
+import { RangoreferenciaComponent } from './mantenimientos/rangoreferencia/rangoreferencia.component';
+import { IngresordenesComponent } from './mantenimientos/ingresordenes/ingresordenes.component';
+import { PanelPerfilesComponent } from './mantenimientos/panel-perfiles/panel-perfiles.component';
+import { GruposexamenesComponent } from './mantenimientos/gruposexamenes/gruposexamenes.component';
+import { DiagnosticoComponent } from './mantenimientos/diagnostico/diagnostico.component';
+import { TipogrupoComponent } from './mantenimientos/tipogrupo/tipogrupo.component';
+import { TiposervicioComponent } from './mantenimientos/tiposervicio/tiposervicio.component';
+import { TipoatencionComponent } from './mantenimientos/tipoatencion/tipoatencion.component';
+import { EquiposcomplementarioComponent } from './mantenimientos/equiposcomplementario/equiposcomplementario.component';
+import { EstadofinancieroproveedorComponent } from './mantenimientos/estadofinancieroproveedor/estadofinancieroproveedor.component';
+import { EstadofinancieroclienteComponent } from './mantenimientos/estadofinancierocliente/estadofinancierocliente.component';
+import { BodegaComponent } from './mantenimientos/bodega/bodega.component';
+import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
+import { ReportesResultadosComponent } from './mantenimientos/reportes-resultados/reportes-resultados.component';
+import { TransferenciaComponent } from './mantenimientos/transferencia/transferencia.component';
 
 
 const routes: Routes = [
@@ -145,6 +165,79 @@ const routes: Routes = [
         component: CotizacionComponent,
         data: { titulo: 'cotizacion' },
       },
+      {
+        path: 'cotizacion/:id',
+        component: CotizacionComponent,
+        data: { titulo: 'cotizacion' },
+      },
+      {
+        path: 'analizador',
+        component: AnalizadorComponent,
+        data: { titulo: 'analizador' },
+      },
+      {
+        path: 'cotizaciones',
+        component: CotizacionsComponent,
+        data: { titulo: 'cotizaciones' },
+      },
+       {
+        path: 'ReportesResultados',
+        component: ReportesResultadosComponent,
+        data: { titulo: 'ReportesResultados' },
+      }, 
+
+
+      {
+        path: 'analizador/:id',
+        component: AnalizadorComponent,
+        data: { titulo: 'analizador' },
+      },
+
+
+      {
+        path: 'estadofinancierocliente',
+        component: EstadofinancieroclienteComponent,
+        data: { titulo: 'estadofinancierocliente' },
+      },
+      {
+        path: 'estadofinancierocliente/:id',
+        component: EstadofinancieroclienteComponent,
+        data: { titulo: 'estadofinancierocliente' },
+      },
+      {
+        path: 'estadofinancieroproveedor',
+        component: EstadofinancieroproveedorComponent,
+        data: { titulo: 'estadofinancieroproveedor' },
+      },
+      {
+        path: 'estadofinancieroproveedor/:id',
+        component: EstadofinancieroproveedorComponent,
+        data: { titulo: 'estadofinancieroproveedor' },
+      },
+      {
+        path: 'bodega',
+        component: BodegaComponent,
+        data: { titulo: 'bodega' },
+      },
+
+      {
+        path: 'bodega/:id',
+        component: BodegaComponent,
+        data: { titulo: 'bodega' },
+      },
+      {
+        path: 'transferencia',
+        component: TransferenciaComponent,
+        data: { titulo: 'transferencia' },
+      },
+
+      {
+        path: 'resultados',
+        component: ResultadosComponent,
+        data: { titulo: 'resultados' },
+      },
+
+
 
       {
         path: 'producto/:id',
@@ -155,6 +248,17 @@ const routes: Routes = [
         path: 'producto',
         component: ProductoComponent,
         data: { titulo: 'producto' },
+      },
+      {
+        path: 'rangos',
+        component: RangoreferenciaComponent,
+        data: { titulo: 'Rangos' },
+      },
+
+      {
+        path: 'ingresordenes',
+        component: IngresordenesComponent,
+        data: { titulo: 'ingresordenes' },
       },
       {
         path: 'muestras',
@@ -267,6 +371,11 @@ const routes: Routes = [
         data: { titulo: 'marca' },
       },
       {
+        path: 'marca/:id',
+        component: MarcaComponent,
+        data: { titulo: 'marca' },
+      },
+      {
         path: 'cliente',
         component: ClienteComponent,
         data: { titulo: 'cliente' },
@@ -277,9 +386,68 @@ const routes: Routes = [
         data: { titulo: 'panelPruebas' },
       },
       {
+        path: 'panelPruebas/:id',
+        component: PanelPruebasComponent,
+        data: { titulo: 'panelPruebas' },
+      },
+
+      {
+        path: 'panelperfiles',
+        component: PanelPerfilesComponent,
+        data: { titulo: 'panelperfiles' },
+      },
+      {
+        path: 'atencion',
+        component: TipoatencionComponent,
+        data: { titulo: 'atencion' },
+      },
+      {
+        path: 'servicio',
+        component: TiposervicioComponent,
+        data: { titulo: 'servicio' },
+      },
+      {
+        path: 'grupo',
+        component: TipogrupoComponent,
+        data: { titulo: 'grupo' },
+      },
+      {
+        path: 'diagnostico',
+        component: DiagnosticoComponent,
+        data: { titulo: 'diagnostico' },
+      },
+
+
+
+
+
+      {
+        path: 'grupoexamen',
+        component: GruposexamenesComponent,
+        data: { titulo: 'grupoexamen' },
+      },
+
+
+      {
+        path: 'equipo/:id',
+        component: EquipoComponent,
+        data: { titulo: 'equipo' },
+      },
+
+      {
         path: 'equipo',
         component: EquipoComponent,
         data: { titulo: 'equipo' },
+      },
+      {
+        path: 'equipocomplementario/:id',
+        component: EquiposcomplementarioComponent,
+        data: { titulo: 'equipocomplementario' },
+      },
+      {
+        path: 'equipocomplementario',
+        component: EquiposcomplementarioComponent,
+        data: { titulo: 'equipocomplementario' },
       },
       {
         path: 'equipos',
@@ -342,6 +510,12 @@ const routes: Routes = [
         component: ReactivosComponent,
         data: { titulo: 'reactivos' },
       },
+
+      {
+        path: 'categoria/:id',
+        component: CategoriaComponent,
+        data: { titulo: 'categoria' },
+      },
       {
         path: 'categoria',
         component: CategoriaComponent,
@@ -363,6 +537,17 @@ const routes: Routes = [
         data: { titulo: 'estado' },
       },
       {
+        path: 'estado/:id',
+        component: EstadoComponent,
+        data: { titulo: 'estado' },
+      },
+
+      {
+        path: 'ubicacion/:id',
+        component: UbicacionComponent,
+        data: { titulo: 'ubicacion' },
+      },
+      {
         path: 'ubicacion',
         component: UbicacionComponent,
         data: { titulo: 'ubicacion' },
@@ -377,6 +562,17 @@ const routes: Routes = [
         path: 'QRCode',
         component: QRCODEComponent,
         data: { titulo: 'QRCode' },
+      },
+
+      {
+        path: 'tipomuestra',
+        component: TipomuestrasComponent,
+        data: { titulo: 'tipomuestra' },
+      },
+      {
+        path: 'tubos',
+        component: TubosComponent,
+        data: { titulo: 'tubos' },
       },
     ],
   },

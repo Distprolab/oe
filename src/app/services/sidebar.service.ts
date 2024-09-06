@@ -16,22 +16,22 @@ export class SidebarService {
       titulo: ' USUARIOS',
       icono: 'right fas fa-angle-left',
       submenu: [
-        { titulo: 'Crear Usuario', url: 'usuario', roles: ['ADMIN', 'TICS'] },
+        { titulo: 'Crear Usuario', url: 'usuario', roles: ['ADMIN'] },
 
         {
           titulo: 'Lista de Usuario',
           url: 'usuarios',
-          roles: ['ADMIN', 'TICS'],
+          roles: ['ADMIN'],
         },
       ],
     },
-    {
+       {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
-        /* {
-          titulo: 'Crear Orden Manual',
-          url: 'orden-manual',
+        {
+          titulo: 'INGRESO DE ORDENES',
+          url: 'ingresordenes',
           roles: ['ADMIN', 'DOCTOR', 'OPERADOR'],
         },
         {
@@ -39,7 +39,7 @@ export class SidebarService {
           url: 'ordenes',
           roles: ['ADMIN', 'DOCTOR', 'OPERADOR'],
           data: { titulo: 'orden' },
-        }, */
+        },
         {
           titulo: 'manual',
           url: 'manual/Nuevo',
@@ -47,16 +47,16 @@ export class SidebarService {
           data: { titulo: 'manual' },
         },
 
-        /*  {
+        {
           titulo: 'carga-ordenes',
           url: 'carga-ordenes',
-          roles: ['ADMIN', 'DOCTOR', 'OPERADOR'], 
+          roles: ['ADMIN', 'DOCTOR', 'OPERADOR'],
           data: { titulo: 'carga-ordenes' },
-        }, */
+        },
       ],
-    },
+    }, 
 
-    {
+       {
       titulo: 'AGENDAMIENTO',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -79,7 +79,7 @@ export class SidebarService {
       ],
     },
 
-    {
+    /*  {
       titulo: 'REPORTES ESTADISTICOS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -104,7 +104,7 @@ export class SidebarService {
           roles: ['ADMIN', 'MICRO'],
         },
       ],
-    },
+    }, */
 
     /*     {
       titulo: 'MUESTRAS',
@@ -132,7 +132,7 @@ export class SidebarService {
         },
       ],
     }, */
-    {
+    /*   {
       titulo: 'COMPRAS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -147,25 +147,25 @@ export class SidebarService {
           roles: ['ADMIN', 'COMPRAS'],
         },
       ],
-    },
+    },*/
 
-    {
+    /*  {
       titulo: 'COMERCIAL',
       icono: 'right fas fa-angle-left',
       submenu: [
         {
-          titulo: 'cotizacion',
+          titulo: 'CREAR COTIZACION',
           url: 'cotizacion',
           roles: ['ADMIN', 'COMPRAS'],
         },
-        /* {
-          titulo: 'consulta-compras',
-          url: 'consulta-compras',
+        {
+          titulo: 'COTIZACIONES',
+          url: 'cotizaciones',
           roles: ['ADMIN', 'COMPRAS'],
-        }, */
+        },
       ],
-    },
-    {
+    }, */
+    /*  {
       titulo: 'CONSULTA DE RESULTADOS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -201,7 +201,7 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT'],
         },
       ],
-    },
+    }, */
 
     {
       titulo: 'PRODUCTOS',
@@ -218,19 +218,19 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT', 'INVENTARIO'],
         },
       ],
-    },
+    }, 
 
-    {
+     {
       titulo: 'MANTENIMIENTOS',
       icono: 'right fas fa-angle-left',
       submenu: [
         {
-          titulo: 'MARCA',
-          url: 'marca',
-          roles: ['ADMIN', 'IMPORT'],
+          titulo: 'CREAR MARCA',
+          url: 'marca/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
         },
         {
-          titulo: 'MODALIDAD EQUIPO',
+          titulo: 'CREAR MODALIDAD',
           url: 'modalidad',
           roles: ['ADMIN', 'IMPORT'],
         },
@@ -245,8 +245,52 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT'],
         },
         {
-          titulo: 'PANEL PRUEBAS',
-          url: 'panelPruebas',
+          titulo: 'PRUEBAS',
+          url: 'panelPruebas/Nuevo',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+
+        {
+          titulo: 'PERFILES',
+          url: 'panelperfiles',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+
+        {
+          titulo: 'GRUPO',
+          url: 'grupo',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'ATENCION',
+          url: 'atencion/Nuevo',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'SERVICIO',
+          url: 'servicio/Nuevo',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'DIAGNOSTICO',
+          url: 'diagnostico',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+
+        {
+          titulo: ' EQUIPOS COMPLEMENTOS',
+          url: 'equipocomplementario/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
+        },
+
+        {
+          titulo: 'TUBOS',
+          url: 'tubos',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'TIPOMUESTRA',
+          url: 'tipomuestra',
           roles: ['ADMIN', 'IMPORT'],
         },
         {
@@ -254,43 +298,62 @@ export class SidebarService {
           url: 'impresora',
           roles: ['ADMIN', 'IMPORT'],
         },
+       
         {
-          titulo: 'Equipos',
-          url: 'equipos',
-          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+          titulo: 'CREAR CATEGORIA ',
+          url: 'categoria/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
         },
+
         {
-          titulo: 'Crear Equipo',
-          url: 'equipo',
-          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
-        },
-        {
-          titulo: 'categoria',
-          url: 'categoria',
-          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+          titulo: 'CREAR MODELO EQUIPO',
+          url: 'analizador/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
         },
         {
           titulo: 'stock-pruebas',
           url: 'stock-pruebas',
-          roles: ['ADMIN'], //stock-pruebas
+          roles: ['ADMIN'],
         },
         {
-          titulo: 'estado',
-          url: 'estado',
-          roles: ['ADMIN', 'COMPRAS'], //stock-pruebas
+          titulo: 'CREAR ESTADO',
+          url: 'estado/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
         },
         {
-          titulo: 'Ubicacion',
-          url: 'ubicacion',
-          roles: ['ADMIN'], //stock-pruebas
+          titulo: 'CREAR UBICACION',
+          url: 'ubicacion/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
         },
+
         {
-          titulo: 'CORREOS',
-          url: 'correos',
-          roles: ['ADMIN'], //stock-pruebas
+          titulo: 'CREAR  FINANCIERO PROVEEDOR',
+          url: 'estadofinancieroproveedor/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
+        },
+
+        {
+          titulo: 'CREAR  FINANCIERO CLIENTE',
+          url: 'estadofinancierocliente/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
         },
       ],
     },
+    {titulo:'EQUIPOS',
+      icono: 'right fas fa-angle-left',
+      submenu:[
+        {
+          titulo: 'LISTA EQUIPOS',
+          url: 'equipos',
+          roles: ['ADMIN', 'OPERADOR'],
+        },
+        {
+          titulo: 'CREAR EQUIPO',
+          url: 'equipo/Nuevo',
+          roles: ['ADMIN', 'OPERADOR'],
+        },
+      ]
+    }, 
     {
       titulo: ' INVENTARIO',
       icono: 'right fas fa-angle-left',
@@ -301,9 +364,9 @@ export class SidebarService {
           roles: ['ADMIN', 'INVENTARIO'],
         },
         {
-          titulo:'CARGA STOCK MANUAL',
-          url:'stock-manual',
-          roles:['ADMIN', 'INVENTARIO']
+          titulo: 'CARGA STOCK MANUAL',
+          url: 'stock-manual',
+          roles: ['ADMIN', 'INVENTARIO'],
         },
         {
           titulo: 'DETALLE DE STOCK',
@@ -313,17 +376,17 @@ export class SidebarService {
         {
           titulo: 'SOLICITUD BODEGA',
           url: 'solicitud-pedidos/Nuevo',
-          // url: 'pedido-importacion/Nuevo',
-          roles: ['ADMIN','INVENTARIO'],
+    
+          roles: ['ADMIN', 'INVENTARIO'],
         },
 
         {
-          titulo: 'SOLICITUDES GENERADAS',//QRCode
+          titulo: 'SOLICITUDES GENERADAS',
           url: 'solicitudes-pedidos',
           roles: ['ADMIN', 'INVENTARIO'],
         },
         {
-          titulo: 'QRCode',//QRCode
+          titulo: 'QRCode',
           url: 'QRCode',
           roles: ['ADMIN', 'INVENTARIO'],
         },
@@ -331,10 +394,36 @@ export class SidebarService {
         {
           titulo: 'Validacion',
           url: 'validacion',
-          roles: ['ADMIN', ],
+          roles: ['ADMIN'],
         },
+        {
+          titulo: 'transferencia',
+          url: 'transferencia',
+          roles: ['ADMIN'],
+        },
+        {
+          titulo: 'CORREOS',
+          url: 'correos',
+          roles: ['ADMIN'],
+        },
+        {
+          titulo: 'BODEGA',
+          url: 'bodega/Nuevo',
+          roles: ['ADMIN'],
+        },
+        {
+          titulo: 'RESULTADOS',
+          url: 'resultados',
+          roles: ['ADMIN'],
+        },
+
+        {
+          titulo:'ReportesResultados',
+          url:'ReportesResultados',
+          roles:['ADMIN']
+        }
       ],
-    },
+    }, 
   ];
 
   getMenuWithPermissions(): any[] {

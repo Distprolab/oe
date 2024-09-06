@@ -1,0 +1,148 @@
+<div class="container-fluid rounded shadow">
+  <div class="row py-4 animated fadeIn fast">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="button">
+            <button
+              class="btn btn-primary btn-sm"
+              data-toggle="modal"
+              data-target="#modal-info"
+            >
+              <i class="bx bxs-plus-circle"></i>
+              Agregar rangos de Referencia
+            </button>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label for="">ID de la prueba:</label> 1001
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">Nombre de la prueba:</label> GLUCOSA de 24 horas
+              para hoy
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsible">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Referencia</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Unidad</th>
+                <th>Rangos</th>
+                <th>Estado</th>
+
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-info">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Crear rangos de referencia</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="borrarPruebas()"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--       <div class=""> -->
+      <div>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <form
+                autocomplete="off"
+                [formGroup]="rangosform"
+                (ngSubmit)="crearRangos()"
+                id="panelform"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="">Tipo fisiologico</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName=""
+                        [class.is-invalid]=""
+                        placeholder="Ingrese codigo de la prueba.."
+                      />
+                      <small *ngIf="" class="text-danger"
+                        >Ingrese un codigo</small
+                      >
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="">Rangos</label>
+                      <input
+                        type="text"
+                        appUppercase
+                        class="form-control"
+                        formControlName=""
+                        [class.is-invalid]=""
+                        placeholder="Ingrese nombre de al prueba ..."
+                      />
+                      <small *ngIf="" class="text-danger"
+                        >Ingrese un nombre</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-4">
+                      <label for="">Unidad</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName=""
+                        [class.is-invalid]=""
+                        placeholder="Ingrese categoria de al prueba .."
+                      />
+                      <small *ngIf="" class="text-danger"
+                        >Ingrese una categoria</small
+                      >
+                    </div>
+                   
+                   
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <a (click)="cambioEstado()" class="btn btn-primary"
+                    >Guardar</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--   <hr>
+              <pre>{{panelform.valid}}</pre>
+              <pre>{{panelform.value |json}}</pre> -->
+          <!--      </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,16 +13,22 @@ export class SolicitudesPedidosComponent implements OnInit {
   cargando = false;
   public page!: number;
   listaPedidoStock: pedidoStock[] = [];
+  showPruebasHeader: boolean = false;
+  showDetails: boolean[] = [];
+
   constructor(private stockService: StockService) {}
 
   ngOnInit(): void {
     this.getAllStocks();
   }
-
+  toggleDetails(index: number): void {
+    this.showDetails[index] = !this.showDetails[index];
+    this.showPruebasHeader = this.showDetails.some((detail) => detail);
+  }
   getAllStocks() {
     this.cargando = true;
     this.stockService.getAllPedidoStock().subscribe((pedidoStock) => {
-      console.log(pedidoStock)
+      console.log(pedidoStock);
       this.listaPedidoStock = pedidoStock;
       console.log(this.listaPedidoStock);
       this.cargando = false;
@@ -46,7 +52,7 @@ export class SolicitudesPedidosComponent implements OnInit {
         this.stockService.getDeletePedidoStock(pedido).subscribe(
           (resp: any) => {
             const { msg } = resp;
-             this.getAllStocks();
+            this.getAllStocks();
             Swal.fire('Pedido Eliminado', `${msg} `, 'success');
           },
           (err) => {
@@ -62,19 +68,15 @@ export class SolicitudesPedidosComponent implements OnInit {
     });
   }
   ImprimirPDf(pedido: pedidoStock) {
-
-    console.log(pedido)
-this.stockService.getPdfPedidoStock(pedido).subscribe
-((blob: Blob)=>{
-  const url = window.URL.createObjectURL(blob);
-  console.log(url)
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'archivo.pdf';
-  link.click();
-  window.URL.revokeObjectURL(url);
-  
-})
-
+    console.log(pedido);
+    this.stockService.getPdfPedidoStock(pedido).subscribe((blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      console.log(url);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'archivo.pdf';
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

@@ -24,10 +24,14 @@ export class EquiposComponent implements OnInit {
   public page!: number;
   listaequipos: Equipo[] = [];
   equipos: Equipo[] = [];
+  equipoTemp: Equipo[] = [];
   listamarca: Marca[] = [];
   listaubicacion: Marca[] = [];
   listaestado: Marca[] = [];
   listamodelo: Modelo[] = [];
+  showDetails: boolean[] = [];
+  showPruebasHeader: boolean = false;
+
   openCoverages = false;
   indexSelectedCoverage = 1;
   selectedModelo:any;
@@ -54,7 +58,11 @@ export class EquiposComponent implements OnInit {
    
   }
 
+  toggleDetails(index: number): void {
+    this.showDetails[index] = !this.showDetails[index];
+    this.showPruebasHeader = this.showDetails.some(detail => detail);
 
+  }
  
   crearFormulario() {
     this.equipoForm = this.fb.group({
@@ -165,7 +173,7 @@ export class EquiposComponent implements OnInit {
           .getDeleteEquipo(equipo)
           .subscribe((resp: any) => {
             const { msg } = resp;
-
+              this.getEquipo();
             Swal.fire({
               title: 'Equipo eliminado!',
               text: `${msg}`,
@@ -175,7 +183,33 @@ export class EquiposComponent implements OnInit {
       }
     });
   }
-  toggleExpand(equipo: Equipo) {
+ /*  toggleExpand(equipo: Equipo) {
     equipo.expanded = !equipo.expanded;
+  } */
+
+  buscar(termino: string) {
+    console.log(termino);
+    if (termino.length === 0 || termino === '') {
+      this.listaequipos = this.equipoTemp;
+    } else {
+      this.manteniemintoService
+        .buscarFiltroEquipo(termino)
+        .subscribe((equipos) => {
+          this.listaequipos = equipos;
+        });
+    }
+  }
+  getEdad(fecha){
+    console.log(fecha)
+    if (fecha) {
+      console.log(fecha);
+      const convertAge = new Date(fecha);
+
+      const timeDiff = Math.abs(Date.now() - convertAge.getTime());
+
+      return ( Math.floor(timeDiff / (1000 * 3600 * 24) / 365));
+    } else {
+      return null;
+    }
   }
 }

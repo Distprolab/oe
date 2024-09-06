@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Marca } from 'src/app/interfaces/cargaMarca.interface';
+import { UbicacionID } from 'src/app/interfaces/cargarByIdUbicacion.interface';
+import { cargaEstado } from 'src/app/models/cargarEstado.module';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
@@ -13,10 +15,12 @@ declare var $: any;
   styleUrl: './ubicacion.component.css'
 })
 export class UbicacionComponent {
-
+  public btnVal = 'Guardar';
   ubicacionForm!: FormGroup;
+  listadoselecioandoubicacion:UbicacionID;
   cargando: false;
   listaubicacion: Marca[] = [];
+  ubicacionTemp: Marca[] = [];
   public page!: number;
   constructor(
     private manteniemintoService: MantenimientosService,
@@ -30,7 +34,7 @@ export class UbicacionComponent {
       this.ubicacionForm?.get('NOMBRE')!.touched
     );
   }
-
+ 
   get CATEGORIA() {
     return (
       this.ubicacionForm?.get('CATEGORIA')!.invalid &&
@@ -38,9 +42,34 @@ export class UbicacionComponent {
     );
   }
   ngOnInit(): void {
-
+this.activatedRoute.params.subscribe(({id})=>this.crearUbicaciones(id));
     this.getUbicacion();
   }
+  crearUbicaciones(id: string) {
+    console.log(id);
+    if (id === 'Nuevo') {
+      this.ubicacionForm.reset();
+      this.ubicacionForm.enable();
+      this.btnVal = 'Guardar';
+      return;
+    }
+    this.btnVal = 'Editar';
+    this.ubicacionForm.disable();
+    this.manteniemintoService.getByIDubicacion(id).subscribe((ubicacionId) => {
+      console.log(ubicacionId);
+      !ubicacionId
+        ? this.router.navigateByUrl('/dashboard/ubicacion/Nuevo')
+        : console.log(ubicacionId);
+      const { NOMBRE } = ubicacionId;
+
+      this.ubicacionForm.patchValue({
+        NOMBRE,
+      });
+      this.listadoselecioandoubicacion = ubicacionId;
+    });
+  }
+ 
+
   getUbicacion() {
     this.llenarcomboService.getUbicacion().subscribe((ubicacion) => {
       console.log(ubicacion);
@@ -54,6 +83,7 @@ export class UbicacionComponent {
       {
 
         NOMBRE: ['', [Validators.required]],
+       
 
       },
 
@@ -69,6 +99,26 @@ export class UbicacionComponent {
     }
     console.log(this.ubicacionForm.value);
 
+  if (this.listadoselecioandoubicacion) {
+    const data={
+      ...this.ubicacionForm.value,
+      id:this.listadoselecioandoubicacion.id
+    }
+
+    this.manteniemintoService.getUpdateUbicaion(data).subscribe((resp:any)=>{
+
+      const { msg } = resp;
+      Swal.fire('Actualizado', `${msg}`, 'success');
+      $('#modal-info').modal('hide');
+      this.getUbicacion();
+      this.ubicacionForm.disable();
+      this.ubicacionForm.reset();
+      this.btnVal = 'Editar';
+      this.listadoselecioandoubicacion=undefined;
+      this.router.navigateByUrl('/dashboard/ubicacion/Nuevo');
+
+    })
+  } else {
     Swal.fire({
       allowOutsideClick: false,
 
@@ -94,7 +144,7 @@ export class UbicacionComponent {
           CATEGORIA: '',
 
         });
-        //this.router.navigateByUrl('/dashboard/usuarios');
+        this.router.navigateByUrl('/dashboard/ubicacion/Nuevo');
       },
       (err) => {
         console.log('error', err.error.msg);
@@ -106,7 +156,48 @@ export class UbicacionComponent {
       },
     );
   }
-  borrarMarca() {
+  }
+  borrarMarca(ubicacion: Marca) {
+    console.log(ubicacion);
+    Swal.fire({
+      title: 'Eliminar ubicacion?',
+      text: `Esta seguro que desea eliminar la ubicacion  ${ubicacion.NOMBRE}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si eliminar ',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.manteniemintoService
+          .getDeleteUbicacion(ubicacion.id)
+          .subscribe((resp: any) => {
+            const { msg } = resp;
+            this.getUbicacion();
+            Swal.fire({
+              title: 'ubicacion eliminado!',
+              text: `${msg}`,
+              icon: 'success',
+            });
+          });
+      }
+    });
+  }
+  reset(){
+    this.router.navigateByUrl("/dashboard/ubicacion/Nuevo");
+    this.listadoselecioandoubicacion=undefined;
+  }
 
+  buscar(termino: string) {
+    console.log(termino);
+    if (termino.length === 0 || termino === '') {
+      this.listaubicacion = this.ubicacionTemp;
+    } else {
+      this.manteniemintoService
+        .buscarFiltroEstado(termino)
+        .subscribe((ubicacion) => {
+          this.listaubicacion = ubicacion;
+        });
+    }
   }
 }

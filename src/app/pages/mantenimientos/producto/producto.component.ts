@@ -167,7 +167,7 @@ export class ProductoComponent implements OnInit {
       Swal.showLoading(null);
       this.inportService.PostProducto(this.productoForm.value).subscribe((resp: any) => {
         const { msg } = resp;
-
+          
         Swal.fire( `${msg}`, 'success');
         
         this.productoForm.reset();
