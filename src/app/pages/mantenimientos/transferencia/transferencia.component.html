@@ -34,7 +34,7 @@
           <div class="row">
             <div class="form-group col-md-3">
               <label for="">Bodega origen</label>
-              <select class="form-control" formControlName="bodegaId">
+              <select class="form-control" formControlName="BODEGA_ORIGEN_ID">
                 <option value="">--selecione--</option>
                 <option *ngFor="let bodega of listabodega" [value]="bodega.id">
                   {{ bodega.NOMBRE }}
@@ -46,7 +46,7 @@
 
             <div class="form-group col-md-3">
               <label for="">Bodega Destino</label>
-              <select class="form-control" formControlName="bodegaId">
+              <select class="form-control" formControlName="BODEGA_DESTINO_ID">
                 <option value="">--selecione--</option>
                 <option *ngFor="let bodega of listabodega" [value]="bodega.id">
                   {{ bodega.NOMBRE }}
@@ -80,7 +80,7 @@
                       #asBoxInput
                     ></div>
                   </td>
-                  <td>{{ d.UNIDAD }}</td>
+               <td>{{ d.UNIDAD }}</td>
                   <td>
                     <input
                       class="form-control"
@@ -89,11 +89,12 @@
                     
                      
                     >
-                  </td>
+                  </td> 
 
                 
                   <td>
-                    <i class="bx bxs-trash bx-sm"></i>
+                    <i  (click)="borrarProducto(i)"
+                    class="bx bxs-trash bx-sm"></i>
                   </td>
                 </tr>
               </tbody>

@@ -96,10 +96,14 @@ import { BodegaComponent } from './mantenimientos/bodega/bodega.component';
 import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
 import { ReportesResultadosComponent } from './mantenimientos/reportes-resultados/reportes-resultados.component';
 import { TransferenciaComponent } from './mantenimientos/transferencia/transferencia.component';
+import { StockbodegasComponent } from './mantenimientos/stockbodegas/stockbodegas.component';
+import { DescargarbodegaComponent } from './mantenimientos/descargarbodega/descargarbodega.component';
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
+    StockbodegasComponent,
+    DescargarbodegaComponent,
     TransferenciaComponent,
     ReportesResultadosComponent,
     EstadofinancieroclienteComponent,

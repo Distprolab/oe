@@ -21,11 +21,22 @@ export interface stocksPedido {
   }
   
   export interface Item {
-    ID_PRODUCTO?: number;
+   /*  ID_PRODUCTO?: number;
     CANTIDAD?: number;
+    product:     Product; */
+    ID_PRODUCTO: number;
+    CANTIDAD:    number;
     product:     Product;
+    bodega:      Bodega;
   }
-  
+  export interface Bodega {
+    id:          number;
+    NOMBRE:      string;
+    DESCRIPCION: null;
+    ESTADO:      number;
+    createdAt:   Date;
+    updatedAt:   Date;
+}
   export interface Usuario {
     doctor: string;
 }

@@ -79,10 +79,9 @@ export class TransferenciaComponent {
       this.listabodega = bodega;
     });
   }
- 
+
   get PRODUCTOS() {
     return this.importForm.get('PRODUCTOS') as FormArray;
-    
   }
   ngOnInit(): void {
     this.getAllProductos();
@@ -95,23 +94,23 @@ export class TransferenciaComponent {
     this.inportService.getProductos().subscribe((productos) => {
       console.log(productos);
       this.listaproductos = productos;
-    
     });
   }
   crearFormulario() {
     this.importForm = this.fb.group({
-      AREA: ['', [Validators.required]],
+      BODEGA_ORIGEN_ID: ['', [Validators.required]],
+      BODEGA_DESTINO_ID: ['', [Validators.required]],
       PRODUCTOS: this.fb.array([]),
     });
   }
   crearItemProducto(): FormGroup {
     return this.fb.group({
-      ID_PRODUCTO: ['', [Validators.required]],
+      PRODUCTO_ID: ['', [Validators.required]],
       NOMBRE: ['', [Validators.required]],
       UNIDAD: [''],
       CANTIDAD: ['', [Validators.required]],
-      ENTREGADO: [''],
-      LOTE: [''],
+      /*  ENTREGADO: [''],
+      LOTE: [''], */
     });
   }
   agregarproductos() {
@@ -122,8 +121,9 @@ export class TransferenciaComponent {
   }
 
   actualizarInputs(item: any, index: number | null) {
-    this.selectedProductIndex = index; 
-    
+    console.log(item);
+    this.selectedProductIndex = index;
+
     const pruebasArray = this.importForm.get('PRODUCTOS') as FormArray;
     const filaSeleccionada = pruebasArray.at(index) as FormGroup;
     const pruebaExistente = pruebasArray.value;
@@ -136,27 +136,26 @@ export class TransferenciaComponent {
       ).at(index);
 
       filaSeleccionada.patchValue({
-        ID_PRODUCTO: item.id,
-        NOMBRE: item.REFERENCIA,
-        UNIDAD: item.NOMBRE,
+        PRODUCTO_ID: item.REFERENCIA,
+        NOMBRE: item.NOMBRE,
+        UNIDAD: item.UNIDAD,
         CANTIDAD: null,
-        ENTREGADO: null,
-        LOTE: null,
+        /*  ENTREGADO: null,
+        LOTE: null, */
       });
       $('#modal-info').modal('hide');
 
       this.inputRef.nativeElement.value = '';
     } else {
     }
-    filaSeleccionada.setControl('DETALLES', new FormControl(item.detalles));
-
+    // filaSeleccionada.setControl('DETALLES', new FormControl(item.detalles));
   }
 
   onreset() {}
   borrarProducto(i: number) {
     this.PRODUCTOS.removeAt(i);
   }
- 
+
   guardar() {
     if (this.importForm.invalid) {
       this.importForm.markAllAsTouched();
@@ -214,15 +213,10 @@ export class TransferenciaComponent {
     this.btnVal = 'Guardar';
   }
 
- 
-
   searchReactivos(value: any): any {
     console.log(value);
     this.isLoading = true;
     this.data$ = this.llenarcomboService.pruebasreactivos({ q: value });
-    console.log(this.data$)
-      /*   this.data$ = this.llenarcomboService.getStocks(value);
-        console.log(this.data$) */
-
+    console.log(this.data$);
   }
 }

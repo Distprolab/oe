@@ -27,6 +27,14 @@ margin:5px auto;
   
   }
 
+  .code{
+    display: flex;
+    justify-content: center;
+ /*    justify-items: center; */
+   margin: 0 auto;
+    padding: 20px;
+  }
+
   /* . btn-md{
 
   } */

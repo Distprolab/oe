@@ -19,7 +19,9 @@ export class StocksComponent implements OnInit {
   totalPages: number = 1; // Total de páginas
   public page!: number;
   public cargando: boolean = true;
-  fechaActual: Date = new Date();
+  fechaActual: Date = new Date();  
+  showDetails: boolean[] = [];
+  showPruebasHeader: boolean = false;
   constructor(private stockService: StockService) {}
 
   ngOnInit(): void {
@@ -34,6 +36,10 @@ export class StocksComponent implements OnInit {
       this.calcularMesesParaTodos();
       this.cargando = false;
     });
+  }
+  toggleDetails(index: number): void {
+    this.showDetails[index] = !this.showDetails[index];
+    this.showPruebasHeader = this.showDetails.some((detail) => detail);
   }
   getAlertClass(caducidad: Date): string {
     const meses = this.calcularMeses(caducidad);

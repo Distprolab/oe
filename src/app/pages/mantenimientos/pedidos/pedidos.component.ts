@@ -13,7 +13,7 @@ import { Producto } from 'src/app/interfaces/carga-productosImport.interfaces';
 import { Cliente } from 'src/app/interfaces/cargaCliente.interface';
 import { Marca, Marcas } from 'src/app/interfaces/cargaMarca.interface';
 import { Pedidos } from 'src/app/models/cargaPedido.module';
-
+import { Bodega } from 'src/app/interfaces/cargaBodega.interface';
 import { Pedido } from 'src/app/interfaces/cargar-pedido.interface';
 
 import { ImportacionService } from 'src/app/services/importacion.service';
@@ -25,6 +25,7 @@ import { StockReserva } from 'src/app/interfaces/cargarStockReserva.interface';
 import { StockService } from 'src/app/services/stock.service';
 import { finalize, map } from 'rxjs';
 import { event } from 'jquery';
+import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 declare var $: any;
 @Component({
   selector: 'app-pedidos',
@@ -47,6 +48,7 @@ export class PedidosComponent {
   pedidoseleccionado: PedidoStock;
   pedidoStockseleccionado: StockReserva;
   importForm!: FormGroup;
+  listabodega: Bodega[] = [];
   btnVal = 'Guardar';
   tittle='Solicitud'
   constructor(
@@ -54,6 +56,7 @@ export class PedidosComponent {
     private inportService: ImportacionService,
     private llenarcomboService: LlenarCombosService,
     private activatedRoute: ActivatedRoute,
+    private manteniemintoService: MantenimientosService,
     private router: Router,
   ) {
     this.crearFormulario();
@@ -66,12 +69,13 @@ export class PedidosComponent {
     );
   }
 
-  /*  get MARCA() {
-    return (
-      this.importForm.get('MARCA')!.invalid &&
-      this.importForm?.get('MARCA')!.touched
-    );
-  } */
+  getBodega() {
+    this.manteniemintoService.getBodega().subscribe((bodega) => {
+      console.log(bodega);
+
+      this.listabodega = bodega;
+    });
+  }
   get PRODUCTOS() {
     return this.importForm.get('PRODUCTOS') as FormArray;
     // return ( this.importForm.get('PRODUCTOS') as FormArray).controls;
@@ -80,7 +84,7 @@ export class PedidosComponent {
     this.getAllProductos();
     this.getMarca();
     this.getCliente();
-
+this.getBodega();
     this.activatedRoute.params.subscribe(({ id }) => this.crearStock(id));
     //this.activatedRoute.params.subscribe((resp) => console.log(`PARAMS`, resp));
   }
@@ -176,7 +180,7 @@ export class PedidosComponent {
       this.pedidoseleccionado = pedidoStock;
 
       this.importForm.setValue({
-        AREA,
+        AREA:AREA,
         // MARCA,
         PRODUCTOS: itemstock.map((item) =>
           this.PRODUCTOS.push(
@@ -264,14 +268,14 @@ export class PedidosComponent {
         const productosFormArray = this.importForm.get(
           'PRODUCTOS',
         ) as FormArray;
-
+/* array.map(item => item.lote).join(', '); */
         // Iterar sobre cada producto y establecer el valor de ENTREGADO
         this.pedidoStockseleccionado.cantidadReservada.detalle.map(
           (item, index) => {
             productosFormArray
               .at(index)
               .get('ENTREGADO')
-              .patchValue(item.cantidadReservada);
+              .patchValue(item.cantidadReservada)
             productosFormArray.at(index).get('LOTE').patchValue(item.lote);
           },
         );

@@ -40,7 +40,7 @@
               <thead>
                 <tr>
                   <th class="text-table">FECHA</th>
-                  <th class="text-table">AREA</th>
+                  <!--  <th class="text-table">AREA</th> -->
                   <!-- <th class="text-table">MARCA</th> -->
                   <!--  <th class="text-table">
                       PRODUCTOS
@@ -49,7 +49,6 @@
                   <th class="text-table">RESPONSABLE</th>
                   <th class="text-table">Estado</th>
                   <th class="text-table">Acciones</th>
-                  
                 </tr>
               </thead>
 
@@ -63,7 +62,7 @@
                 >
                   <tr>
                     <td>{{ pedido.FECHAPEDIDOSTOCK }}</td>
-                    <td></td>
+                    <!--    <td>{{pedido.itemstock.}}</td> -->
                     <td>{{ pedido.usuario.doctor }}</td>
                     <td>
                       <span
@@ -91,14 +90,14 @@
                           pedido.id
                         ]"
                       >
-                        <i class="bx bx-edit-alt"></i>
+                        <i class="bx bx-edit-alt bx-sm"></i>
                       </a>
 
                       <span class="cursor">
                         <a [ngClass]="{ 'disabled-icon': pedido.ESTADO != 1 }">
                           <i
                             (click)="borrarPedido(pedido)"
-                            class="bx bxs-trash "
+                            class="bx bxs-trash bx-sm"
                           ></i>
                         </a>
                       </span>
@@ -106,28 +105,36 @@
                         <a>
                           <i
                             (click)="ImprimirPDf(pedido)"
-                            class="bx bxs-file-pdf "
+                            class="bx bxs-file-pdf bx-sm"
                           ></i>
                         </a>
                       </span>
 
                       <span (click)="toggleDetails(i)">
                         <i
-                        class="bx"
-                        [ngClass]="{
-                          'bxs-down-arrow ': showDetails[i],
-                          'bxs-right-arrow ': !showDetails[i]
-                        }"
-                      ></i>
+                          class="bx"
+                          [ngClass]="{
+                            'bxs-down-arrow bx-sm ': showDetails[i],
+                            'bxs-right-arrow bx-sm': !showDetails[i]
+                          }"
+                        ></i>
                       </span>
                     </td>
-                  
                   </tr>
                   <ng-container *ngIf="showDetails[i]">
+                    <tr>
+                      <th colspan="1"></th>
+                      <!--    <th >Referencia</th> -->
+
+                      <th>Bodega destino</th>
+                      <th>Producto</th>
+                      <th>Cantidad</th>
+                    </tr>
                     <ng-container *ngFor="let item of pedido.itemstock">
                       <tr>
-                        <td colspan="2"></td>
-                        <td>{{ item.ID_PRODUCTO }}</td>
+                        <td colspan="1"></td>
+                        <!--   <td>{{ item.ID_PRODUCTO }}</td> -->
+                        <td>{{ item.bodega.NOMBRE }}</td>
                         <td>{{ item.product.NOMBRE }}</td>
                         <td>{{ item.CANTIDAD }}</td>
                       </tr>

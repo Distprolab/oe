@@ -64,6 +64,14 @@
                   >Ingrese la serie del equipo</small
                 >
               </div>
+              <div>
+               <!--  <input type="text"   name="tamano"  [ngModel]="" required #tamano> -->
+                 <label for="">Tamano</label> 
+               <button class="btn btn-default" (click)="enviarValor(50)"> 50</button>
+               <button class="btn btn-default" (click)="enviarValor(100)"> 100</button>
+               <button class="btn btn-default" (click)="enviarValor(300)"> 300</button>
+             <!--   <button class="btn btn-default" (click)="enviarValor(500)"> 500</button> -->
+              </div>
             </div>
 
             <div class="col-md-8 ">
@@ -75,25 +83,29 @@
                   
 
                     <qrcode
+                    (qrCodeURL)="onChangeURL($event)"
                     [qrdata]="myAngularxQrCode"
-                    [width]="100"
+                    [width]="obtenertamano"
                     [margin]="4"
                     [scale]="1"
                
                     [errorCorrectionLevel]="'M'"
                   ></qrcode>
                 </div>
+                
 
+                <div *ngIf="myAngularxQrCode" class="code">
+                <a class="btn btn-primary" [href]="qrCodeDownloadLink" download="qrcode">Download QR Code </a>
+              </div>
               
-
               
             </div>
           </div>
         </div>
-        <div class="btn-button">
+       <!--  <div class="btn-button">
             <button class="btn btn-primary btn-md">Guardar</button>
         
-          </div>
+          </div> -->
       </div>
     </div>
   </form>

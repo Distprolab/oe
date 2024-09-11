@@ -48,28 +48,48 @@
                   </thead>
 
                   <tbody>
-                    <tr
+                    <ng-container
                       *ngFor="
                         let stock of listaSotck
                           | paginate: { itemsPerPage: 10, currentPage: page }
+                          let i = index
                       "
                       data-widget="expandable-table"
                       aria-expanded="true"
                     >
+                    <tr>
                       <td>{{ stock.referencia }}</td>
                       <td>{{ stock.nombre }}</td>
                       <td>{{ stock.total_referencia }}</td>
                       <td>
-                        <a [ngClass]="{
+
+                           <span  *ngFor="let item of stock.detalles">
+                          
+                              <i [ngClass]="getAlertClass(item.caducidad)" class="fa fa-eye"></i>
+                         
+                           </span>
+                           <span (click)="toggleDetails(i)">
+                            <i
+                              class="bx"
+                              [ngClass]="{
+                                'bxs-down-arrow  ': showDetails[i],
+                                'bxs-right-arrow ': !showDetails[i]
+                              }"
+                            ></i>
+                          </span>
+
+                <!--         <a [ngClass]="{
                           'disabled-icon':  stock.total_referencia == 0
                         }"  class="nav-link" data-toggle="dropdown" href="#">
+
                           <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
+                       
                         <div
                           class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
                         >
                           <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
+                           
                             <div
                               class="media"
                               *ngFor="let item of stock.detalles"
@@ -98,10 +118,30 @@
                                 <div class="dropdown-divider"></div>
                               </div>
                             </div>
-                            <!-- Message End -->
+                        
                           </a>
-                        </div>
+                        </div> -->
                       </td>
+                    </tr>
+                    <ng-container *ngIf="showDetails[i]">
+                      <tr>
+                        <th colspan="1"></th>
+                        <!--    <th >Referencia</th> -->
+  
+                        <th>Lote</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                      </tr>
+                      <ng-container  *ngFor="let item of stock.detalles">
+                      <tr>
+                        <td colspan="1"></td>
+                        <td>{{item.lote}}</td>
+                        <td>{{item.TOTAL}}</td>
+                        <td>{{item.caducidad  | utcDate: "yyyy-MM-dd"}}</td>
+                      </tr>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
                       <!--  <td>{{ stock.lote }}</td>
                       <td>{{ stock.cantidad }}</td> -->
                       <!--  <td
@@ -139,7 +179,7 @@
                             <i class="bx bxs-trash bx-sm"></i
                           ></span>
                         </td> -->
-                    </tr>
+                  
                     <!--  <tr class="expandable-body">
                       <td colspan="5">
                         <p>

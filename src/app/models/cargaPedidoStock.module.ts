@@ -9,12 +9,23 @@ export class PedidoStock {
   }
   
   export interface Item {
-    ID_PRODUCTO: number;
-    product: Product; // Utilizamos el tipo 'Product' aquí
+    /* ID_PRODUCTO: number;
+    product: Product; 
     CANTIDAD: number;
-    ENTREGADO:Number;
+    ENTREGADO:Number; */
+    ID_PRODUCTO: number;
+    CANTIDAD:    number;
+    product:     Product;
+    bodega:      Bodega;
   }
-  
+  export interface Bodega {
+    id:          number;
+    NOMBRE:      string;
+    DESCRIPCION: null;
+    ESTADO:      number;
+    createdAt:   Date;
+    updatedAt:   Date;
+}
   export class Product {
     constructor(
       public REFERENCIA: string,

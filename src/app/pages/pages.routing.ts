@@ -81,6 +81,8 @@ import { BodegaComponent } from './mantenimientos/bodega/bodega.component';
 import { ResultadosComponent } from './mantenimientos/resultados/resultados.component';
 import { ReportesResultadosComponent } from './mantenimientos/reportes-resultados/reportes-resultados.component';
 import { TransferenciaComponent } from './mantenimientos/transferencia/transferencia.component';
+import { StockbodegasComponent } from './mantenimientos/stockbodegas/stockbodegas.component';
+import { DescargarbodegaComponent } from './mantenimientos/descargarbodega/descargarbodega.component';
 
 
 const routes: Routes = [
@@ -193,6 +195,20 @@ const routes: Routes = [
         data: { titulo: 'analizador' },
       },
 
+
+      
+      {
+        path: 'stockbodega',
+        component: StockbodegasComponent,
+        data: { titulo: 'stockbodega' },
+      },
+
+      {
+        path: 'descargobodega',
+        component: DescargarbodegaComponent,
+        data: { titulo: 'descargobodega' },
+      },
+     
 
       {
         path: 'estadofinancierocliente',
