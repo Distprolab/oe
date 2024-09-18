@@ -25,7 +25,7 @@ export class SidebarService {
         },
       ],
     },
-   /*  {
+    /*  {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -55,7 +55,7 @@ export class SidebarService {
         },
       ],
     }, */
-/* 
+    /* 
     {
       titulo: 'AGENDAMIENTO',
       icono: 'right fas fa-angle-left',
@@ -218,9 +218,9 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT', 'INVENTARIO'],
         },
       ],
-    },
+    }, 
 
-  /*  {
+    {
       titulo: 'MANTENIMIENTOS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -354,8 +354,8 @@ export class SidebarService {
           roles: ['ADMIN', 'OPERADOR'],
         },
       ],
-    },*/
-    {
+    },
+     {
       titulo: ' INVENTARIO',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -364,11 +364,11 @@ export class SidebarService {
           url: 'stock',
           roles: ['ADMIN', 'INVENTARIO'],
         },
-      /*  {
-          titulo: 'CARGA STOCK MANUAL',
-          url: 'stock-manual',
-          roles: ['ADMIN', 'INVENTARIO'],
-        },*/
+        //  {
+        //   titulo: 'CARGA STOCK MANUAL',
+        //   url: 'stock-manual',
+        //   roles: ['ADMIN', 'INVENTARIO'],
+        // },
         {
           titulo: 'DETALLE DE STOCK',
           url: 'stocks',
@@ -391,12 +391,22 @@ export class SidebarService {
           url: 'QRCode',
           roles: ['ADMIN', 'INVENTARIO'],
         },
-
-       /*  {
-          titulo: 'Validacion',
-          url: 'validacion',
+        {
+          titulo: 'stockbodega',
+          url: 'stockbodega',
           roles: ['ADMIN'],
-        }, */
+        },
+        {
+          titulo: 'descargobodega',
+          url: 'descargobodega',
+          roles: ['ADMIN'],
+        },
+
+        //   {
+        //   titulo: 'Validacion',
+        //   url: 'validacion',
+        //   roles: ['ADMIN'],
+        // }, 
         {
           titulo: 'TRANSFERENCIA',
           url: 'transferencia',
@@ -412,7 +422,7 @@ export class SidebarService {
           url: 'bodega/Nuevo',
           roles: ['ADMIN'],
         },
-       /* {
+        {
           titulo: 'RESULTADOS',
           url: 'resultados',
           roles: ['ADMIN'],
@@ -422,9 +432,9 @@ export class SidebarService {
           titulo: 'ReportesResultados',
           url: 'ReportesResultados',
           roles: ['ADMIN'],
-        },*/
+        },
       ],
-    },
+    }, 
   ];
 
   getMenuWithPermissions(): any[] {

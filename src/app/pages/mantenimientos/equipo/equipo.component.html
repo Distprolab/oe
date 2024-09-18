@@ -55,11 +55,10 @@
             <div class="form-group col-md-3">
               <label for="">Categoria</label>
               <select
-             
+                (change)="onSelectModelo($event)"
                 class="form-control"
                 formControlName="modeloId"
                 [class.is-invalid]="modeloId"
-                (change)="onSelectModelo($event)"
               >
                 <option value="">--Seleccione--</option>
                 <option
@@ -74,48 +73,22 @@
               >
             </div>
 
-
             <div class="form-group col-md-3">
               <label for="">Modelo </label>
               <select
-              id="modelo-select"
                 class="form-control"
-                formControlName="NOMBRE"
-                [class.is-invalid]="NOMBRE"
+                formControlName="analizadorId"
+                [class.is-invalid]="analizadorId"
               >
-              <option value="">--Seleccione--</option>
-                <option *ngFor="let equipo of listaequipos" [value]="equipo.id">
+                <option value="">--Seleccione--</option>
+                <option *ngFor="let equipo of listaeq" [value]="equipo.id">
                   {{ equipo.NOMBRE }}
                 </option>
               </select>
-              <small *ngIf="NOMBRE" class="text-danger"
+              <small *ngIf="analizadorId" class="text-danger"
                 >Seleccione una categoria</small
               >
             </div>
-
-            <!--  <div class="form-group col-md-3">
-              <label >Modelo equipo</label>
-
-              <select
-              id="equipos-select"
-                class="form-control"
-                formControlName="NOMBRE"
-                [class.is-invalid]="NOMBRE"
-              
-               
-              >
-                <option value="">--Seleccione--</option>
-                <option
-                  *ngFor="let categoria of listacategoria"
-                  [value]=modeloId.id"
-                >
-                  {{ categoria.NOMBRE }}
-                </option>
-              </select>
-              <small *ngIf="NOMBRE" class="text-danger"
-                >Ingrese un nombre de equipo</small
-              >
-            </div> -->
 
             <div class="form-group col-md-3">
               <label for="">Serie</label>
@@ -132,11 +105,9 @@
               >
             </div>
 
-
             <div class="form-group col-md-3">
               <label for="">Fecha Fabricacion</label>
               <input
-                
                 type="date"
                 class="form-control"
                 formControlName="fecha"
@@ -147,22 +118,6 @@
                 >Ingrese la serie del equipo</small
               >
             </div>
-
-           <!--  <div class="form-group col-md-3">
-              <label for="">Años</label>
-              <input
-                
-                type="text"
-                class="form-control"
-                formControlName="edad"
-             
-                placeholder="Edad 38 ..."
-                [value]="CalculateAge()"
-              />
-              <small *ngIf="" class="text-danger"
-                >Ingrese la serie del equipo</small
-              >
-            </div> -->
 
             <div class="form-group col-md-3">
               <label for="">Estado</label>
@@ -255,6 +210,8 @@
           <thead>
             <tr>
               <th class="table-camposmedium">Categoria</th>
+              <th *ngIf="mostrarColumnaFecha()">Fecha</th>
+
               <th>Modelo</th>
               <th>Marca</th>
               <th>Serie</th>
@@ -268,6 +225,7 @@
               <td>
                 <select
                   class="form-control"
+                  (click)="toggleDetails(i)"
                   formControlName="equipocomplementariosId"
                   (ngModelChange)="actualizarInputs(i, $event)"
                 >
@@ -280,7 +238,18 @@
                   </option>
                 </select>
               </td>
-
+              <td
+                *ngIf="
+                  eqform.get('equipocomplementariosId')?.value == 42 ||
+                  eqform.get('equipocomplementariosId')?.value == 2
+                "
+              >
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="fechacom"
+                />
+              </td>
               <td>
                 <div class="form-group">
                   <input

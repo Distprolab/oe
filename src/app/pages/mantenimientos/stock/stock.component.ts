@@ -101,7 +101,7 @@ export class StockComponent implements OnInit {
     this.manteniemintoService.getBodega().subscribe((bodega) => {
       console.log(bodega);
 
-      this.listabodega = bodega;
+      this.listabodega = bodega.filter((item) => item.ESTADO == 1);
     });
   }
   onBarcodeInput(event: Event): void {
@@ -109,7 +109,6 @@ export class StockComponent implements OnInit {
     const barcodeFragment = inputBarcode.value.trim();
     if (barcodeFragment) {
       this.barcodeSubject.next(barcodeFragment);
-      //inputElement.value = ''; // Clear input after processing
     }
     console.log(barcodeFragment);
 
@@ -148,8 +147,6 @@ export class StockComponent implements OnInit {
       this.dataStore.push({ lote: loteFinal, ref: refFinal, cant: 1 });
     }
     this.updateTable();
-
-    // console.log(`ok`, this.dataStore);
   }
 
   updateTable() {

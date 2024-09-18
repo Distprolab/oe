@@ -10,6 +10,7 @@ export interface CantidadReservada {
 }
 
 export interface Detalle {
+    productId:string;
     referencia:        string;
     lote:              string;
     cantidadReservada: number;

@@ -110,6 +110,7 @@ export interface EquipoID {
 export interface Acc {
   id:                      number;
   DESCRIPCION:             string;
+  fechacom:Date;
   MARCA:                   string;
   SERIEACC:                string;
   USUARIO_ID:              null;

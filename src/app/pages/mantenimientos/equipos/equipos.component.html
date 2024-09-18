@@ -3,13 +3,81 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <input
+          <form autocomplete="off">
+            <!--  <input
             type="text"
             class="form-control"
             placeholder="Buscar por nombre"
             (keyup)="buscar(txtTermino.value.toUpperCase())"
             #txtTermino
-          />
+          /> -->
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="text " class="form-ItemName">Equipo</label>
+
+                <select class="form-control" #equipo>
+                  <option value="">--Seleccione--</option>
+                  <option
+                    *ngFor="let equipo of listacategoria"
+                    [value]="equipo.id"
+                  >
+                    {{ equipo.NOMBRE }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="text " class="form-ItemName">Marca</label>
+                <select class="form-control" #marca>
+                  <option value="">--Seleccione--</option>
+                  <option *ngFor="let marca of listamarca" [value]="marca.id">
+                    {{ marca.NOMBRE }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="text " class="form-ItemName">Categoria</label>
+                <select class="form-control" #modelo>
+                  <option value="">--Seleccione--</option>
+                  <option
+                    *ngFor="let modelo of listamodelo"
+                    [value]="modelo.id"
+                  >
+                    {{ modelo.NOMBRE }}
+                  </option>
+                </select>
+              </div>
+
+              <!--      <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Ubicación</label>
+                <select class="form-control" #ubicacion>
+                  <option value="">--Seleccione--</option>
+                  <option
+                    *ngFor="let ubicacion of listaubicacion"
+                    [value]="ubicacion.id"
+                  >
+                    {{ ubicacion.NOMBRE }}
+                  </option>
+                </select>
+              </div> -->
+              <div class="button mt-5">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm"
+                  (click)="buscar(marca.value, equipo.value, modelo.value)"
+                >
+                  CONSULTAR
+                </button>
+                &nbsp;
+                <button
+                (click)="borrarFiltro(marca, equipo, modelo)"
+                class="btn btn-primary btn-sm cursor"
+              >
+                limpiar filtros
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -40,7 +108,8 @@
                     <th>Equipo</th>
                     <th>Categoria</th>
                     <th>Marca</th>
-                    <th>Tiempo servicio</th>
+                    <th>Serie</th>
+                    <th>Vigencia</th>
                     <th>Modalidad proveedor</th>
                     <th>Modalidad cliente</th>
                     <th>Condición</th>
@@ -62,7 +131,7 @@
                       <td>{{ equipo.instrumento.NOMBRE }}</td>
                       <td>{{ equipo.modelo.NOMBRE }}</td>
                       <td>{{ equipo.marca.NOMBRE }}</td>
-
+                      <td>{{ equipo.SERIE }}</td>
                       <td>{{ getEdad(equipo.fecha) }} AÑOS</td>
                       <td>{{ equipo.estadoproveedor.NOMBRE }}</td>
                       <td>{{ equipo.estadocliente.NOMBRE }}</td>
@@ -76,11 +145,12 @@
                             [ngStyle]="{
                               'border-left':
                                 '5px solid ' + estados.estado.color,
-                              'padding': '10px',
+                              padding: '10px',
                               'border-radius': '5px',
 
-                              'display': 'inline-block',
-                              'transition': 'border-left 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55)'  
+                              display: 'inline-block',
+                              transition:
+                                'border-left 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55)'
                             }"
                           >
                             {{ estados.estado.NOMBRE }}
@@ -90,7 +160,9 @@
                       <ng-container
                         *ngFor="let ubicaciones of equipo.historicoubicacion"
                       >
-                        <td>{{ ubicaciones.ubicacion.NOMBRE | slice:0:32 }}</td>
+                        <td>
+                          {{ ubicaciones.ubicacion.NOMBRE | slice: 0 : 32 }}
+                        </td>
                       </ng-container>
                       <td>
                         <div [ngSwitch]="equipo.ESTADO">
@@ -128,60 +200,22 @@
                             }"
                           ></i
                         ></span>
-                        <!--      <span
-                        class="cursor"
-                        [ngClass]="{
-                          'disabled-icon': !equipo.acc
-                        }"
-                        data-toggle="dropdown"
-                        href="#"
-                      >
-                        <i class="fa fa-eye" aria-hidden="true"></i
-                      ></span>
-
-                      <div
-                        class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
-                      >
-                        <a href="#" class="dropdown-item">
-                          <div class="media" >
-                            <div class="media-body">
-                              <p class="text-md">
-                                <strong> Equipo:</strong>
-                                <i class="bx bx-devices"></i>
-                              
-                              </p>
-
-                              <p class="text-md">
-                              
-                              </p>
-
-                              <p class="text-md">
-                                <strong>Serie:</strong>
-                              
-                              </p>
-
-                              <p class="text-md">
-                                <strong>Descripcion:</strong>
-                             
-                              </p>
-                              <div class="dropdown-divider"></div>
-                            </div>
-                          </div>
-                        </a>
-                      </div> -->
+                       
                       </td>
                     </tr>
                     <ng-container *ngIf="showDetails[i]">
                       <tr>
                         <th colspan="3">Categoria</th>
 
-                        <th >Marca</th>
+                        <th>Marca</th>
                         <th colspan="2">Modelo</th>
                         <th colspan="2">Serie</th>
                       </tr>
                       <ng-container *ngFor="let item of equipo.acc">
                         <tr>
-                          <td colspan="3">{{ item.equipocomplementarios.equipo }}</td>
+                          <td colspan="3">
+                            {{ item.equipocomplementarios.equipo }}
+                          </td>
 
                           <td>{{ item.SERIEACC }}</td>
                           <td colspan="2">{{ item.DESCRIPCION }}</td>

@@ -103,6 +103,7 @@ const config: SocketIoConfig = { url: environment.url, options: {} };
 @NgModule({
   declarations: [
     StockbodegasComponent,
+    
     DescargarbodegaComponent,
     TransferenciaComponent,
     ReportesResultadosComponent,

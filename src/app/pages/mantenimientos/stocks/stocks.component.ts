@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Stock } from 'src/app/interfaces/stock.interface';
 import { cargaStock } from 'src/app/models/cargatotalSotck.module';
-
 import { StockService } from 'src/app/services/stock.service';
 
 @Component({
@@ -84,5 +83,16 @@ export class StocksComponent implements OnInit {
       : this.stockService.getByfiltroStock(termino).subscribe((resultados) => {
           this.listaSotck = resultados;
         });
+  }
+  descargarPDf(){
+    this.stockService.getreportePdfStock().subscribe(  (blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      console.log(url);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'ReporteStock.pdf';
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

@@ -69,7 +69,8 @@ export class SolicitudesPedidosComponent implements OnInit {
   }
   ImprimirPDf(pedido: pedidoStock) {
     console.log(pedido);
-    this.stockService.getPdfPedidoStock(pedido).subscribe((blob: Blob) => {
+    this.stockService.getPdfPedidoStock(pedido).subscribe(
+      (blob: Blob) => {
       const url = window.URL.createObjectURL(blob);
       console.log(url);
       const link = document.createElement('a');

@@ -20,8 +20,10 @@
       <div class="card">
         <div class="card-body">
           <h6 class="title">Lista Stock Ingresado</h6>
-
-          <div class="col-md-3 button"></div>
+          <a class="btn btn-secondary btn-md" (click)="descargarPDf()">PDF</a>
+          <div class="col-md-3 button">
+       
+          </div>
 
           <div class="table-responsive">
             <form>
@@ -51,24 +53,24 @@
                     <ng-container
                       *ngFor="
                         let stock of listaSotck
-                          | paginate: { itemsPerPage: 10, currentPage: page }
-                          let i = index
+                          | paginate: { itemsPerPage: 10, currentPage: page };
+                        let i = index
                       "
                       data-widget="expandable-table"
                       aria-expanded="true"
                     >
-                    <tr>
-                      <td>{{ stock.referencia }}</td>
-                      <td>{{ stock.nombre }}</td>
-                      <td>{{ stock.total_referencia }}</td>
-                      <td>
-
-                           <span  *ngFor="let item of stock.detalles">
-                          
-                              <i [ngClass]="getAlertClass(item.caducidad)" class="fa fa-eye"></i>
-                         
-                           </span>
-                           <span (click)="toggleDetails(i)">
+                      <tr>
+                        <td>{{ stock.referencia }}</td>
+                        <td>{{ stock.nombre }}</td>
+                        <td>{{ stock.total_referencia }}</td>
+                        <td>
+                          <span *ngFor="let item of stock.detalles">
+                            <i
+                              [ngClass]="getAlertClass(item.caducidad)"
+                              class="fa fa-eye"
+                            ></i>
+                          </span>
+                          <span (click)="toggleDetails(i)">
                             <i
                               class="bx"
                               [ngClass]="{
@@ -78,7 +80,7 @@
                             ></i>
                           </span>
 
-                <!--         <a [ngClass]="{
+                          <!--         <a [ngClass]="{
                           'disabled-icon':  stock.total_referencia == 0
                         }"  class="nav-link" data-toggle="dropdown" href="#">
 
@@ -121,30 +123,32 @@
                         
                           </a>
                         </div> -->
-                      </td>
-                    </tr>
-                    <ng-container *ngIf="showDetails[i]">
-                      <tr>
-                        <th colspan="1"></th>
-                        <!--    <th >Referencia</th> -->
-  
-                        <th>Lote</th>
-                        <th>Cantidad</th>
-                        <th>Fecha</th>
+                        </td>
                       </tr>
-                      <ng-container  *ngFor="let item of stock.detalles">
-                      <tr>
-                        <td colspan="1"></td>
-                        <td>{{item.lote}}</td>
-                        <td>{{item.TOTAL}}</td>
-                        <td>{{item.caducidad  | utcDate: "yyyy-MM-dd"}}</td>
-                      </tr>
+                      <ng-container *ngIf="showDetails[i]">
+                        <tr>
+                          <th colspan="1"></th>
+                          <!--    <th >Referencia</th> -->
+
+                          <th>Lote</th>
+                          <th>Cantidad</th>
+                          <th>Fecha</th>
+                        </tr>
+                        <ng-container *ngFor="let item of stock.detalles">
+                          <tr>
+                            <td colspan="1"></td>
+                            <td>{{ item.lote }}</td>
+                            <td>{{ item.TOTAL }}</td>
+                            <td>
+                              {{ item.caducidad | utcDate: "yyyy-MM-dd" }}
+                            </td>
+                          </tr>
+                        </ng-container>
                       </ng-container>
                     </ng-container>
-                  </ng-container>
-                      <!--  <td>{{ stock.lote }}</td>
+                    <!--  <td>{{ stock.lote }}</td>
                       <td>{{ stock.cantidad }}</td> -->
-                      <!--  <td
+                    <!--  <td
                         [ngClass]="{
                           'alerta-rojo':
                             obtenerFechaCaducidadFormateada(stock.caducidad) ===
@@ -155,11 +159,11 @@
                       >
                         {{ stock.caducidad | utcDate: "yyyy-MM-dd" }}
                       </td> -->
-                      <!--  <td  >{{stock.caducidad | utcDate:'yyyy-MM-dd'}}</td> -->
-                      <!-- <td>
+                    <!--  <td  >{{stock.caducidad | utcDate:'yyyy-MM-dd'}}</td> -->
+                    <!-- <td>
                         <span>Activo </span>
                       </td> -->
-                      <!--    <td>
+                    <!--    <td>
                           <span   class="cursor">
   
                            <a [ngClass]="{ 'disabled-icon': producto.ESTADO == 2 }"
@@ -179,7 +183,7 @@
                             <i class="bx bxs-trash bx-sm"></i
                           ></span>
                         </td> -->
-                  
+
                     <!--  <tr class="expandable-body">
                       <td colspan="5">
                         <p>

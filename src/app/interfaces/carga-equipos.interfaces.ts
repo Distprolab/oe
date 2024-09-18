@@ -7,7 +7,16 @@ export interface Equipos {
 
 export interface Equipo {
   id: number;
-  NOMBRE: null;
+  NOMBRE: string;
+  CARACTERISTICA:string;
+  
+
+  CREATEDBY: 2;
+
+  UPDATEDBY: null;
+
+  DELETEDBY: null;
+
   CATEGORIA: null;
   USUARIO_ID: null;
   MARCA_ID: null;
@@ -19,6 +28,7 @@ export interface Equipo {
   updatedAt: Date;
   marcaId: number;
   modeloId: number;
+  usuarioId:number;
   analizadorId: number;
   instrumentoId: number;
   estadoId: number;
@@ -33,6 +43,32 @@ export interface Equipo {
   estadocliente: Estado;
   estadoproveedor: Estado;
   acc: Acc[];
+
+/*   
+
+   
+
+    CARACTERISTICA: null,
+
+    USUARIO_ID: null,
+
+    CREATEDBY: 2,
+
+    UPDATEDBY: null,
+
+    DELETEDBY: null,
+
+    ESTADO: 1,
+
+    
+
+  
+
+
+     */
+
+
+
 }
 export interface Historico {
   id: number;

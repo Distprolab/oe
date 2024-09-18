@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Equipo, Equipos } from 'src/app/interfaces/carga-equipos.interfaces';
+import { Analizador } from 'src/app/interfaces/cargaAnalizador.interface';
 import { Marca } from 'src/app/interfaces/cargaMarca.interface';
 import { Modelo } from 'src/app/interfaces/cargaModelo.interface';
 
@@ -31,10 +32,10 @@ export class EquiposComponent implements OnInit {
   listamodelo: Modelo[] = [];
   showDetails: boolean[] = [];
   showPruebasHeader: boolean = false;
-
+  listacategoria: Analizador[] = [];
   openCoverages = false;
   indexSelectedCoverage = 1;
-  selectedModelo:any;
+  selectedModelo: any;
   constructor(
     private manteniemintoService: MantenimientosService,
     private fb: UntypedFormBuilder,
@@ -46,7 +47,7 @@ export class EquiposComponent implements OnInit {
   }
 
   ngOnInit(): void {
-/* 
+    /* 
     this.covenants.forEach((_covenants) => {
       _covenants.isExpanded = false;
     }); */
@@ -55,15 +56,14 @@ export class EquiposComponent implements OnInit {
     this.getModelo();
     this.getEstado();
     this.getUbicacion();
-   
+    this.getAnalizador();
   }
 
   toggleDetails(index: number): void {
     this.showDetails[index] = !this.showDetails[index];
-    this.showPruebasHeader = this.showDetails.some(detail => detail);
-
+    this.showPruebasHeader = this.showDetails.some((detail) => console.log(detail));
   }
- 
+
   crearFormulario() {
     this.equipoForm = this.fb.group({
       NOMBRE: ['', [Validators.required]],
@@ -96,14 +96,22 @@ export class EquiposComponent implements OnInit {
     });
   }
 
+  getAnalizador() {
+    this.llenarcomboServices.getAnalizador().subscribe((analizador) => {
+      console.log(analizador);
 
-
+      this.listacategoria = analizador;
+    });
+  }
 
   getModelo() {
     this.llenarcomboServices.getModelo().subscribe((modelo) => {
       console.log(modelo);
 
-      this.listamodelo = modelo;
+      this.listamodelo = modelo.filter((objeto,index,self)=>
+        self.findIndex((o)=>o.NOMBRE ===objeto.NOMBRE) ===index
+      )
+      ;
     });
   }
 
@@ -173,7 +181,7 @@ export class EquiposComponent implements OnInit {
           .getDeleteEquipo(equipo)
           .subscribe((resp: any) => {
             const { msg } = resp;
-              this.getEquipo();
+            this.getEquipo();
             Swal.fire({
               title: 'Equipo eliminado!',
               text: `${msg}`,
@@ -183,11 +191,11 @@ export class EquiposComponent implements OnInit {
       }
     });
   }
- /*  toggleExpand(equipo: Equipo) {
+  /*  toggleExpand(equipo: Equipo) {
     equipo.expanded = !equipo.expanded;
   } */
 
-  buscar(termino: string) {
+  /*   buscar(termino: string) {
     console.log(termino);
     if (termino.length === 0 || termino === '') {
       this.listaequipos = this.equipoTemp;
@@ -198,18 +206,34 @@ export class EquiposComponent implements OnInit {
           this.listaequipos = equipos;
         });
     }
+  } */
+
+  buscar(marca: string, equipo: string,modelo:string) {
+    this.manteniemintoService
+    .buscarFiltroEquipo(marca,equipo,modelo)
+    .subscribe((equipos) => {
+      this.listaequipos = equipos;
+    });
+
   }
-  getEdad(fecha){
-    console.log(fecha)
+  getEdad(fecha) {
+    console.log(fecha);
     if (fecha) {
       console.log(fecha);
       const convertAge = new Date(fecha);
 
       const timeDiff = Math.abs(Date.now() - convertAge.getTime());
 
-      return ( Math.floor(timeDiff / (1000 * 3600 * 24) / 365));
+      return Math.floor(timeDiff / (1000 * 3600 * 24) / 365);
     } else {
       return null;
     }
+  }
+  borrarFiltro(modelo, equipo, marca) {
+    modelo.value = '';
+
+    equipo.value = '';
+    marca.value = '';
+    this.getEquipo();
   }
 }

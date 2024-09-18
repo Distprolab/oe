@@ -18,6 +18,7 @@ import { Estadocliente } from 'src/app/interfaces/cargarEstadoCliente.interface'
 import { Estadoproveedor } from 'src/app/interfaces/cargarEstadoProveedores.interface';
 import { EquipoID } from 'src/app/interfaces/cargarIDEquipos.interface';
 import { Ubicacion } from 'src/app/interfaces/cargaUbicacioninterface';
+//import { Equipo } from 'src/app/models/equipo.module';
 
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
@@ -35,6 +36,7 @@ export class EquipoComponent implements OnInit {
   listacategorias: Analizador[] = [];
   listamarcaeq: any[] = [];
   listaequipos: any[] = [];
+  listaeq: Marca[] = [];
   listaequipocomplementario: Equipocomplementario[] = [];
   listamarca: Marca[] = [];
   listaequipomarca: Marca[] = [];
@@ -45,6 +47,9 @@ export class EquipoComponent implements OnInit {
   listamodelo: Modelo[] = [];
   selectedModelo: any;
   showAge;
+  showDetails: boolean[] = [];
+  showPruebasHeader: boolean = false;
+
   selectedmarca: any;
   listaseleccioandoequipo: EquipoID;
   btnVal = 'Guardar';
@@ -57,10 +62,10 @@ export class EquipoComponent implements OnInit {
   ) {
     this.crearFormulario();
   }
-  get NOMBRE() {
+  get analizadorId() {
     return (
-      this.equipoForm?.get('NOMBRE')!.invalid &&
-      this.equipoForm?.get('NOMBRE')!.touched
+      this.equipoForm?.get('analizadorId')!.invalid &&
+      this.equipoForm?.get('analizadorId')!.touched
     );
   }
 
@@ -80,6 +85,10 @@ export class EquipoComponent implements OnInit {
   isSerieDisabled(index: number): boolean {
     // Add your logic to enable or disable the SERIEACC field
     return this.ACC.at(index).get('SERIEACC').disabled;
+  }
+  toggleDetails(index: number): void {
+    this.showDetails[index] = !this.showDetails[index];
+    this.showPruebasHeader = this.showDetails.some((detail) => detail);
   }
   get ESTADO_ID() {
     return (
@@ -164,7 +173,7 @@ export class EquipoComponent implements OnInit {
         SERIE,
         fecha,
         marcaId,
-        modeloId,      
+        modeloId,
         historicoubicacion,
         historicoestado,
         estadoproveedorId,
@@ -172,33 +181,39 @@ export class EquipoComponent implements OnInit {
         acc,
       } = equipos;
 
-      console.log(modeloId, modeloId);
+      console.log(marcaId, modeloId);
       this.updateCategoriaAndModelo(marcaId, modeloId);
       this.equipoForm.patchValue({
-        NOMBRE: instrumentoId,
-         modeloId,
-         marcaId,   
-         fecha:`${fecha}`.slice(0,10),   
+        analizadorId,
+        modeloId,
+        marcaId,
+        fecha: `${fecha}`.slice(0, 10),
         SERIE,
         ESTADOPROVEEDOR: estadoproveedorId,
         ESTADOCLIENTE: estadoclienteId,
         ESTADO_ID: historicoestado[0].estadoId,
-        UBICACION_ID: historicoubicacion[0].ubicacionId,     
-        ACC: acc.map((ac) =>
-          this.ACC.push(
-            this.fb.group({
-              DESCRIPCION: ac.DESCRIPCION,
-              equipocomplementariosId: ac.equipocomplementariosId,
-              MARCA: ac.MARCA,
-              SERIEACC: ac.SERIEACC,
-            }),
-          ),
-        ),
+        UBICACION_ID: historicoubicacion[0].ubicacionId,
+        //acc && acc.length > 0 ? acc.map((ac) =>
+        ACC:
+          acc && acc.length > 0
+            ? acc.map((ac) =>
+                //: acc.map((ac) =>
+                this.ACC.push(
+                  this.fb.group({
+                    DESCRIPCION: ac.DESCRIPCION,
+                    equipocomplementariosId: ac.equipocomplementariosId,
+                    MARCA: ac.MARCA,
+                    SERIEACC: ac.SERIEACC,
+                    fechacom: ac.fechacom,
+                  }),
+                ),
+              )
+            : [],
       });
 
       this.listaseleccioandoequipo = equipos;
 
-      console.log(this.listaseleccioandoequipo.id)
+      console.log(this.listaseleccioandoequipo.id);
     });
   }
   CalculateAge() {
@@ -214,9 +229,7 @@ export class EquipoComponent implements OnInit {
     }
   }
 
-
   updateCategoriaAndModelo(marcaId: number, categoriaId: number): void {
-    // Actualizar categorías según la marca seleccionada
     console.log(categoriaId);
     const selectedMarca = this.listamarca.find((m) => m.id === marcaId);
     console.log(selectedMarca);
@@ -224,29 +237,36 @@ export class EquipoComponent implements OnInit {
       this.listacategoria = selectedMarca.modelo;
       console.log(selectedMarca.modelo);
 
-      // Actualizar modelos según la categoría seleccionada
       console.log(this.listacategoria);
-   /*    const selectedCategoria = this.listacategoria.find((c) =>
-        c.instrumento.some((inst) => inst.id === categoriaId),
-      ); */
-      const selectedCategoria = this.listacategoria.find(c =>
-       c.id === categoriaId);
-      
-      console.log(selectedCategoria.instrumento);
+
+      const selectedCategoria = this.listacategoria.find(
+        (c) => c.id === categoriaId,
+      );
+
+      console.log(selectedCategoria);
 
       if (selectedCategoria) {
-        this.listaequipos = selectedCategoria.instrumento;
+        this.listaeq = selectedCategoria.instrumento;
+        console.log(this.listaeq);
       }
     }
+  }
+  mostrarColumnaFecha(): boolean {
+    return this.ACC.controls.some(
+      (eqform) =>
+        eqform.get('equipocomplementariosId')?.value == 42 ||
+        eqform.get('equipocomplementariosId')?.value == 2,
+    );
   }
 
   crearFormulario() {
     this.equipoForm = this.fb.group({
-      NOMBRE: ['', [Validators.required]],
+      //   NOMBRE: ['', [Validators.required]],
+      analizadorId: ['', [Validators.required]],
       modeloId: ['', [Validators.required]],
       marcaId: ['', [Validators.required]],
-      fecha:[''],
-      edad:[''],
+      fecha: [''],
+      edad: [''],
       ESTADO_ID: ['', [Validators.required]],
       UBICACION_ID: ['', [Validators.required]],
       SERIE: ['', [Validators.required]],
@@ -262,6 +282,7 @@ export class EquipoComponent implements OnInit {
       MARCA: ['', [Validators.required]],
       equipocomplementariosId: ['', [Validators.required]],
       SERIEACC: ['', [Validators.required]],
+      fechacom: [''],
     });
   }
 
@@ -291,9 +312,9 @@ export class EquipoComponent implements OnInit {
     );
 
     console.log(selectedCategoria);
-    this.listaequipos = selectedCategoria ? selectedCategoria.instrumento : [];
+    this.listaeq = selectedCategoria ? selectedCategoria.instrumento : [];
 
-    console.log(this.listaequipos);
+    console.log(this.listaeq);
   }
 
   actualizarInputs(i: number, $event: any) {
@@ -312,6 +333,7 @@ export class EquipoComponent implements OnInit {
         equipocomplementariosId: productoSeleccionado.NOMBRE,
         MARCA: null,
         SERIEACC: null,
+        // fechacom:
       });
     }
   }

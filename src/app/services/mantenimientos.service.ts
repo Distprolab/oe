@@ -565,14 +565,22 @@ export class MantenimientosService {
     );
   }
 
-  buscarFiltroEquipo(termino: string): Observable<Equipo[]> {
+ /*  buscarFiltroEquipo(termino: string): Observable<Equipo[]> {
     return this.http
       .get<Equipos>(
         `${baseUrl}/api/equipo/busquedaequipo/${termino}`,
         this.headers,
       )
-      .pipe(map(({ equipos }) => equipos));
-  }
+      .pipe(map(({ equipos }) => equipos));//marca: string, equipo: string, condicion: string, ubicacion: string
+  } */
+      buscarFiltroEquipo(marca: string, equipo: string,modelo:string): Observable<Equipo[]> {
+        return this.http
+          .get<Equipos>(
+            `${baseUrl}/api/equipos/busquedaequipo/busquedas?marca=${marca}&equipo=${equipo}&modelo=${modelo}`,
+            this.headers,
+          )
+          .pipe(map(({ equipos }) => equipos));//marca: string, equipo: string, condicion: string, ubicacion: string
+      }
   getUpdateEquipoComplementario(data: EquipocomplementarioID) {
     return this.http.put(
       `${baseUrl}/api/equipocomplementario/${data.id}`,

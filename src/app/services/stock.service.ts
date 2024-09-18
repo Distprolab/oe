@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
@@ -9,6 +9,7 @@ import {
 } from '../interfaces/pedidos-stocks.interface';
 import { StockPedidoDespacho } from '../models/stockForm.module';
 import { StockForm } from '../interfaces/stockMasivoExcel.interface';
+import { StockBodega, StockBodegas } from '../interfaces/cargarStockBodegas.interface';
 const baseUrl = environment.url;
 @Injectable({
   providedIn: 'root',
@@ -71,5 +72,18 @@ export class StockService {
 
     return this.http.post(`${baseUrl}/api/stock`,formData,this.headers)
   }
-  /*  getCreateStock() {} */
+
+  getFiltroBodegas(bodegaId:string):Observable<StockBodega[]>{
+    return this.http.get<StockBodegas>(`${baseUrl}/api/pedidos-stock/bodega/bodega?bodegaId=${bodegaId}`,this.headers)
+    .pipe(map(({stock})=>stock))
+  }
+
+  getdescargoStock(data){
+    return this.http.put(`${baseUrl}/api/pedidos-stock`,data,this.headers)
+  }
+   getreportePdfStock() {
+    return this.http.get(`${baseUrl}/api/stock/reporte/pdf`,
+      {    responseType: 'blob'}
+    )
+   } 
 }

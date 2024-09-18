@@ -50,7 +50,7 @@ export class PedidosComponent {
   importForm!: FormGroup;
   listabodega: Bodega[] = [];
   btnVal = 'Guardar';
-  tittle='Solicitud'
+  tittle = 'Solicitud';
   constructor(
     private fb: FormBuilder,
     private inportService: ImportacionService,
@@ -84,7 +84,7 @@ export class PedidosComponent {
     this.getAllProductos();
     this.getMarca();
     this.getCliente();
-this.getBodega();
+    this.getBodega();
     this.activatedRoute.params.subscribe(({ id }) => this.crearStock(id));
     //this.activatedRoute.params.subscribe((resp) => console.log(`PARAMS`, resp));
   }
@@ -107,7 +107,7 @@ this.getBodega();
     return this.fb.group({
       ID_PRODUCTO: ['', [Validators.required]],
       NOMBRE: ['', [Validators.required]],
-      UNIDAD: ['', ],
+      UNIDAD: [''],
       CANTIDAD: ['', [Validators.required]],
       ENTREGADO: [''],
       LOTE: [''],
@@ -145,12 +145,9 @@ this.getBodega();
       $('#modal-info').modal('hide');
 
       this.inputRef.nativeElement.value = '';
-    }else{
-
+    } else {
     }
   }
-
-
 
   onreset() {}
   borrarProducto(i: number) {
@@ -164,7 +161,7 @@ this.getBodega();
 
       return;
     }
-    this.tittle='Despacho';
+    this.tittle = 'Despacho';
     this.btnVal = 'Editar';
     this.importForm.disable();
     this.PRODUCTOS.disable();
@@ -180,7 +177,7 @@ this.getBodega();
       this.pedidoseleccionado = pedidoStock;
 
       this.importForm.setValue({
-        AREA:AREA,
+        AREA: AREA,
         // MARCA,
         PRODUCTOS: itemstock.map((item) =>
           this.PRODUCTOS.push(
@@ -198,7 +195,6 @@ this.getBodega();
     });
   }
   guardar() {
-   
     if (this.importForm.invalid) {
       this.importForm.markAllAsTouched();
       return;
@@ -232,7 +228,6 @@ this.getBodega();
           this.importForm.reset();
           this.importForm.disable();
         });
-     
     }
   }
   getMarca() {
@@ -265,18 +260,61 @@ this.getBodega();
         this.pedidoStockseleccionado = resp;
         console.log(resp);
 
+        /*  const productosFormArray = this.importForm.get(
+          'PRODUCTOS',
+        ) as FormArray;
+
+        this.pedidoStockseleccionado.cantidadReservada.detalle.forEach(
+          (item, index) => {
+            const index2 = productosFormArray.controls.findIndex(
+              (control) => control.value.ID_PRODUCTO === item.productId,
+            );
+            console.log(index2);
+
+            productosFormArray
+              .at(index2)
+              .get('ENTREGADO')
+              .patchValue(item.cantidadReservada);
+            productosFormArray.at(index2).get('LOTE').patchValue(item.lote);
+          },
+        ); */
+
         const productosFormArray = this.importForm.get(
           'PRODUCTOS',
         ) as FormArray;
-/* array.map(item => item.lote).join(', '); */
-        // Iterar sobre cada producto y establecer el valor de ENTREGADO
-        this.pedidoStockseleccionado.cantidadReservada.detalle.map(
-          (item, index) => {
-            productosFormArray
-              .at(index)
-              .get('ENTREGADO')
-              .patchValue(item.cantidadReservada)
-            productosFormArray.at(index).get('LOTE').patchValue(item.lote);
+
+        this.pedidoStockseleccionado.cantidadReservada.detalle.forEach(
+          (item) => {
+            // Buscar todos los índices de productos con el mismo productId
+            const indices = productosFormArray.controls
+              .map((control, index) =>
+                control.value.ID_PRODUCTO === item.productId ? index : -1,
+              )
+              .filter((index) => index !== -1); // Filtrar para obtener solo los índices válidos
+
+            if (indices.length > 0) {
+              // Si se encuentra al menos un índice
+              indices.forEach((index2) => {
+                const control = productosFormArray.at(index2);
+
+                // Obtener los valores actuales en el control y concatenarlos con los nuevos valores
+                const cantidadActual = control.get('ENTREGADO').value || '';
+                const loteActual = control.get('LOTE').value || '';
+
+                // Concatenar los nuevos valores de cantidad y lote, separados por coma
+                const nuevaCantidad = cantidadActual
+                  ? `${cantidadActual}, ${item.cantidadReservada}`
+                  : `${item.cantidadReservada}`;
+                const nuevoLote = loteActual
+                  ? `${loteActual}, ${item.lote}`
+                  : `${item.lote}`;
+
+                // Asignar los valores concatenados al control
+                control.get('ENTREGADO').patchValue(nuevaCantidad);
+                control.get('LOTE').patchValue(nuevoLote);
+              });
+            } else {
+            }
           },
         );
       });
@@ -287,6 +325,5 @@ this.getBodega();
     this.isLoading = true;
 
     this.data$ = this.llenarcomboService.pruebasreactivos({ q: value });
-  
   }
 }
