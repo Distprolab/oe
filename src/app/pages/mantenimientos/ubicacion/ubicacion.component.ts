@@ -74,7 +74,7 @@ this.activatedRoute.params.subscribe(({id})=>this.crearUbicaciones(id));
     this.llenarcomboService.getUbicacion().subscribe((ubicacion) => {
       console.log(ubicacion);
 
-      this.listaubicacion = ubicacion;
+      this.listaubicacion = ubicacion.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 

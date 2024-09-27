@@ -15,9 +15,9 @@ import Swal from 'sweetalert2';
 declare var $: any;
 @Component({
   selector: 'app-estadofinancierocliente',
- 
+
   templateUrl: './estadofinancierocliente.component.html',
-  styleUrl: './estadofinancierocliente.component.css'
+  styleUrl: './estadofinancierocliente.component.css',
 })
 export class EstadofinancieroclienteComponent {
   cargando = false;
@@ -25,7 +25,7 @@ export class EstadofinancieroclienteComponent {
   listaestadocliente: Estadocliente[] = [];
 
   categoriaTemp: Analizador[] = [];
-  estadoclienteTemp:Estadocliente[] = [];
+  estadoclienteTemp: Estadocliente[] = [];
   listamodelo: Modelo[] = [];
   estadoclienteForm!: FormGroup;
 
@@ -41,7 +41,6 @@ export class EstadofinancieroclienteComponent {
     this.crearFormulario();
   }
 
- 
   get NOMBRE() {
     return (
       this.estadoclienteForm?.get('NOMBRE')!.invalid &&
@@ -73,20 +72,22 @@ export class EstadofinancieroclienteComponent {
     this.btnVal = 'Editar';
     this.estadoclienteForm.disable();
 
-    this.manteniemintoService.getByIDEstadoCliente(id).subscribe((estadoclienteId) => {
-      !estadoclienteId
-        ? this.router.navigateByUrl(
-            '/dashboard/estadofinancierocliente/Nuevo',
-          )
-        : console.log(estadoclienteId);
+    this.manteniemintoService
+      .getByIDEstadoCliente(id)
+      .subscribe((estadoclienteId) => {
+        !estadoclienteId
+          ? this.router.navigateByUrl(
+              '/dashboard/estadofinancierocliente/Nuevo',
+            )
+          : console.log(estadoclienteId);
 
-      const { NOMBRE } = estadoclienteId;
+        const { NOMBRE } = estadoclienteId;
 
-      this.estadoclienteForm.patchValue({
-        NOMBRE,
+        this.estadoclienteForm.patchValue({
+          NOMBRE,
+        });
+        this.listaseleccionadoestadocliente = estadoclienteId;
       });
-      this.listaseleccionadoestadocliente = estadoclienteId;
-    });
   }
   crearEstadocliente() {
     if (this.estadoclienteForm.invalid) {
@@ -154,15 +155,12 @@ export class EstadofinancieroclienteComponent {
     }
   }
 
-
   getEstadoCliente() {
-    this.manteniemintoService
-      .getEstadoCliente()
-      .subscribe((estadocliente) => {
-        console.log(estadocliente);
+    this.manteniemintoService.getEstadoCliente().subscribe((estadocliente) => {
+      console.log(estadocliente);
 
-        this.listaestadocliente = estadocliente;
-      });
+      this.listaestadocliente = estadocliente.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
+    });
   }
   borrarcliente(cliente: Estadocliente) {
     console.log(cliente);

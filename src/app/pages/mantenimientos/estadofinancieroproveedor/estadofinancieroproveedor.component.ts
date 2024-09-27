@@ -159,7 +159,7 @@ export class EstadofinancieroproveedorComponent {
       .subscribe((estadoproveedor) => {
         console.log(estadoproveedor);
 
-        this.listaestadoproveedor = estadoproveedor;
+        this.listaestadoproveedor = estadoproveedor.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
       });
   }
   borrarproveedor(proveedor: Estadoproveedor) {

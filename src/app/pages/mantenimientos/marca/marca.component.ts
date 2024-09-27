@@ -79,7 +79,7 @@ export class MarcaComponent implements OnInit {
     this.llenarcomboService.getMarca().subscribe((marcas) => {
       console.log(marcas);
 
-      this.listamarca = marcas;
+      this.listamarca = marcas.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 

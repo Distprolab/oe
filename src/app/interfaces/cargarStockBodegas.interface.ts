@@ -10,6 +10,16 @@ export interface StockBodega {
     lote:        null;
     CANTIDAD:    string;
     product:     Product;
+    bodega:      Bodega;
+}
+
+export interface Bodega {
+    id:          number;
+    NOMBRE:      string;
+    DESCRIPCION: null;
+    ESTADO:      number;
+    createdAt:   Date;
+    updatedAt:   Date;
 }
 
 export interface Product {

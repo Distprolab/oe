@@ -201,10 +201,11 @@ export class EquipoComponent implements OnInit {
                 this.ACC.push(
                   this.fb.group({
                     DESCRIPCION: ac.DESCRIPCION,
-                    equipocomplementariosId: ac.equipocomplementariosId,
+                    equipocomplementariosId:
+                      ac.equipocomplementariosId.toString(),
                     MARCA: ac.MARCA,
                     SERIEACC: ac.SERIEACC,
-                    fechacom: ac.fechacom,
+                    fechacom: `${ac.fechacom}`.slice(0, 10),
                   }),
                 ),
               )
@@ -299,7 +300,7 @@ export class EquipoComponent implements OnInit {
     console.log(selectedmarca);
     //  this.equipoForm.get('marcaId')?.setValue(this.selectedmarca.marca.id);
 
-    this.listacategoria = selectedmarca ? selectedmarca.modelo : [];
+    this.listacategoria = selectedmarca ? selectedmarca.modelo.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE)) : [];
 
     console.log(this.listacategoria);
   }
@@ -312,7 +313,7 @@ export class EquipoComponent implements OnInit {
     );
 
     console.log(selectedCategoria);
-    this.listaeq = selectedCategoria ? selectedCategoria.instrumento : [];
+    this.listaeq = selectedCategoria ? selectedCategoria.instrumento.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE)) : [];
 
     console.log(this.listaeq);
   }
@@ -339,24 +340,25 @@ export class EquipoComponent implements OnInit {
   }
   getMarca() {
     this.llenarcomboServices.getMarca().subscribe((marcas) => {
-      console.log(marcas);
-      this.listamarca = marcas.filter((item) => item.ESTADO === 1);
+    
+      this.listamarca = marcas
+        .filter((item) => item.ESTADO === 1).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE))
+        
 
-      //this.listamarca = marcas;
     });
   }
   getEstado() {
     this.llenarcomboServices.getEstado().subscribe((estado) => {
-      console.log(estado);
+    
 
-      this.listaestado = estado.filter((item) => item.ESTADO === 1);
+      this.listaestado = estado.filter((item) => item.ESTADO === 1).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
   getUbicacion() {
     this.llenarcomboServices.getUbicacion().subscribe((ubicacion) => {
-      console.log(ubicacion);
+      
 
-      this.listaubicacion = ubicacion.filter((item) => item.ESTADO === 1);
+      this.listaubicacion = ubicacion.filter((item) => item.ESTADO === 1).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 
@@ -364,35 +366,35 @@ export class EquipoComponent implements OnInit {
     this.manteniemintoService
       .getEstadoProveedor()
       .subscribe((estadoproveedor) => {
-        console.log(estadoproveedor);
+       
 
         this.listaestadoproveedor = estadoproveedor.filter(
           (item) => item.ESTADO === 1,
-        );
-        console.log(this.listaestadoproveedor);
+        ).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
+      
       });
   }
 
   getEstadoCliente() {
     this.manteniemintoService.getEstadoCliente().subscribe((estadocliente) => {
-      console.log(estadocliente);
+    
 
       this.listaestadocliente = estadocliente.filter(
         (item) => item.ESTADO === 1,
-      );
+      ).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 
   getEquipo() {
     this.llenarcomboServices.getEquipo().subscribe((equipos) => {
-      console.log(equipos);
+   
 
       this.listaequipos = equipos;
     });
   }
   getAnalizador() {
     this.llenarcomboServices.getAnalizador().subscribe((analizador) => {
-      console.log(analizador);
+   
 
       this.listacategorias = analizador;
     });
@@ -401,10 +403,10 @@ export class EquipoComponent implements OnInit {
     this.manteniemintoService
       .getEquipoComplementario()
       .subscribe((equipocomplementario) => {
-        console.log(equipocomplementario);
+   
         this.listaequipocomplementario = equipocomplementario.filter(
           (item) => item.estado == true,
-        );
+        ).sort((a,b)=>a.equipo.localeCompare( b.equipo));
       });
   }
 
@@ -433,6 +435,7 @@ export class EquipoComponent implements OnInit {
       });
 
       this.router.navigateByUrl('/dashboard/equipos');
+      this.getEquipo();
     } else {
       console.log(`=======>`, this.equipoForm.value);
       Swal.fire({
@@ -458,6 +461,7 @@ export class EquipoComponent implements OnInit {
         NOMBRE: '',
         modeloId '',
       } */);
+          this.getEquipo();
           this.router.navigateByUrl('/dashboard/equipos');
         },
         (err) => {

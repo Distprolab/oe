@@ -61,7 +61,9 @@ export class EquiposComponent implements OnInit {
 
   toggleDetails(index: number): void {
     this.showDetails[index] = !this.showDetails[index];
-    this.showPruebasHeader = this.showDetails.some((detail) => console.log(detail));
+    this.showPruebasHeader = this.showDetails.some((detail) =>
+      console.log(detail),
+    );
   }
 
   crearFormulario() {
@@ -78,7 +80,7 @@ export class EquiposComponent implements OnInit {
     this.llenarcomboServices.getMarca().subscribe((marcas) => {
       console.log(marcas);
 
-      this.listamarca = marcas;
+      this.listamarca = marcas.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
   getEstado() {
@@ -100,7 +102,7 @@ export class EquiposComponent implements OnInit {
     this.llenarcomboServices.getAnalizador().subscribe((analizador) => {
       console.log(analizador);
 
-      this.listacategoria = analizador;
+      this.listacategoria = analizador.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 
@@ -108,10 +110,10 @@ export class EquiposComponent implements OnInit {
     this.llenarcomboServices.getModelo().subscribe((modelo) => {
       console.log(modelo);
 
-      this.listamodelo = modelo.filter((objeto,index,self)=>
-        self.findIndex((o)=>o.NOMBRE ===objeto.NOMBRE) ===index
-      )
-      ;
+      this.listamodelo = modelo.filter(
+        (objeto, index, self) =>
+          self.findIndex((o) => o.NOMBRE === objeto.NOMBRE) === index,
+      ).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 
@@ -208,13 +210,12 @@ export class EquiposComponent implements OnInit {
     }
   } */
 
-  buscar(marca: string, equipo: string,modelo:string) {
+  buscar(marca: string, equipo: string, modelo: string ,serie:string, ubicacion:string) {
     this.manteniemintoService
-    .buscarFiltroEquipo(marca,equipo,modelo)
-    .subscribe((equipos) => {
-      this.listaequipos = equipos;
-    });
-
+      .buscarFiltroEquipo(marca, equipo, modelo,serie,ubicacion)
+      .subscribe((equipos) => {
+        this.listaequipos = equipos;
+      });
   }
   getEdad(fecha) {
     console.log(fecha);
@@ -229,9 +230,10 @@ export class EquiposComponent implements OnInit {
       return null;
     }
   }
-  borrarFiltro(modelo, equipo, marca) {
+  borrarFiltro(modelo, equipo, marca,serie,ubicacion) {
     modelo.value = '';
-
+   serie.value='',
+   ubicacion.value=""
     equipo.value = '';
     marca.value = '';
     this.getEquipo();

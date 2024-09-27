@@ -270,7 +270,11 @@ const routes: Routes = [
         component: RangoreferenciaComponent,
         data: { titulo: 'Rangos' },
       },
-
+      {
+        path: 'rangos/:id',
+        component: RangoreferenciaComponent,
+        data: { titulo: 'Rangos' },
+      },
       {
         path: 'ingresordenes',
         component: IngresordenesComponent,

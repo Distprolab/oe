@@ -87,7 +87,7 @@ export class EstadoComponent {
     this.llenarcomboService.getEstado().subscribe((estado) => {
       console.log(estado);
 
-      this.listaestado = estado;
+      this.listaestado = estado.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 

@@ -121,7 +121,7 @@ export class AnalizadorComponent {
   //  this.equipoForm.get('marcaId')?.setValue(this.selectedmarca.marca.id);
     
   this.listacategorias = selectedmarca
-  ? selectedmarca.modelo
+  ? selectedmarca.modelo.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE))
   : [];
 
     console.log(this.listacategoria);
@@ -198,7 +198,7 @@ export class AnalizadorComponent {
     this.llenarcomboServices.getModelo().subscribe((modelo) => {
       console.log(modelo);
 
-      this.listamodelo = modelo;
+      this.listamodelo = modelo.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 
@@ -206,7 +206,7 @@ export class AnalizadorComponent {
     this.llenarcomboServices.getMarca().subscribe((marcas) => {
       console.log(marcas);
 
-      this.listamarca = marcas.filter(item=>item.ESTADO ===1);
+      this.listamarca = marcas.filter(item=>item.ESTADO ===1).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
 
@@ -215,7 +215,7 @@ export class AnalizadorComponent {
     this.llenarcomboServices.getAnalizador().subscribe((analizador) => {
       console.log(analizador);
 
-      this.listacategoria = analizador;
+      this.listacategoria = analizador.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
   borrarCategoria(categoria: Analizador) {

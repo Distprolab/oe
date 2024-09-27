@@ -126,7 +126,7 @@ export class PanelPerfilesComponent {
           TIEMPO,
           VALOR,
         });
-        this.pruebaseleccionada = listapruebas;
+     //   this.pruebaseleccionada = listapruebas;
       });
   }
   crearPanel() {

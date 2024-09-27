@@ -58,7 +58,7 @@ export class CategoriaComponent implements OnInit {
   getMarca() {
     this.llenarcomboServices.getMarca().subscribe((marcas) => {
       console.log(marcas);
-      this.listamarca = marcas.filter((item) => item.ESTADO === 1);
+      this.listamarca = marcas.filter((item) => item.ESTADO === 1).sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
 
       //this.listamarca = marcas;
     });
@@ -161,7 +161,7 @@ export class CategoriaComponent implements OnInit {
     this.llenarcomboServices.getModelo().subscribe((modelo) => {
       console.log(modelo);
 
-      this.listacategoria = modelo;
+      this.listacategoria = modelo.sort((a,b)=>a.NOMBRE.localeCompare( b.NOMBRE));
     });
   }
   borrarCategoria(categoria: Modelo) {

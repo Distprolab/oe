@@ -64,14 +64,33 @@ import { MarcaByID, MarcaID } from '../interfaces/cargarByIdMarca.interface';
 import { Marca, Marcas } from '../interfaces/cargaMarca.interface';
 import { Estado, Estados } from '../interfaces/cargaEstado.interface';
 import { Ubicacion, Ubicaciones } from '../interfaces/cargaUbicacioninterface';
-import { AnalizadorByID, AnalizadorID } from '../interfaces/cargarByIDAnalizador.interface';
-import { Analizador, Analizadors } from '../interfaces/cargaAnalizador.interface';
-import { Estadoproveedor, Estadoproveedores } from '../interfaces/cargarEstadoProveedores.interface';
-import { EstadoByIdproveedore, EstadoproveedorID } from '../interfaces/cargarByIdEstadoProveedor.interface';
-import { Estadocliente, Estadoclientes } from '../interfaces/cargarEstadoCliente.interface';
-import { EstadoByIdcliente, EstadoclienteID } from '../interfaces/cargarByIdEstadoClilenteinterface';
+import {
+  AnalizadorByID,
+  AnalizadorID,
+} from '../interfaces/cargarByIDAnalizador.interface';
+import {
+  Analizador,
+  Analizadors,
+} from '../interfaces/cargaAnalizador.interface';
+import {
+  Estadoproveedor,
+  Estadoproveedores,
+} from '../interfaces/cargarEstadoProveedores.interface';
+import {
+  EstadoByIdproveedore,
+  EstadoproveedorID,
+} from '../interfaces/cargarByIdEstadoProveedor.interface';
+import {
+  Estadocliente,
+  Estadoclientes,
+} from '../interfaces/cargarEstadoCliente.interface';
+import {
+  EstadoByIdcliente,
+  EstadoclienteID,
+} from '../interfaces/cargarByIdEstadoClilenteinterface';
 import { Bodega, Bodegas } from '../interfaces/cargaBodega.interface';
 import { BodegaById } from '../interfaces/cargarByIdBodegainterface';
+import { cargaIdPanelPruebas, listapruebas } from '../interfaces/cargaIdpruebas.interface';
 //import { Pruebas } from '../interfaces/cargaReportPruebas.interfaces';
 
 const baseUrl = environment.url;
@@ -156,15 +175,21 @@ export class MantenimientosService {
     );
   }
 
-
   getEstadoProveedor(): Observable<Estadoproveedor[]> {
     return this.http
-      .get<Estadoproveedores>(`${baseUrl}/api/estadofinancieroproveedor`, this.headers)
+      .get<Estadoproveedores>(
+        `${baseUrl}/api/estadofinancieroproveedor`,
+        this.headers,
+      )
       .pipe(map(({ estadoproveedor }) => estadoproveedor));
   }
 
   getCrearEstadoProveedor(formData: Marca) {
-    return this.http.post(`${baseUrl}/api/estadofinancieroproveedor`, formData, this.headers);
+    return this.http.post(
+      `${baseUrl}/api/estadofinancieroproveedor`,
+      formData,
+      this.headers,
+    );
   }
   getUpdateEstadoProveedor(data: EstadoproveedorID) {
     return this.http.put(
@@ -175,11 +200,17 @@ export class MantenimientosService {
   }
   getByIDEstadoProveedor(id: string) {
     return this.http
-      .get<EstadoByIdproveedore>(`${baseUrl}/api/estadofinancieroproveedor/${id}`, this.headers)
+      .get<EstadoByIdproveedore>(
+        `${baseUrl}/api/estadofinancieroproveedor/${id}`,
+        this.headers,
+      )
       .pipe(map(({ estadoproveedorId }) => estadoproveedorId));
   }
   getDeleteEstadoProveedor(id: number) {
-    return this.http.delete(`${baseUrl}/api/estadofinancieroproveedor/${id}`, this.headers);
+    return this.http.delete(
+      `${baseUrl}/api/estadofinancieroproveedor/${id}`,
+      this.headers,
+    );
   }
 
   buscarFiltroEstadoProveedor(termino: string): Observable<Estadoproveedor[]> {
@@ -191,16 +222,21 @@ export class MantenimientosService {
       .pipe(map(({ estadoproveedor }) => estadoproveedor));
   }
 
-
-
   getEstadoCliente(): Observable<Estadocliente[]> {
     return this.http
-      .get<Estadoclientes>(`${baseUrl}/api/estadofinancierocliente`, this.headers)
+      .get<Estadoclientes>(
+        `${baseUrl}/api/estadofinancierocliente`,
+        this.headers,
+      )
       .pipe(map(({ estadocliente }) => estadocliente));
   }
 
   getCrearEstadoCliente(formData: Marca) {
-    return this.http.post(`${baseUrl}/api/estadofinancierocliente`, formData, this.headers);
+    return this.http.post(
+      `${baseUrl}/api/estadofinancierocliente`,
+      formData,
+      this.headers,
+    );
   }
   getUpdateEstadoCliente(data: EstadoclienteID) {
     return this.http.put(
@@ -211,16 +247,18 @@ export class MantenimientosService {
   }
   getByIDEstadoCliente(id: string) {
     return this.http
-      .get<EstadoByIdcliente>(`${baseUrl}/api/estadofinancierocliente/${id}`, this.headers)
+      .get<EstadoByIdcliente>(
+        `${baseUrl}/api/estadofinancierocliente/${id}`,
+        this.headers,
+      )
       .pipe(map(({ estadoclienteId }) => estadoclienteId));
   }
   getDeleteEstadoCliente(id: number) {
-    return this.http.delete(`${baseUrl}/api/estadofinancierocliente/${id}`, this.headers);
+    return this.http.delete(
+      `${baseUrl}/api/estadofinancierocliente/${id}`,
+      this.headers,
+    );
   }
-
-
-
-
 
   getBodega(): Observable<Bodega[]> {
     return this.http
@@ -251,26 +289,6 @@ export class MantenimientosService {
     return this.http.post(`${baseUrl}/api/result`, formData, this.headers);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   buscarFiltroEstadoCliente(termino: string): Observable<Estadocliente[]> {
     return this.http
       .get<Estadoclientes>(
@@ -279,10 +297,6 @@ export class MantenimientosService {
       )
       .pipe(map(({ estadocliente }) => estadocliente));
   }
-
-
-
-
 
   getCrearEstado(formData: Marca) {
     return this.http.post(`${baseUrl}/api/estado`, formData, this.headers);
@@ -311,13 +325,6 @@ export class MantenimientosService {
       )
       .pipe(map(({ estado }) => estado));
   }
-
-
-
-
-
-
-
 
   getCrearUbicacion(formData: Marca) {
     return this.http.post(`${baseUrl}/api/ubicacion`, formData, this.headers);
@@ -397,15 +404,11 @@ export class MantenimientosService {
 
   getIdPanelPruebas(id: string) {
     return this.http
-      .get(`${baseUrl}/api/panelPruebas/${id}`, this.headers)
-      .pipe(
-        map(
-          (resp: { pk: boolean; listapruebas: cargaProductos }) =>
-            resp.listapruebas,
-        ),
-      );
+      .get<cargaIdPanelPruebas>(`${baseUrl}/api/panelPruebas/${id}`, this.headers)
+      .pipe(map(({listapruebas})=>listapruebas));
   }
-
+ /*   resp: { ok: boolean; listapruebas: cargaProductos }) =>
+            resp.listapruebas, */
   updatePanelPruebas(data: panelPrueba) {
     return this.http.put(
       `${baseUrl}/api/panelPruebas/${data.id}`,
@@ -565,7 +568,7 @@ export class MantenimientosService {
     );
   }
 
- /*  buscarFiltroEquipo(termino: string): Observable<Equipo[]> {
+  /*  buscarFiltroEquipo(termino: string): Observable<Equipo[]> {
     return this.http
       .get<Equipos>(
         `${baseUrl}/api/equipo/busquedaequipo/${termino}`,
@@ -573,14 +576,20 @@ export class MantenimientosService {
       )
       .pipe(map(({ equipos }) => equipos));//marca: string, equipo: string, condicion: string, ubicacion: string
   } */
-      buscarFiltroEquipo(marca: string, equipo: string,modelo:string): Observable<Equipo[]> {
-        return this.http
-          .get<Equipos>(
-            `${baseUrl}/api/equipos/busquedaequipo/busquedas?marca=${marca}&equipo=${equipo}&modelo=${modelo}`,
-            this.headers,
-          )
-          .pipe(map(({ equipos }) => equipos));//marca: string, equipo: string, condicion: string, ubicacion: string
-      }
+  buscarFiltroEquipo(
+    marca: string,
+    equipo: string,
+    modelo: string,
+    serie: string,
+    ubicacion: string,
+  ): Observable<Equipo[]> {
+    return this.http
+      .get<Equipos>(
+        `${baseUrl}/api/equipos/busquedaequipo/busquedas?marca=${marca}&equipo=${equipo}&modelo=${modelo}&serie=${serie}&ubicacion=${ubicacion}`,
+        this.headers,
+      )
+      .pipe(map(({ equipos }) => equipos)); //marca: string, equipo: string, condicion: string, ubicacion: string
+  }
   getUpdateEquipoComplementario(data: EquipocomplementarioID) {
     return this.http.put(
       `${baseUrl}/api/equipocomplementario/${data.id}`,
@@ -603,27 +612,28 @@ export class MantenimientosService {
       .pipe(map(({ analizadorId }) => analizadorId));
   }
 
-
   UpdateAnalizador(data: AnalizadorID) {
-    return this.http
-      .put(`${baseUrl}/api/analizador/${data.id}`, data,this.headers)
-      /* .pipe(map(({ analizadorId }) => analizadorId)); */
+    return this.http.put(
+      `${baseUrl}/api/analizador/${data.id}`,
+      data,
+      this.headers,
+    );
+    /* .pipe(map(({ analizadorId }) => analizadorId)); */
   }
 
   getDeleteAnalizador(id: number) {
-    return this.http
-      .delete(`${baseUrl}/api/analizador/${id}`, this.headers);
-     /*  .pipe(map(({ analizadorId }) => analizadorId)); */
+    return this.http.delete(`${baseUrl}/api/analizador/${id}`, this.headers);
+    /*  .pipe(map(({ analizadorId }) => analizadorId)); */
   }
   /* Inicio de modelo */
-getfiltroAnalizador(termino: string): Observable<Analizador[]> {
-  return this.http
-    .get<Analizadors>(
-      `${baseUrl}/api/modelo/busquedaanalizador/${termino}`,
-      this.headers,
-    )
-    .pipe(map(({ analizador }) => analizador));
-}
+  getfiltroAnalizador(termino: string): Observable<Analizador[]> {
+    return this.http
+      .get<Analizadors>(
+        `${baseUrl}/api/modelo/busquedaanalizador/${termino}`,
+        this.headers,
+      )
+      .pipe(map(({ analizador }) => analizador));
+  }
   getCrearcategoria(categoria: FormData) {
     return this.http.post(`${baseUrl}/api/modelo`, categoria, this.headers);
   }

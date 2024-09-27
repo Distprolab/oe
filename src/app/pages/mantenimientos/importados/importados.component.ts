@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Pedido } from 'src/app/interfaces/import-form.interface';
 //import { Pedido } from 'src/app/interfaces/cargar-pedido.interface';
 
-
 import { ImportacionService } from 'src/app/services/importacion.service';
+import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import Swal from 'sweetalert2';
+declare var $: any;
 
 @Component({
   selector: 'app-importados',
@@ -13,6 +15,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./importados.component.css'],
 })
 export class ImportadosComponent implements OnInit {
+  @ViewChild('inputRef') inputRef: ElementRef;
+  selectedProductIndex: number | null = null;
+  public isLoading = false;
+  public src: string;
+  public data$: any;
   itemsPerPage: number = 1; // Número de elementos por página
   currentPage: number = 1; // Página actual
   totalPages: number = 1; // Total de páginas
@@ -22,9 +29,11 @@ export class ImportadosComponent implements OnInit {
   importadoTemp: Pedido[] = [];
   expandedRows: { [key: string]: boolean } = {};
   public page!: number;
-  
+
   constructor(
     private importService: ImportacionService,
+    private llenarcomboService: LlenarCombosService,
+
     private router: Router,
   ) {}
 
@@ -41,7 +50,7 @@ export class ImportadosComponent implements OnInit {
     });
   }
 
- /*  buscar(termino: string) {
+  /*  buscar(termino: string) {
     console.log(termino);
     return termino.length === 0
       ? (this.importado = this.importadoTemp)
@@ -67,15 +76,16 @@ export class ImportadosComponent implements OnInit {
           const { msg } = resp;
 
           Swal.fire({
-            title: "Pedido eliminado!",
+            title: 'Pedido eliminado!',
             text: `${msg}`,
-            icon: "success"
+            icon: 'success',
           });
         });
       }
     });
-  //  console.log(id);
+    //  console.log(id);
   }
+
   toggleRow(importId: number): void {
     this.expandedRows[importId] = !this.expandedRows[importId];
   }

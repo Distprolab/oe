@@ -1,5 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup, UntypedFormArray, UntypedFormBuilder, FormBuilder,UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  FormArray,
+  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  FormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from 'src/app/interfaces/carga-productosImport.interfaces';
 import { Cliente } from 'src/app/interfaces/cargaCliente.interface';
@@ -12,6 +20,7 @@ import { ImportacionService } from 'src/app/services/importacion.service';
 import { LlenarCombosService } from 'src/app/services/llenar-combos.service';
 import Swal from 'sweetalert2';
 import { ImPedido } from 'src/app/interfaces/cargar-pedidoImport.interface';
+declare var $: any;
 
 @Component({
   selector: 'app-importacion',
@@ -19,6 +28,11 @@ import { ImPedido } from 'src/app/interfaces/cargar-pedidoImport.interface';
   styleUrls: ['./importacion.component.css'],
 })
 export class ImportacionComponent implements OnInit {
+  @ViewChild('inputRef') inputRef: ElementRef;
+  selectedProductIndex: number | null = null;
+  public isLoading = false;
+  public src: string;
+  public data$: any;
   filtroProducto: string = '';
   listaproductos: Producto[] = [];
   listamarca: Marca[] = [];
@@ -66,7 +80,7 @@ export class ImportacionComponent implements OnInit {
   }
 
   getAllProductos() {
-    let array='hola'
+    let array = 'hola';
     this.inportService.getProductos().subscribe((productos) => {
       this.listaproductos = productos;
       //this.listaproductos = productos.slice(0, 5);
@@ -90,13 +104,17 @@ export class ImportacionComponent implements OnInit {
   agregarproductos() {
     const add = this.importForm.get('PRODUCTOS') as FormArray;
 
-    this.PRODUCTOS.push(this.crearItemProducto());
+  //  this.PRODUCTOS.push(this.crearItemProducto());
 
     /* console.log(`add`, add.pristine);
     console.log(`add`, add.status); */
+
+    this.selectedProductIndex = add.length;
+
+    add.push(this.crearItemProducto());
   }
 
-  actualizarInputs(i: number, $event: any) {
+ /*  actualizarInputs(i: number, $event: any) {
     // console.log(i);
     const productoId = Number($event.target.value);
 
@@ -104,9 +122,9 @@ export class ImportacionComponent implements OnInit {
       (producto) => producto.id === productoId,
     );
 
-    const filaSeleccionada = (this.importForm.get('PRODUCTOS') as UntypedFormArray).at(
-      i,
-    );
+    const filaSeleccionada = (
+      this.importForm.get('PRODUCTOS') as UntypedFormArray
+    ).at(i);
     // console.log(filaSeleccionada);
     if (productoSeleccionado) {
       filaSeleccionada.patchValue({
@@ -115,7 +133,7 @@ export class ImportacionComponent implements OnInit {
         CANTIDAD: null,
       });
     }
-  }
+  } */
   onreset() {}
   borrarProducto(i: number) {
     this.PRODUCTOS.removeAt(i);
@@ -174,16 +192,14 @@ export class ImportacionComponent implements OnInit {
         id: this.pedidoseleccionado.id,
       };
 
-      console.log(data)
-    this.inportService.getUpdateImport(data).subscribe((resp:any)=>{
-      const { msg } = resp;
+      console.log(data);
+      this.inportService.getUpdateImport(data).subscribe((resp: any) => {
+        const { msg } = resp;
         Swal.fire('Actualizado', `${msg}`, 'success');
-       
+
         this.importForm.disable();
         this.btnVal = 'Editar';
-    })
-
-
+      });
     } else {
       this.inportService
         .getRegistroImport(this.importForm.value)
@@ -197,7 +213,6 @@ export class ImportacionComponent implements OnInit {
           this.router.navigateByUrl('/dashboard/pedidos');
           this.importForm.reset();
           this.importForm.disable();
-         
         });
     }
   }
@@ -232,5 +247,40 @@ export class ImportacionComponent implements OnInit {
     }
     this.importForm.enable();
     this.btnVal = 'Guardar';
+  }
+  actualizarInputs(item: any, index: number | null) {
+    console.log(index);
+    const pruebasArray = this.importForm.get('PRODUCTOS') as FormArray;
+    console.log(pruebasArray.length);
+    const pruebaExistente = pruebasArray.value;
+    console.log(pruebaExistente);
+    const encontrar = pruebaExistente.find(
+      (control) => control.ID_PRODUCTO === item.id,
+    );
+    console.log(encontrar);
+    if (encontrar === 'undefined' || encontrar === undefined) {
+      const filaSeleccionada = (
+        this.importForm.get('PRODUCTOS') as FormArray
+      ).at(index);
+      filaSeleccionada.patchValue({
+        ID_PRODUCTO: item.id,
+        NOMBRE: item.NOMBRE,
+        UNIDAD: item.REFERENCIA,
+        CANTIDAD: null,
+        ENTREGADO: null,
+        LOTE: null,
+      });
+      $('#modal-info').modal('hide');
+
+      this.inputRef.nativeElement.value = '';
+    } else {
+    }
+  }
+
+  searchReactivos(value: any): any {
+    console.log(value);
+    this.isLoading = true;
+
+    this.data$ = this.llenarcomboService.pruebasreactivos({ q: value });
   }
 }

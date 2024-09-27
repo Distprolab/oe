@@ -12,7 +12,7 @@
             #txtTermino
           /> -->
             <div class="row">
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label for="text " class="form-ItemName">Equipo</label>
 
                 <select class="form-control" #equipo>
@@ -26,7 +26,7 @@
                 </select>
               </div>
 
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label for="text " class="form-ItemName">Marca</label>
                 <select class="form-control" #marca>
                   <option value="">--Seleccione--</option>
@@ -35,7 +35,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label for="text " class="form-ItemName">Categoria</label>
                 <select class="form-control" #modelo>
                   <option value="">--Seleccione--</option>
@@ -48,8 +48,14 @@
                 </select>
               </div>
 
-              <!--      <div class="form-group col-md-2">
-                <label for="text " class="form-ItemName">Ubicación</label>
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Serie</label>
+
+                <input type="text" class="form-control" #serie />
+              </div>
+              <div class="form-group col-md-2">
+                <label for="text " class="form-ItemName">Ubicacion</label>
+
                 <select class="form-control" #ubicacion>
                   <option value="">--Seleccione--</option>
                   <option
@@ -59,21 +65,32 @@
                     {{ ubicacion.NOMBRE }}
                   </option>
                 </select>
-              </div> -->
+              </div>
+
               <div class="button mt-5">
                 <button
                   type="submit"
                   class="btn btn-primary btn-sm"
-                  (click)="buscar(marca.value, equipo.value, modelo.value)"
+                  (click)="
+                    buscar(
+                      marca.value,
+                      equipo.value,
+                      modelo.value,
+                      serie.value,
+                      ubicacion.value
+                    )
+                  "
                 >
                   CONSULTAR
                 </button>
                 &nbsp;
                 <button
-                (click)="borrarFiltro(marca, equipo, modelo)"
-                class="btn btn-primary btn-sm cursor"
-              >
-                limpiar filtros
+                  (click)="
+                    borrarFiltro(marca, equipo, modelo, serie, ubicacion)
+                  "
+                  class="btn btn-primary btn-sm cursor"
+                >
+                  limpiar filtros
                 </button>
               </div>
             </div>
@@ -115,6 +132,7 @@
                     <th>Condición</th>
                     <th>Ubicación</th>
                     <th>Estado</th>
+                <!--     <th>Usuario</th> -->
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -170,7 +188,7 @@
                           <div *ngSwitchDefault>Inactivo</div>
                         </div>
                       </td>
-
+                     <!--  <td>{{ equipo.usuario.doctor }}</td> -->
                       <td>
                         <span class="cursor">
                           <a
@@ -200,7 +218,6 @@
                             }"
                           ></i
                         ></span>
-                       
                       </td>
                     </tr>
                     <ng-container *ngIf="showDetails[i]">
@@ -210,6 +227,7 @@
                         <th>Marca</th>
                         <th colspan="2">Modelo</th>
                         <th colspan="2">Serie</th>
+                        <th>Fecha</th>
                       </tr>
                       <ng-container *ngFor="let item of equipo.acc">
                         <tr>
@@ -220,6 +238,9 @@
                           <td>{{ item.SERIEACC }}</td>
                           <td colspan="2">{{ item.DESCRIPCION }}</td>
                           <td colspan="2">{{ item.MARCA }}</td>
+                          <td colspan="2">
+                            {{ item.fechacom | utcDate: "yyyy-MM-dd" }}
+                          </td>
                         </tr>
                       </ng-container>
                     </ng-container>

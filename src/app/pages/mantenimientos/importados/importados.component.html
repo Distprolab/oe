@@ -55,59 +55,57 @@
                   aria-expanded="true"
                 >
                   <ng-container>
-                  
-                      <td>{{ import.FECHAPEDIDO }}</td>
+                    <td>{{ import.FECHAPEDIDO }}</td>
 
-                      <td>
-                        {{ import.user.doctor }}
-                      </td>
+                    <td>
+                      {{ import.user | json}}
+                    </td>
 
-                      <td>
-                        <span
-                          *ngIf="import.ESTADO == 1"
-                          class="rounded shadow bg-pen"
-                          >Creado</span
-                        >
+                    <td>
+                      <span
+                        *ngIf="import.ESTADO == 1"
+                        class="rounded shadow bg-pen"
+                        >Creado</span
+                      >
 
-                        <span
-                          *ngIf="import.ESTADO == 2"
-                          class="rounded shadow bg-pen"
-                          >Solicitado</span
-                        >
-                      </td>
+                      <span
+                        *ngIf="import.ESTADO == 2"
+                        class="rounded shadow bg-pen"
+                        >Solicitado</span
+                      >
+                    </td>
 
-                      <td class="text-nowrap">
-                        <a
-                          [ngClass]="{ 'disabled-icon': import.ESTADO == 2 }"
-                          [routerLink]="[
-                            '/dashboard',
-                            'pedido-importacion',
-                            import.id
-                          ]"
-                        >
-                          <i class="bx bx-edit-alt bx-sm"></i>
-                        </a>
+                    <td class="text-nowrap">
+                      <a
+                        [ngClass]="{ 'disabled-icon': import.ESTADO == 2 }"
+                        [routerLink]="[
+                          '/dashboard',
+                          'pedido-importacion',
+                          import.id
+                        ]"
+                      >
+                        <i class="bx bx-edit-alt bx-sm"></i>
+                      </a>
 
-                        <span class="cursor">
-                          <i
-                            (click)="borrarPedido(import)"
-                            class="bx bxs-trash bx-sm"
-                          ></i>
-                        </span>
-                      </td>
-                      <td>
+                      <span class="cursor">
                         <i
-                          class="fas fa-caret-right fa-fw"
-                          (click)="toggleRow(import.id)"
-                          [ngClass]="{
-                            'expanded-icon': expandedRows[import.id]
-                          }"
+                          (click)="borrarPedido(import)"
+                          class="bx bxs-trash bx-sm"
                         ></i>
-                      </td>
-                    
+                      </span>
+                    </td>
+                    <td>
+                      <i
+                        class="fas fa-caret-right fa-fw"
+                        (click)="toggleRow(import.id)"
+                        [ngClass]="{
+                          'expanded-icon': expandedRows[import.id]
+                        }"
+                      ></i>
+                    </td>
                   </ng-container>
                   <ng-container *ngIf="expandedRows[import.id]">
-                    <tr >
+                    <tr>
                       <thead>
                         <tr>
                           <th>PRODUCTOS</th>

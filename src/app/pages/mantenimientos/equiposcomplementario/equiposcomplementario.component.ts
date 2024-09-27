@@ -81,7 +81,7 @@ export class EquiposcomplementarioComponent implements OnInit {
       .getEquipoComplementario()
       .subscribe((equipocomplementario) => {
         console.log(equipocomplementario);
-        this.listaequipocomplementario = equipocomplementario;
+        this.listaequipocomplementario = equipocomplementario.sort((a,b)=>a.equipo.localeCompare( b.equipo));
       });
   }
 

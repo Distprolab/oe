@@ -25,7 +25,7 @@ export class SidebarService {
         },
       ],
     },
-    /*  {
+     {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -54,7 +54,7 @@ export class SidebarService {
           data: { titulo: 'carga-ordenes' },
         },
       ],
-    }, */
+    },  
     /* 
     {
       titulo: 'AGENDAMIENTO',
@@ -105,7 +105,6 @@ export class SidebarService {
         },
       ],
     }, */
-
     /*     {
       titulo: 'MUESTRAS',
       icono: 'right fas fa-angle-left',
@@ -132,7 +131,7 @@ export class SidebarService {
         },
       ],
     }, */
-    /*   {
+       {
       titulo: 'COMPRAS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -147,9 +146,9 @@ export class SidebarService {
           roles: ['ADMIN', 'COMPRAS'],
         },
       ],
-    },*/
+    },
 
-    /*  {
+      {
       titulo: 'COMERCIAL',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -164,8 +163,8 @@ export class SidebarService {
           roles: ['ADMIN', 'COMPRAS'],
         },
       ],
-    }, */
-    /*  {
+    }, 
+     {
       titulo: 'CONSULTA DE RESULTADOS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -176,7 +175,8 @@ export class SidebarService {
         },
       ],
     },
-    {
+  
+     {
       titulo: 'IMPORTACION',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -201,8 +201,7 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT'],
         },
       ],
-    }, */
-
+    },  
     {
       titulo: 'PRODUCTOS',
       icono: 'right fas fa-angle-left',
@@ -354,7 +353,7 @@ export class SidebarService {
           roles: ['ADMIN', 'OPERADOR'],
         },
       ],
-    },
+    },  
      {
       titulo: ' INVENTARIO',
       icono: 'right fas fa-angle-left',
@@ -392,28 +391,28 @@ export class SidebarService {
           roles: ['ADMIN', 'INVENTARIO'],
         },
         {
-          titulo: 'stockbodega',
+          titulo: 'STOCK BODEGA',
           url: 'stockbodega',
           roles: ['ADMIN'],
         },
-        {
-          titulo: 'descargobodega',
-          url: 'descargobodega',
-          roles: ['ADMIN'],
-        },
+        // {
+        //   titulo: 'descargobodega',
+        //   url: 'descargobodega',
+        //   roles: ['ADMIN'],
+        // },
 
         //   {
         //   titulo: 'Validacion',
         //   url: 'validacion',
         //   roles: ['ADMIN'],
         // }, 
+        // {
+        //   titulo: 'TRANSFERENCIA',
+        //   url: 'transferencia',
+        //   roles: ['ADMIN'],
+        // },
         {
-          titulo: 'TRANSFERENCIA',
-          url: 'transferencia',
-          roles: ['ADMIN'],
-        },
-        {
-          titulo: 'CORREOS',
+          titulo: 'PROVEEDORES',
           url: 'correos',
           roles: ['ADMIN'],
         },

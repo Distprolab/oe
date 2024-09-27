@@ -12,6 +12,7 @@ import { Modelo } from 'src/app/interfaces/cargaModelo.interface';
 
 import { MantenimientosService } from 'src/app/services/mantenimientos.service';
 import Swal from 'sweetalert2';
+import { Listapruebas } from 'src/app/models/cargaIdPruebas.module';
 declare var $: any;
 @Component({
   selector: 'app-panel-pruebas',
@@ -25,7 +26,7 @@ export class PanelPruebasComponent implements OnInit {
   listapruebas: Listaprueba[] = [];
   selectedCategoria:number;
   page;
-  pruebaseleccionada: cargaProductos;
+  pruebaseleccionada: Listapruebas;
   public btnVal = 'Guardar';
   constructor(
     private manteniemintoService: MantenimientosService,

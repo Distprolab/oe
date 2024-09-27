@@ -12,8 +12,8 @@
             /> -->
           <form autocomplete="off" class="form-inline">
             <div class="form-group">
-              <div class="form-group col-md-4">
-                <label for="text " class="form-ItemName">Bodega</label>
+              <div class="form-group col-md-6">
+                <label for="text " class="form-ItemName">Area de trabajo</label>
                 <!--  <input
                   type="text"
                   class="form-control"
@@ -69,10 +69,10 @@
                       <th>Referencia</th>
                       <th>Nombre</th>
                       <th>Lote</th>
-                      <th>Bodega</th>
-                      <th>Cantidad</th>
+                      <th>Bodega</th>                
+                      <th>Entregado</th>
                       <th>Descargo</th>
-                      <!--  <th>Actions</th> -->
+               
                     </tr>
                   </thead>
 
@@ -90,11 +90,11 @@
                         <td>{{ stock.product.REFERENCIA }}</td>
                         <td>{{ stock.product.NOMBRE }}</td>
                         <td>{{ stock.lote }}</td>
-                        <td>{{stock.bodegaId}}</td>
-                        <td>{{ stock.CANTIDAD }}</td>
+                        <td>{{stock.bodega.NOMBRE}}</td>
+                        <td>{{ stock.CANTIDAD }}</td> 
                         <td>
                           <input
-                            type="text"
+                            type="number"
                             #numero
                             (keyup)="DescargoStock(stock, numero.value)"
                           />
