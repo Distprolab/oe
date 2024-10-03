@@ -38,10 +38,12 @@
                   <input
                     type="text"
                     class="form-control"
-                    formControlName="pacienteId"
+                    formControlName="numero"
                     [class.is-invalid]="pacienteId"
                     placeholder="Ingrese su cédula"
                   />
+
+                  <input type="hidden" formControlName="pacienteId">
                   <div class="input-group-append">
                     <span
                       data-toggle="modal"
@@ -87,10 +89,11 @@
                   <input
                     type="text"
                     class="form-control"
-                    formControlName="doctorId"
+                    formControlName="doctor"
                     [class.is-invalid]="doctorId"
                     placeholder="Buscar medico"
                   />
+                  <input type="hidden" formControlName="doctorId">
                   <div class="input-group-append">
                     <span
                       data-toggle="modal"
@@ -191,6 +194,7 @@
                     [class.is-invalid]=""
                     placeholder="Buscar diagnostico"
                   />
+                  <input type="hidden" formControlName="diagnosticoId">
                   <div class="input-group-append">
                     <span
                       data-toggle="modal"
@@ -263,7 +267,6 @@
                       </tr>
                       <tr>
                         <td ALIGN="right">I.V.A. (0%)</td>
-                        
                       </tr>
                     </tbody>
                   </table>
@@ -322,7 +325,6 @@
                     <div class="form-group col-md-3">
                       <label for="" class="form-ItemName">Numero *</label>
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="numero"
@@ -435,7 +437,6 @@
                         >Teléfono convecional</label
                       >
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="convencional"
@@ -449,7 +450,6 @@
                         >Telefono celular</label
                       >
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="celular"
@@ -477,8 +477,12 @@
                         (change)="onSelectProvincia($event)"
                       >
                         <option value="1">--Seleccione--</option>
-                        <option *ngFor="let provincia of listprovincia" [value]="provincia.id">{{provincia.provincia}}</option>
-                      
+                        <option
+                          *ngFor="let provincia of listprovincia"
+                          [value]="provincia.id"
+                        >
+                          {{ provincia.provincia }}
+                        </option>
                       </select>
 
                       <small *ngIf="" class="text-danger"
@@ -495,8 +499,12 @@
                         (change)="onSelectCanton($event)"
                       >
                         <option value="1">--Seleccione--</option>
-                        <option *ngFor="let canton of cantones" [value]="canton.id">{{canton.canton}}</option>
-                        
+                        <option
+                          *ngFor="let canton of cantones"
+                          [value]="canton.id"
+                        >
+                          {{ canton.canton }}
+                        </option>
                       </select>
 
                       <small *ngIf="" class="text-danger"
@@ -513,8 +521,12 @@
                         [class.is-invalid]=""
                       >
                         <option value="1">--Seleccione--</option>
-                        <option *ngFor="let parroq of parroquia" [value]="parroq.id">{{parroq.parroquia}}</option>
-                        
+                        <option
+                          *ngFor="let parroq of parroquia"
+                          [value]="parroq.id"
+                        >
+                          {{ parroq.parroquia }}
+                        </option>
                       </select>
 
                       <small *ngIf="" class="text-danger"
@@ -537,7 +549,6 @@
                     <div class="form-group col-md-4">
                       <label for="" class="form-ItemName">Numeracíon</label>
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="numeracion"
@@ -548,15 +559,14 @@
                   </div>
                   <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
-
                       <i class="bx bx-save"></i>
                       Guardar
                     </button>
                   </div>
                 </form>
 
-               <hr />
-                <pre>{{ pacienteForm.value | json }}</pre>  
+                <hr />
+                <pre>{{ pacienteForm.value | json }}</pre>
               </div>
             </div>
           </div>
@@ -564,8 +574,6 @@
       </div>
     </div>
   </div>
- 
-  
 </div>
 <!-- Doctor -->
 
@@ -600,7 +608,6 @@
                         >Numero Identificación *</label
                       >
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="numero"
@@ -633,7 +640,7 @@
                         <input
                           appUppercase
                           type="text"
-                          class="form-control "
+                          class="form-control"
                           formControlName="nombres"
                           [class.is-invalid]="nombres"
                           placeholder="Ingreseup los nombres"
@@ -649,7 +656,6 @@
                     <div class="form-group col-md-4">
                       <label for="" class="form-ItemName">Email</label>
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="email"
@@ -660,7 +666,6 @@
                     <div class="form-group col-md-4">
                       <label for="" class="form-ItemName">Especialidad</label>
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="especialidadId"
@@ -700,7 +705,6 @@
                         >Teléfono convecional</label
                       >
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="convencional"
@@ -714,7 +718,6 @@
                         >Telefono celular</label
                       >
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="celular"
@@ -741,11 +744,14 @@
                         id="modelo-select"
                         (change)="onSelectProvincia($event)"
                       >
-                    
-                    >
-                      <option value="1">--Seleccione--</option>
-                      <option *ngFor="let provincia of listprovincia" [value]="provincia.id">{{provincia.provincia}}</option>
-                    
+                        >
+                        <option value="1">--Seleccione--</option>
+                        <option
+                          *ngFor="let provincia of listprovincia"
+                          [value]="provincia.id"
+                        >
+                          {{ provincia.provincia }}
+                        </option>
                       </select>
 
                       <small *ngIf="provinciaId" class="text-danger"
@@ -760,10 +766,14 @@
                         class="form-control"
                         formControlName="cantonId"
                         (change)="onSelectCanton($event)"
+                      >
+                        <option value="1">--Seleccione--</option>
+                        <option
+                          *ngFor="let canton of cantones"
+                          [value]="canton.id"
                         >
-                          <option value="1">--Seleccione--</option>
-                          <option *ngFor="let canton of cantones" [value]="canton.id">{{canton.canton}}</option>
-                          
+                          {{ canton.canton }}
+                        </option>
                       </select>
 
                       <small *ngIf="cantonId" class="text-danger"
@@ -780,7 +790,12 @@
                         [class.is-invalid]="parroquiaId"
                       >
                         <option value="1">--Seleccione--</option>
-                        <option *ngFor="let parroq of parroquia" [value]="parroq.id">{{parroq.parroquia}}</option>
+                        <option
+                          *ngFor="let parroq of parroquia"
+                          [value]="parroq.id"
+                        >
+                          {{ parroq.parroquia }}
+                        </option>
                       </select>
 
                       <small *ngIf="parroquiaId" class="text-danger"
@@ -791,7 +806,6 @@
                     <div class="form-group col-md-4">
                       <label for="" class="form-ItemName">Barrio</label>
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="barrio"
@@ -803,7 +817,6 @@
                     <div class="form-group col-md-4">
                       <label for="" class="form-ItemName">Numeracíon</label>
                       <input
-                        
                         type="text"
                         class="form-control"
                         formControlName="numeracion"
@@ -1221,5 +1234,5 @@
     </div>
   </div>
 </div>
-<!--  <hr />
-<pre>{{ ingresoForm.value | json }}</pre>  -->
+<hr />
+<pre>{{ ingresoForm.value | json }}</pre>

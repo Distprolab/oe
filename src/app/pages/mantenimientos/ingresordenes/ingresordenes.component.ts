@@ -367,12 +367,15 @@ export class IngresordenesComponent implements OnInit {
   crearformulario() {
     this.ingresoForm = this.fb.group({
       pacienteId: ['', [Validators.required]],
+      numero:['',[Validators.required]],
       tipoatencion: ['', [Validators.required]],
       servicio: ['', [Validators.required]],
       doctorId: ['', [Validators.required]],
+      doctor: ['', [Validators.required]],
       embarazada: [],
       fum: [''],
       diagnostico: [''],
+      diagnosticoId: [''],
       observaciones: ['', [Validators.required]],
 
       pruebas: this.fb.array([]),
@@ -624,11 +627,9 @@ export class IngresordenesComponent implements OnInit {
       apellidos,
       nombres,
       sexo,
-
       fechanac,
       edad,
       email,
-
       convencional,
       celular,
       provincia,
@@ -639,7 +640,8 @@ export class IngresordenesComponent implements OnInit {
     );
 
     this.ingresoForm.patchValue({
-      pacienteId: paciente.numero,
+      pacienteId: paciente.id,
+      numero:paciente.numero
     });
 
     this.pacienteForm.patchValue({
@@ -667,7 +669,8 @@ export class IngresordenesComponent implements OnInit {
     console.log(event);
 
     this.ingresoForm.patchValue({
-      doctorId: event.nombres + '' + event.apellidos,
+      doctor: event.nombres + '' + event.apellidos,
+      doctorId: event.id,
     });
     const {
       numero,
@@ -711,6 +714,8 @@ export class IngresordenesComponent implements OnInit {
 
     this.ingresoForm.patchValue({
       diagnostico: diagnostico.nombre,
+      diagnosticoId:diagnostico.id
+      
     });
   }
   borrarPasatiempo(i: number) {

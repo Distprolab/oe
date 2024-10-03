@@ -12,14 +12,14 @@ import Swal from 'sweetalert2';
 declare var $: any;
 @Component({
   selector: 'app-tipoatencion',
- 
+
   templateUrl: './tipoatencion.component.html',
-  styleUrl: './tipoatencion.component.css'
+  styleUrl: './tipoatencion.component.css',
 })
-export class TipoatencionComponent implements OnInit{
+export class TipoatencionComponent implements OnInit {
   cargando = false;
   public page!: number;
-  listaatencion:Tipoatencion[]=[];
+  listaatencion: Tipoatencion[] = [];
   atencionForm!: FormGroup;
   constructor(
     private llenarcomboServices: LlenarCombosService,
@@ -59,33 +59,31 @@ export class TipoatencionComponent implements OnInit{
       text: 'Espere por favor ...',
     });
     Swal.showLoading(null);
-    this.manteniemintoService
-      .postAtencion(this.atencionForm.value)
-      .subscribe(
-        (resp: any) => {
-          this.getAtencion();
-          const { msg } = resp;
-          Swal.fire({
-            icon: 'success',
+    this.manteniemintoService.postAtencion(this.atencionForm.value).subscribe(
+      (resp: any) => {
+        this.getAtencion();
+        const { msg } = resp;
+        Swal.fire({
+          icon: 'success',
 
-            titleText: `${msg}`,
-            timer: 1500,
-          });
-          $('#modal-info').modal('hide');
-          this.atencionForm.reset({
-            nombre: '',
-          });
-          //this.router.navigateByUrl('/dashboard/usuarios');
-        },
-        (err) => {
-          console.log('error', err.error.msg);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al autenticar',
-            text: err.error.msg,
-          });
-        },
-      );
+          titleText: `${msg}`,
+          timer: 1500,
+        });
+        $('#modal-info').modal('hide');
+        this.atencionForm.reset({
+          nombre: '',
+        });
+        //this.router.navigateByUrl('/dashboard/usuarios');
+      },
+      (err) => {
+        console.log('error', err.error.msg);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al autenticar',
+          text: err.error.msg,
+        });
+      },
+    );
   }
   getAtencion() {
     this.manteniemintoService.getAtencion().subscribe((tipoatencion) => {

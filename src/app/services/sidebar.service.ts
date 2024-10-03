@@ -25,7 +25,7 @@ export class SidebarService {
         },
       ],
     },
-     {
+      {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -54,7 +54,7 @@ export class SidebarService {
           data: { titulo: 'carga-ordenes' },
         },
       ],
-    },  
+    }, 
     /* 
     {
       titulo: 'AGENDAMIENTO',
@@ -124,14 +124,14 @@ export class SidebarService {
           url: 'muestras-rechazo',
           roles: ['ADMIN', ''],
         },
-        {
+        {l
           titulo: 'Muestras actualizar',
           url: 'muestras-actualización',
           roles: ['ADMIN', ''],
         },
       ],
     }, */
-       {
+    /*  {
       titulo: 'COMPRAS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -146,9 +146,9 @@ export class SidebarService {
           roles: ['ADMIN', 'COMPRAS'],
         },
       ],
-    },
+    }, 
 
-      {
+  /*   {
       titulo: 'COMERCIAL',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -164,7 +164,7 @@ export class SidebarService {
         },
       ],
     }, 
-     {
+    {
       titulo: 'CONSULTA DE RESULTADOS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -175,8 +175,8 @@ export class SidebarService {
         },
       ],
     },
-  
-     {
+
+    {
       titulo: 'IMPORTACION',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -201,7 +201,7 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT'],
         },
       ],
-    },  
+    },*/
     {
       titulo: 'PRODUCTOS',
       icono: 'right fas fa-angle-left',
@@ -217,7 +217,7 @@ export class SidebarService {
           roles: ['ADMIN', 'IMPORT', 'INVENTARIO'],
         },
       ],
-    }, 
+    },
 
     {
       titulo: 'MANTENIMIENTOS',
@@ -353,8 +353,8 @@ export class SidebarService {
           roles: ['ADMIN', 'OPERADOR'],
         },
       ],
-    },  
-     {
+    },
+    {
       titulo: ' INVENTARIO',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -393,19 +393,19 @@ export class SidebarService {
         {
           titulo: 'STOCK BODEGA',
           url: 'stockbodega',
-          roles: ['ADMIN'],
+          roles: ['ADMIN', 'INVENTARIO'],
         },
-        // {
-        //   titulo: 'descargobodega',
-        //   url: 'descargobodega',
-        //   roles: ['ADMIN'],
-        // },
+        /* {
+          titulo: 'descargobodega',
+          url: 'descargobodega',
+          roles: ['ADMIN', 'INVENTARIO','DESCARGO'],
+        }, */
 
         //   {
         //   titulo: 'Validacion',
         //   url: 'validacion',
         //   roles: ['ADMIN'],
-        // }, 
+        // },
         // {
         //   titulo: 'TRANSFERENCIA',
         //   url: 'transferencia',
@@ -414,14 +414,14 @@ export class SidebarService {
         {
           titulo: 'PROVEEDORES',
           url: 'correos',
-          roles: ['ADMIN'],
+          roles: ['ADMIN', , 'INVENTARIO'],
         },
         {
           titulo: 'BODEGA',
           url: 'bodega/Nuevo',
-          roles: ['ADMIN'],
+          roles: ['ADMIN', 'INVENTARIO'],
         },
-        {
+        /*  {
           titulo: 'RESULTADOS',
           url: 'resultados',
           roles: ['ADMIN'],
@@ -431,9 +431,9 @@ export class SidebarService {
           titulo: 'ReportesResultados',
           url: 'ReportesResultados',
           roles: ['ADMIN'],
-        },
+        }, */
       ],
-    }, 
+    },
   ];
 
   getMenuWithPermissions(): any[] {

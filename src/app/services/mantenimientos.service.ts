@@ -90,7 +90,24 @@ import {
 } from '../interfaces/cargarByIdEstadoClilenteinterface';
 import { Bodega, Bodegas } from '../interfaces/cargaBodega.interface';
 import { BodegaById } from '../interfaces/cargarByIdBodegainterface';
-import { cargaIdPanelPruebas, listapruebas } from '../interfaces/cargaIdpruebas.interface';
+import {
+  cargaIdPanelPruebas,
+  listapruebas,
+} from '../interfaces/cargaIdpruebas.interface';
+import {
+  Tipofisiologico,
+  Tipofisiologicos,
+} from '../interfaces/cargatipofisiologico.interface';
+import { Unidad, Unidades } from '../interfaces/cargaUnidad.interface';
+import {
+  Unidadedad,
+  Unidadedades,
+} from '../interfaces/cargaunidadedad.interface';
+import {
+  Rango,
+  Rangoreferencia,
+} from '../interfaces/cargar-Rangosreferencia.interface';
+import { RangoIDreferencia } from '../interfaces/cargaReferenciaIdRangos.interface';
 //import { Pruebas } from '../interfaces/cargaReportPruebas.interfaces';
 
 const baseUrl = environment.url;
@@ -266,8 +283,41 @@ export class MantenimientosService {
       .pipe(map(({ bodega }) => bodega));
   }
 
+  getTipofisiologico(): Observable<Tipofisiologico[]> {
+    return this.http
+      .get<Tipofisiologicos>(`${baseUrl}/api/tipofisiologico`, this.headers)
+      .pipe(map(({ tipofisiologico }) => tipofisiologico));
+  }
+
+  getUnidadedad(): Observable<Unidadedad[]> {
+    return this.http
+      .get<Unidadedades>(`${baseUrl}/api/unidadedad`, this.headers)
+      .pipe(map(({ unidadedad }) => unidadedad));
+  }
+  getUnidad(): Observable<Unidad[]> {
+    return this.http
+      .get<Unidades>(`${baseUrl}/api/unidad`, this.headers)
+      .pipe(map(({ unidad }) => unidad));
+  }
+
   getCrearBodega(formData: Marca) {
     return this.http.post(`${baseUrl}/api/bodega`, formData, this.headers);
+  }
+
+  getRangosreferencia(): Observable<Rango[]> {
+    return this.http
+      .get<Rangoreferencia>(`${baseUrl}/api/rangos`, this.headers)
+      .pipe(map(({ rangos }) => rangos));
+  }
+  getRangosIDreferencia(id: string) {
+    return this.http
+      .get<RangoIDreferencia>(`${baseUrl}/api/rangos/${id}`, this.headers)
+      .pipe(map(({ rangosId }) => rangosId));
+  }
+  getCargarangosreferencia(formData: FormData) {
+    return this.http
+    .post(`${baseUrl}/api/rangos/`,formData ,this.headers)
+
   }
   getUpdateBodega(data: EstadoclienteID) {
     return this.http.put(
@@ -404,10 +454,13 @@ export class MantenimientosService {
 
   getIdPanelPruebas(id: string) {
     return this.http
-      .get<cargaIdPanelPruebas>(`${baseUrl}/api/panelPruebas/${id}`, this.headers)
-      .pipe(map(({listapruebas})=>listapruebas));
+      .get<cargaIdPanelPruebas>(
+        `${baseUrl}/api/panelPruebas/${id}`,
+        this.headers,
+      )
+      .pipe(map(({ listapruebas }) => listapruebas));
   }
- /*   resp: { ok: boolean; listapruebas: cargaProductos }) =>
+  /*   resp: { ok: boolean; listapruebas: cargaProductos }) =>
             resp.listapruebas, */
   updatePanelPruebas(data: panelPrueba) {
     return this.http.put(
@@ -520,9 +573,9 @@ export class MantenimientosService {
     );
   }
 
-  postDiagnostico(formData: Envase) {
+  postDiagnostico(formData: FormData) {
     return this.http.post(
-      `${baseUrl}/api/tipoatencion`,
+      `${baseUrl}/api/diagnostico`,
       formData,
       this.headers,
     );

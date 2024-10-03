@@ -33,23 +33,45 @@
           <table class="table">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Tipo fisiologico</th>
-                <th>Descripcion</th>
-                <th>Categoria</th>
+                <th>Tramo edades</th>
+
                 <th>Unidad</th>
                 <th>Rangos</th>
+                <th>comentario</th>
                 <th>Estado</th>
 
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngFor="let item of listarangos ;let i = index">
+              <td>{{i +1}}</td>
+              <td>{{ item.tipofisiologico.DESCRIPCION }}</td>
+              <td>
+                {{ item.edadinicial }} {{ item.unidadedad.DESCRIPCION }} -
+                {{ item.edadfinal }} {{ item.unidadedad.DESCRIPCION }}
+              </td>
+              <td>{{ item.unidad.DESCRIPCION }}</td>
+              <td>{{ item.rangos }}</td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{{ item.ESTADO }}</td>
+              <td>
+                <span class="cursor">
+                  <a
+                    [ngClass]="{ 'disabled-icon': item.ESTADO != true }"
+                    [routerLink]="['/dashboard', 'producto', item.id]"
+                  >
+                    <i
+                      class="bx bxs-edit bx-sm"
+                      data-toggle="modal"
+                      data-target="#modal-info"
+                    ></i> </a
+                ></span>
+                <span (click)="borrarRango(item)" class="cursor">
+                  <i class="bx bxs-trash bx-sm"></i
+                ></span>
+              </td>
             </tbody>
           </table>
         </div>
@@ -66,7 +88,6 @@
         <button
           type="button"
           class="close"
-          (click)="borrarPruebas()"
           data-dismiss="modal"
           aria-label="Close"
         >
@@ -89,12 +110,21 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="">Tipo fisiologico</label>
-                      <select class="form-control">
+                      <select
+                        class="form-control"
+                        formControlName="tipofisiologicoId"
+                        [class.is-invalid]="tipofisiologicoId"
+                      >
                         <option value="">--Seleccione--</option>
-                        <!-- <option *ngFor="let item of list" [value]="item">{{item}}</option> -->
+                        <option
+                          *ngFor="let item of listatipofisiologico"
+                          [value]="item.id"
+                        >
+                          {{ item.DESCRIPCION }}
+                        </option>
                       </select>
-                      <small *ngIf="" class="text-danger"
-                        >Ingrese un codigo</small
+                      <small *ngIf="tipofisiologicoId" class="text-danger"
+                        >Seleccione una opcion</small
                       >
                     </div>
 
@@ -104,59 +134,98 @@
                         type="text"
                         appUppercase
                         class="form-control"
-                        formControlName=""
-                        [class.is-invalid]=""
+                        formControlName="rangos"
+                        [class.is-invalid]="rangos"
                         placeholder="Ingrese nombre de la prueba ..."
                       />
-                      <small *ngIf="" class="text-danger"
-                        >Ingrese un nombre</small
-                      >
+                      <small *ngIf="rangos" class="text-danger"
+                        >Ingrese un valor
+                      </small>
                     </div>
 
                     <div class="form-group">
                       <label for="">Unidad de resultado</label>
-                      <select class="form-control">
+                      <select
+                        class="form-control"
+                        [class.is-invalid]="unidadId"
+                        formControlName="unidadId"
+                      >
                         <option value="">--Seleccione--</option>
-                        <!-- <option *ngFor="let item of list" [value]="item">{{item}}</option> -->
+                        <option
+                          *ngFor="let item of listaunidad"
+                          [value]="item.id"
+                        >
+                          {{ item.DESCRIPCION }}
+                        </option>
                       </select>
-                      <small *ngIf="" class="text-danger"
-                        >Ingrese una categoría</small
+                      <small *ngIf="unidadId" class="text-danger"
+                        >Seleccione una opcion</small
                       >
                     </div>
-
-
-                  <div class="row">
-
-                   
-                      <div class="form-group col-md-4">
+                    <strong>Tramo de edades</strong>
+                    <hr />
+                    <div class="row">
+                      <div class="form-group col-md-6">
                         <label for="">Edad inicial</label>
-                        <input class="form-control" type="number" />
+                        <input
+                          class="form-control"
+                          [class.is-invalid]="edadinicial"
+                          formControlName="edadinicial"
+                          type="number"
+                        />
+                        <small *ngIf="edadinicial" class="text-danger"
+                          >Ingrese un valor</small
+                        >
                       </div>
 
-                      <div class="form-group col-md-8">
-                        <label for="">Unidad edad inicial</label>
-                        <select class="form-control">
-                          <option value="">--Seleccione--</option>
-                        
-                        </select>
+                      <div class="form-group col-md-6">
+                        <label for="">Edad final</label>
+                        <input
+                          class="form-control"
+                          [class.is-invalid]="edadfinal"
+                          formControlName="edadfinal"
+                          type="number"
+                        />
+                        <small *ngIf="edadfinal" class="text-danger"
+                          >Ingrese un valor</small
+                        >
                       </div>
                     </div>
-                   
 
                     <div class="row">
-                      <div class="form-group col-md-4">
-                        <label for="">Edad final</label>
-                        <input class="form-control" type="number" />
+                      <div class="form-group col-md-12">
+                        <label for="">Unidad edades</label>
+                        <select
+                          class="form-control"
+                          [class.is-invalid]="unidadedadId"
+                          formControlName="unidadedadId"
+                        >
+                          <option value="">--Seleccione--</option>
+                          <option
+                            *ngFor="let item of listaunidadedades"
+                            [value]="item.id"
+                          >
+                            {{ item.DESCRIPCION }}
+                          </option>
+                        </select>
+                        <small *ngIf="unidadedadId" class="text-danger"
+                          >Seleccione una opcion</small
+                        >
                       </div>
 
-                      <div class="form-group col-md-8">
+                      <!--  <div class="form-group col-md-8">
                         <label for="">Unidad edad final</label>
                         <select class="form-control">
                           <option value="">--Seleccione--</option>
-                      
+                          <option
+                            *ngFor="let item of listaunidadedades"
+                            [value]="item.id"
+                          >
+                            {{ item.DESCRIPCION }}
+                          </option>
                         </select>
-                      </div>
-                    </div> 
+                      </div> -->
+                    </div>
                   </div>
 
                   <!-- Segunda columna (col-md-6) -->
@@ -167,48 +236,17 @@
                       <textarea
                         class="form-control textarea-mod"
                         rows="14"
-                        formControlName="observacion"
+                        formControlName="comentario"
                         placeholder="Enter ..."
                       ></textarea>
                     </div>
-
-                    <!--    <div class="">
-                      <div class="form-group col-md-3">
-                        <label for="">Edad inicial</label>
-                        <input class="form-control" type="number" />
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label for="">Unidad edad inicial</label>
-                        <select class="form-control">
-                          <option value="">--Seleccione--</option>
-                        
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="">
-                      <div class="form-group col-md-3">
-                        <label for="">Edad final</label>
-                        <input class="form-control" type="number" />
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label for="">Unidad edad final</label>
-                        <select class="form-control">
-                          <option value="">--Seleccione--</option>
-                      
-                        </select>
-                      </div>
-                    </div> -->
                   </div>
                 </div>
 
                 <div class="card-footer">
-                  <a (click)="cambioEstado()" class="btn btn-primary"
-                    >Guardar</a
-                  >
+                  <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
+                <!--    <pre>{{ rangosform.value | json }}</pre> -->
               </form>
             </div>
           </div>
@@ -217,3 +255,4 @@
     </div>
   </div>
 </div>
+<hr />

@@ -422,7 +422,17 @@ const routes: Routes = [
         data: { titulo: 'atencion' },
       },
       {
+        path: 'atencion/:id',
+        component: TipoatencionComponent,
+        data: { titulo: 'atencion' },
+      },
+      {
         path: 'servicio',
+        component: TiposervicioComponent,
+        data: { titulo: 'servicio' },
+      },
+      {
+        path: 'servicio/:id',
         component: TiposervicioComponent,
         data: { titulo: 'servicio' },
       },
