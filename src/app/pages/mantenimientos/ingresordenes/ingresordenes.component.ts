@@ -67,24 +67,24 @@ export class IngresordenesComponent implements OnInit {
     );
   }
 
-  get tipoatencion() {
+  get tipoatencionId() {
     return (
-      this.ingresoForm?.get('tipoatencion')!.invalid &&
-      this.ingresoForm?.get('tipoatencion')!.touched
+      this.ingresoForm?.get('tipoatencionId')!.invalid &&
+      this.ingresoForm?.get('tipoatencionId')!.touched
     );
   }
 
-  get servicio() {
+  get tiposervicioId() {
     return (
-      this.ingresoForm?.get('servicio')!.invalid &&
-      this.ingresoForm?.get('servicio')!.touched
+      this.ingresoForm?.get('tiposervicioId')!.invalid &&
+      this.ingresoForm?.get('tiposervicioId')!.touched
     );
   }
 
-  get doctorId() {
+  get medicoId() {
     return (
-      this.ingresoForm?.get('doctorId')!.invalid &&
-      this.ingresoForm?.get('doctorId')!.touched
+      this.ingresoForm?.get('medicoId')!.invalid &&
+      this.ingresoForm?.get('medicoId')!.touched
     );
   }
 
@@ -288,17 +288,22 @@ export class IngresordenesComponent implements OnInit {
     this.getprovincia();
 
     this.totalTotal();
+  //  this.getOrdenes();
     const valorAlmacenado = localStorage.getItem('IMPRESORA');
 
     if (valorAlmacenado) {
       this.ingresoForm.patchValue({ CODIMPRESORA: valorAlmacenado });
     }
   }
+  
+
   getprovincia() {
     this.manteniminetoService.getProvincia().subscribe((provincia) => {
       this.listprovincia = provincia;
     });
   }
+
+ 
   getPanelPruebas() {
     this.manteniminetoService.getPanelPruebas().subscribe((listapruebas) => {
       console.log(listapruebas);
@@ -367,10 +372,10 @@ export class IngresordenesComponent implements OnInit {
   crearformulario() {
     this.ingresoForm = this.fb.group({
       pacienteId: ['', [Validators.required]],
-      numero:['',[Validators.required]],
-      tipoatencion: ['', [Validators.required]],
-      servicio: ['', [Validators.required]],
-      doctorId: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      tipoatencionId: ['', [Validators.required]],
+      tiposervicioId: ['', [Validators.required]],
+      medicoId: ['', [Validators.required]],
       doctor: ['', [Validators.required]],
       embarazada: [],
       fum: [''],
@@ -388,8 +393,31 @@ export class IngresordenesComponent implements OnInit {
         control.markAsTouched();
       });
     }
+    this.manteniminetoService
+      .getCreateIngresoOrden(this.ingresoForm.value)
+      .subscribe((resp: any) => {
+        const { msg } = resp;
 
-    if (this.ordenseleccionada) {
+        Swal.fire({
+          icon: 'success',
+          text: `${msg}`,
+        });
+        this.ingresoForm.reset({
+          pacienteId: '',
+          numero: '',
+          tipoatencionId: '',
+          tiposervicioId: '',
+          medicoId: '',
+          doctor: '',
+          embarazada: '',
+          fum: '',
+          diagnostico: '',
+          diagnosticoId: '',
+          observaciones: '',
+          pruebas: '',
+        });
+      });
+    /*  if (this.ordenseleccionada) {
       const data = {
         ...this.ingresoForm.value,
         id: this.ordenseleccionada.id,
@@ -399,7 +427,7 @@ export class IngresordenesComponent implements OnInit {
         const { msg } = resp;
         Swal.fire('Actualizado', `${msg}`, 'success');
 
-        localStorage.setItem('IMPRESORA', this.ingresoForm.value.CODIMPRESORA);
+        localStorage.setItem('I/* MPRESORA', this.ingresoForm.value.CODIMPRESORA);
 
         this.ingresoForm.disable();
         this.btnVal = 'Editar';
@@ -456,7 +484,7 @@ export class IngresordenesComponent implements OnInit {
             });
           },
         );
-    }
+    } */
   }
 
   desmarcarCategoria(nombre) {
@@ -641,7 +669,7 @@ export class IngresordenesComponent implements OnInit {
 
     this.ingresoForm.patchValue({
       pacienteId: paciente.id,
-      numero:paciente.numero
+      numero: paciente.numero,
     });
 
     this.pacienteForm.patchValue({
@@ -670,7 +698,7 @@ export class IngresordenesComponent implements OnInit {
 
     this.ingresoForm.patchValue({
       doctor: event.nombres + '' + event.apellidos,
-      doctorId: event.id,
+      medicoId: event.id,
     });
     const {
       numero,
@@ -714,8 +742,7 @@ export class IngresordenesComponent implements OnInit {
 
     this.ingresoForm.patchValue({
       diagnostico: diagnostico.nombre,
-      diagnosticoId:diagnostico.id
-      
+      diagnosticoId: diagnostico.id,
     });
   }
   borrarPasatiempo(i: number) {

@@ -490,7 +490,7 @@ export class ComprasComponent implements OnInit {
     this.registroServices.getEquipos().subscribe((equipos) => {
       //console.log(equipos.filter((eq,i,self)=>eq.categoria.NOMBRE ==='UROANALISIS' && self.findIndex(e=>e.NOMBRE ===eq.NOMBRE)))
       this.listaequiposquimica = equipos.filter(
-        (equipo) => equipo.CATEGORIA === '1',
+        (equipo) => equipo.CATEGORIA === 'QUIMICA',
       );
       this.listaequiposinmunologia = equipos.filter(
         (equipo) => equipo.CATEGORIA === 'INMUNOLOGIA',
@@ -513,8 +513,8 @@ export class ComprasComponent implements OnInit {
       this.listaequiposmicrobiologia = equipos.filter(
         (equipo) => equipo.CATEGORIA === 'MICROBIOLOGIA',
       );
-      /*   this.listaequiposuroanalisis = equipos.filter((eq,i,self)=>eq.categoria.NOMBRE ==='UROANALISIS' && self.findIndex(e=>e.NOMBRE ===eq.NOMBRE),
-      ); */
+        this.listaequiposuroanalisis = equipos.filter((equipo)=>equipo.CATEGORIA ==='UROANALISIS' ,
+      ); 
       this.listaequiposrapidas = equipos.filter(
         (equipo) => equipo.CATEGORIA === 'PRUEBASRAPIDAS',
       );

@@ -38,13 +38,18 @@
             <table *ngIf="!cargando && proceso.length > 0" class="table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th class="text-table">Fecha</th>
-                  <th class="text-table3">Institucion</th>
-                  <th class="text-table">Presupuesto</th>
+                <!--   <th>ID</th> -->
+                  <th >Fecha</th>
+                  <th >Institucion</th>
+                  <th >Codigo</th>
+                  <th >Presupuesto</th>
+                
+                  <th >Responsable</th>
                   <th class="text-table2">Estado</th>
-                  <th class="text-table2">Status</th>
-                  <th class="text-table2">Aprobacion BI</th>
+                  
+
+                 <!--  <th class="text-table2">Status</th>
+                  <th class="text-table2">Aprobacion BI</th> -->
                   <th class="text-table">Acciones</th>
                 </tr>
               </thead>
@@ -53,13 +58,15 @@
                 <tr
                   *ngFor="
                     let proces of proceso
-                      | paginate: { itemsPerPage: 5, currentPage: page }
+                      | paginate: { itemsPerPage: 10, currentPage: page }
                   "
                 >
-                  <td>{{ proces.id }}</td>
+                 <!--  <td>{{ proces.id }}</td> -->
                   <td>{{ proces.entregacarpeta }}</td>
                   <td>{{ proces.institucion }}</td>
+                  <td>{{ proces.codigo }}</td>
                   <td>{{ proces.presupuesto }}</td>
+                  <td>{{ proces.usuarioId  }}</td>
                   <td>
                     <div [ngSwitch]="proces.ESTADO">
                       <div *ngSwitchCase="1" class="rounded shadow bg-creada">
@@ -68,11 +75,11 @@
                       <div *ngSwitchDefault>Enviado</div>
                     </div>
                   </td>
-                  <td>
+                 <!--  <td>
                     <div *ngIf="proces.status">
                       {{ proces.status.tipocontrato.NOMBRE }}
                     </div>
-                  </td>
+                  </td> 
 
                   <td>
                     <div *ngIf="proces.aprobar">
@@ -92,7 +99,7 @@
                         <div *ngSwitchDefault class="rounded shadow"></div>
                       </div>
                     </div>
-                  </td>
+                  </td> -->
                   <td class="text-nowrap">
                     <span>
                       <a [routerLink]="['/dashboard', 'compras', proces.id]">
@@ -104,7 +111,7 @@
                       <i class="bx bxs-file-pdf bx-sm text-danger"></i>
                     </span>
 
-                    <span
+                  <!--   <span
                       class="cursor"
                       (click)="ObtnerById(proces)"
                       [ngClass]="{
@@ -155,7 +162,7 @@
                       <a [routerLink]="['/dashboard', 'reactivos', proces.id]">
                         <i class="bx bxs-spreadsheet bx-sm"></i>
                       </a>
-                    </span> 
+                    </span>  -->
                   </td>
                 </tr>
               </tbody>

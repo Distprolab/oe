@@ -26,9 +26,9 @@
               </div>
 
               <div class="form-group">
-                <label for="text " class="form-ItemName">Estado</label>
+                <label for="text " class="form-ItemName">estado</label>
                 <div class="col-12">
-                  <select class="form-control" #ESTADO>
+                  <select class="form-control" #estado>
                     <option value="">--Seleccione--</option>
                     <option value="1">Creada</option>
                     <option value="2">Procesada</option>
@@ -83,7 +83,7 @@
               (click)="
                 buscar(
                   IDENTIFICADOR.value,
-                  ESTADO.value,
+                  estado.value,
                   HIS.value,
                   SALA.value,
                   PRIORIDAD.value,
@@ -114,25 +114,28 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h6 class="title">Listado de ordenes registradas</h6>
+          <h6 class="title">Listado de ordenes ingresdas </h6>
 
           <div class="col-md-3 button"></div>
 
           <div class="table-responsive">
-            <table *ngIf="!cargando && ordenes.length > 0" class="table">
+            <table
+              *ngIf="!cargando && listaordenesingresdas.length > 0"
+              class="table"
+            >
               <thead>
                 <tr>
+                  <th class="text-table2">F. Registro</th>
                   <th>Cédula</th>
                   <th class="text-table3">Paciente</th>
-                  <th class="text-table2">F. Registro Sais</th>
-                  <th class="text-table2">Doctor</th>
-                  <th class="text-table"># Orden Sais</th>
-                  <th class="text-table1">Sexo</th>
-                  <th class="text-table"># Infinity</th>
-                  <th class="text-table">Prioridad</th>
-                  <th class="text-table2">Fecha. Nacimiento</th>
-                  <th class="text-table2">Sala</th>
-                  <th class="text-table">Estado</th>
+
+                <!--   <th class="text-table2">Doctor</th> -->
+             
+                  <th class="text-table1">Atencion</th>
+
+                  <th class="text-table2">Servicio</th>
+
+                  <th class="text-table">estado</th>
                   <th class="text-table">Acciones</th>
                 </tr>
               </thead>
@@ -140,44 +143,44 @@
               <tbody>
                 <tr
                   *ngFor="
-                    let orden of ordenes
+                    let orden of listaordenesingresdas
                       | paginate: { itemsPerPage: 5, currentPage: page }
                   "
                 >
-                  <td>{{ orden.IDENTIFICADOR }}</td>
-                  <td>{{ orden.APELLIDO }} {{ orden.NOMBRES }}</td>
-                  <td>{{ orden.FECHACREACIONSAIS }}</td>
-                  <td>{{ orden.APELLIDODOCTOR }} {{ orden.NOMBREDOCTOR }}</td>
-                  <td>{{ orden.admi_id }}</td>
-                  <td>{{ orden.SEXO }}</td>
-                  <td>{{ orden.NUMEROORDEN }}</td>
-                  <td>{{ orden.PRIORIDAD }}</td>
-                  <td>{{ orden.FECHANACIMIENTO | date: "dd-MM-yyyy" }}</td>
-                  <td>{{ orden.NOMBRETIPOORDEN }}</td>
+                <td>{{orden.fechaorden}}</td>
+                  <td>{{ orden.paciente.numero }}</td>
+                  <td>
+                    {{ orden.paciente.nombres }} {{ orden.paciente.apellidos }}
+                  </td>
+
+                <!--   <td>{{orden.medico.nombres}}</td> -->
+                  <td>{{ orden.tipoatencion.nombre }}</td>
+                  <td>{{ orden.tiposervicio.nombre }}</td>
+                  <!--      <td>{{ orden. }}</td>
+                  <td>{{ orden. }}</td>
+                  <td>{{ orden. | date: "dd-MM-yyyy" }}</td> -->
 
                   <!-- <td>{{orden.FECHACITA|date:"yyyy-MM-dd"}}</td>   -->
                   <td>
                     <span
-                      *ngIf="orden.ESTADO == '1'"
+                      *ngIf="orden.estado == true"
                       class="rounded shadow bg-pen"
                       >Creada</span
                     >
-                    <span
-                      *ngIf="orden.ESTADO == '2'"
-                      class="rounded shadow bg-pen"
+                    <span *ngIf="!orden.estado" class="rounded shadow bg-pen"
                       >Procesada</span
                     >
-                    <span
-                      *ngIf="orden.ESTADO == '3'"
+                    <!--   <span
+                      *ngIf="orden.estado == '3'"
                       class="rounded shadow bg-pen"
                       >pendiente</span
-                    >
+                    > -->
                   </td>
 
-                  <td class="text-nowrap">
+                    <td class="text-nowrap">
                     <a
-                      [ngClass]="{ 'disabled-icon': orden.ESTADO == '2' }"
-                      [routerLink]="['/dashboard', 'orden', orden.id]"
+                      [ngClass]="{ 'disabled-icon': orden.estado === true }"
+                    
                       data-toggle="tooltip"
                       data-original-title="Editar"
                     >
@@ -185,9 +188,14 @@
                     </a>
 
                     <span class="rounded shadow cursor" (click)="pdf2(orden)">
-                      <i class="bx bxs-file-pdf bx-sm text-danger"></i>
+                      <i class="bx bxs-file-pdf bx-sm text-danger "></i>
                     </span>
-                  </td>
+                    <span 
+                    >
+                    
+                      <i   [routerLink]="['/dashboard', 'validacion', orden.id]" class='bx bx-health bx-sm'></i>
+                    </span>
+                  </td> 
                 </tr>
               </tbody>
             </table>

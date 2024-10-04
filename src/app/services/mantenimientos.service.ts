@@ -108,6 +108,8 @@ import {
   Rangoreferencia,
 } from '../interfaces/cargar-Rangosreferencia.interface';
 import { RangoIDreferencia } from '../interfaces/cargaReferenciaIdRangos.interface';
+import { Ingresoordenes, Ordene } from '../interfaces/cargaIngresoordenes.interface';
+import { IngresoordenesID, OrdenID } from '../interfaces/carga-IngresordenId.interface';
 //import { Pruebas } from '../interfaces/cargaReportPruebas.interfaces';
 
 const baseUrl = environment.url;
@@ -294,10 +296,25 @@ export class MantenimientosService {
       .get<Unidadedades>(`${baseUrl}/api/unidadedad`, this.headers)
       .pipe(map(({ unidadedad }) => unidadedad));
   }
+
+
+  getpostUnidadedad(formData:FormData) {
+    return this.http
+      .post(`${baseUrl}/api/unidadedad`,formData, this.headers)
+      
+  }
   getUnidad(): Observable<Unidad[]> {
     return this.http
       .get<Unidades>(`${baseUrl}/api/unidad`, this.headers)
       .pipe(map(({ unidad }) => unidad));
+  }
+
+
+
+  getpostUnidad(formData:FormData) {
+    return this.http
+      .post(`${baseUrl}/api/unidad`,formData, this.headers)
+      
   }
 
   getCrearBodega(formData: Marca) {
@@ -315,9 +332,7 @@ export class MantenimientosService {
       .pipe(map(({ rangosId }) => rangosId));
   }
   getCargarangosreferencia(formData: FormData) {
-    return this.http
-    .post(`${baseUrl}/api/rangos/`,formData ,this.headers)
-
+    return this.http.post(`${baseUrl}/api/rangos/`, formData, this.headers);
   }
   getUpdateBodega(data: EstadoclienteID) {
     return this.http.put(
@@ -537,11 +552,30 @@ export class MantenimientosService {
     );
   }
 
+ /*  getTipofisiologico(): Observable<Tipoatencion[]> {
+    return this.http
+      .get<Tipoatenciones>(`${baseUrl}/api/tipoatencion`, this.headers)
+      .pipe(map(({ tipoatencion }) => tipoatencion));
+  } */
+
+  postTipoFisiologico(formData: FormData) {
+    return this.http.post(
+      `${baseUrl}/api/tipofisiologico`,
+      formData,
+      this.headers,
+    );
+  }
+
   getAtencion(): Observable<Tipoatencion[]> {
     return this.http
       .get<Tipoatenciones>(`${baseUrl}/api/tipoatencion`, this.headers)
       .pipe(map(({ tipoatencion }) => tipoatencion));
   }
+
+
+
+
+
 
   deleteAtencion(atencion: Tipoatencion) {
     return this.http.delete(
@@ -574,11 +608,7 @@ export class MantenimientosService {
   }
 
   postDiagnostico(formData: FormData) {
-    return this.http.post(
-      `${baseUrl}/api/diagnostico`,
-      formData,
-      this.headers,
-    );
+    return this.http.post(`${baseUrl}/api/diagnostico`, formData, this.headers);
   }
 
   getDiagnostico(): Observable<Diagnostico[]> {
@@ -745,5 +775,18 @@ export class MantenimientosService {
     return this.http
       .get<GrupoExam>(`${baseUrl}/api/perfiles`, this.headers)
       .pipe(map(({ listaperfiles }) => listaperfiles));
+  }
+
+  getCreateIngresoOrden(formData:FormData){
+    return this.http.post(`${baseUrl}/api/ingresorden`,formData,this.headers)
+  }
+  getIngresoOrden():Observable<Ordene[]>{
+    return this.http.get<Ingresoordenes>(`${baseUrl}/api/ingresorden`,this.headers)
+    .pipe(map(({ordenes})=>ordenes))
+  }
+
+  getIngresoOrdenId(id:string){
+    return this.http.get<IngresoordenesID>(`${baseUrl}/api/ingresorden/${id}`,this.headers)
+    .pipe(map(({ordenId})=>ordenId))
   }
 }

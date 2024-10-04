@@ -83,6 +83,10 @@ import { ReportesResultadosComponent } from './mantenimientos/reportes-resultado
 import { TransferenciaComponent } from './mantenimientos/transferencia/transferencia.component';
 import { StockbodegasComponent } from './mantenimientos/stockbodegas/stockbodegas.component';
 import { DescargarbodegaComponent } from './mantenimientos/descargarbodega/descargarbodega.component';
+import { TipofisiologicoComponent } from './mantenimientos/tipofisiologico/tipofisiologico.component';
+import { UnidadComponent } from './mantenimientos/unidad/unidad.component';
+import { UnidadedadComponent } from './mantenimientos/unidadedad/unidadedad.component';
+import { ValidacionresultadosComponent } from './mantenimientos/validacionresultados/validacionresultados.component';
 
 
 const routes: Routes = [
@@ -147,6 +151,61 @@ const routes: Routes = [
         component: OrdenComponent,
         data: { titulo: 'orden' },
       },
+      {
+        path: 'validacion/:id',
+        component: ValidacionresultadosComponent,
+        data: { titulo: 'validacion' },
+      },
+
+      
+      {
+        path: 'tipofisiologico',
+        component: TipofisiologicoComponent,
+        data: { titulo: 'tipofisiologico' },
+      },
+
+      {
+        path: 'tipofisiologico/:id',
+        component: TipofisiologicoComponent,
+        data: { titulo: 'tipofisiologico' },
+      },
+
+      {
+        path: 'unidad',
+        component: UnidadComponent,
+        data: { titulo: 'unidad' },
+      },
+
+      {
+        path: 'unidad/:id',
+        component: UnidadComponent,
+        data: { titulo: 'unidad' },
+      },
+      {
+        path: 'unidadedad',
+        component: UnidadedadComponent,
+        data: { titulo: 'unidadedad' },
+      },
+
+      {
+        path: 'unidadedad/:id',
+        component: UnidadedadComponent,
+        data: { titulo: 'unidadedad' },
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {
         path: 'ordenes',
         component: OrdenesComponent,
@@ -277,6 +336,11 @@ const routes: Routes = [
       },
       {
         path: 'ingresordenes',
+        component: IngresordenesComponent,
+        data: { titulo: 'ingresordenes' },
+      },
+      {
+        path: 'ingresordenes/:id',
         component: IngresordenesComponent,
         data: { titulo: 'ingresordenes' },
       },

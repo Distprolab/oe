@@ -1,0 +1,16 @@
+.v-line {
+  border-left: thick solid;
+  height: 30%;
+  left: 50%;
+  position: absolute;
+}
+
+.validacion {
+  flex-grow: 1;
+  margin-left: 10px;
+  border: 1px solid;
+}
+.text_validar {
+  display: flex;
+  align-items: center;
+}

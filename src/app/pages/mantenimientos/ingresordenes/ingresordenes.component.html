@@ -90,10 +90,10 @@
                     type="text"
                     class="form-control"
                     formControlName="doctor"
-                    [class.is-invalid]="doctorId"
+                    [class.is-invalid]="medicoId"
                     placeholder="Buscar medico"
                   />
-                  <input type="hidden" formControlName="doctorId">
+                  <input type="hidden" formControlName="medicoId">
                   <div class="input-group-append">
                     <span
                       data-toggle="modal"
@@ -111,7 +111,7 @@
                   </div>
                 </div>
 
-                <small *ngIf="doctorId" class="text-danger"
+                <small *ngIf="medicoId" class="text-danger"
                   >Debe de escoger una opción</small
                 >
               </div>
@@ -121,8 +121,8 @@
 
                 <select
                   class="form-control"
-                  formControlName="tipoatencion"
-                  [class.is-invalid]="tipoatencion"
+                  formControlName="tipoatencionId"
+                  [class.is-invalid]="tipoatencionId"
                 >
                   <option value="">--Seleccione--</option>
                   <option
@@ -136,7 +136,7 @@
                   <option value="3">CONTROL</option> -->
                 </select>
 
-                <small *ngIf="tipoatencion" class="text-danger"
+                <small *ngIf="tipoatencionId" class="text-danger"
                   >Debe de escoger una opción</small
                 >
               </div>
@@ -145,8 +145,8 @@
 
                 <select
                   class="form-control"
-                  formControlName="servicio"
-                  [class.is-invalid]="servicio"
+                  formControlName="tiposervicioId"
+                  [class.is-invalid]="tiposervicioId"
                 >
                   <option value="">--Seleccione--</option>
                   <option
@@ -159,7 +159,7 @@
                   <option value="3">CONTROL</option> -->
                 </select>
 
-                <small *ngIf="servicio" class="text-danger"
+                <small *ngIf="tiposervicioId" class="text-danger"
                   >Debe de escoger una opción</small
                 >
               </div>

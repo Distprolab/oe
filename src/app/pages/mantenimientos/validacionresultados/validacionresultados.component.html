@@ -1,0 +1,108 @@
+<div class="container-fluid rounded shadow">
+  <div class="row py-4 animated fadeIn fast">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label for="">ID de petición:</label>
+              2409021000
+
+            </div>
+            <div class="form-group col-md-6">
+
+              {{ listaordenesid.paciente.numero }} -
+              {{ listaordenesid.paciente.apellidos }},{{
+                listaordenesid.paciente.nombres
+              }}
+              37 -{{ listaordenesid.paciente.sexo }} 
+            </div>
+            <div class="form-group col-md-3"></div>
+          </div>
+          <div class="text_validar">
+            <span>Datos demograficos</span>
+            <hr class="validacion" />
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+               <ul>
+                <li>Numero de peticion: 2410041001</li>
+                <li>Origen: {{ listaordenesid.tipoatencion.nombre }}</li>
+                <li>Observaciones: {{ listaordenesid.observaciones }}</li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul>
+                <li>Tipo Orden: {{ listaordenesid.tiposervicio.nombre }}</li>
+                <li>Servicio</li>
+                <li>Usuario:</li>
+              </ul>
+            </div>
+
+            <!-- <div class="v-line"></div> -->
+            <div class="col-md-3">
+              <ul>
+                <li>
+                  Apellidos , Nombres: {{ listaordenesid.paciente.apellidos }} ,
+                  {{ listaordenesid.paciente.nombres }}
+                </li>
+                <li>
+                  Fecha de nacimiento:
+                  {{ listaordenesid.paciente.fechanac | utcDate: "YYYY-MM-dd" }}
+                </li>
+                <li>Edad: {{CalculateAge()}}</li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul>
+                <li>Cedula: {{ listaordenesid.paciente.numero }}</li>
+                <li>sexo: {{ listaordenesid.paciente.sexo }}</li>
+                <li>e-mail:</li>
+              </ul>
+            </div> 
+          </div>
+        </div>
+
+        <div class="table-responsible">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nombre Prueba</th>
+                <th>Resultado</th>
+
+                <th>Unidad</th>
+                <th>Ref. rangos</th>
+                <th>comentario</th>
+                <th>Estado</th>
+
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let item of listaordenesid.prueba">
+                    <td>{{ item.panelprueba.NOMBRE }}</td>
+                    <td>
+
+                        <input class="form-control" type="text">
+                    </td>
+                    <td>{{item.panelprueba.rango |json}}</td>
+                    <td>{{item.panelprueba.rango|json}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                   
+                    </td> 
+
+                </tr>
+             
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

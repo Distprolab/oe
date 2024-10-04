@@ -98,12 +98,20 @@ import { ReportesResultadosComponent } from './mantenimientos/reportes-resultado
 import { TransferenciaComponent } from './mantenimientos/transferencia/transferencia.component';
 import { StockbodegasComponent } from './mantenimientos/stockbodegas/stockbodegas.component';
 import { DescargarbodegaComponent } from './mantenimientos/descargarbodega/descargarbodega.component';
+import { TipofisiologicoComponent } from './mantenimientos/tipofisiologico/tipofisiologico.component';
+import { UnidadComponent } from './mantenimientos/unidad/unidad.component';
+import { UnidadedadComponent } from './mantenimientos/unidadedad/unidadedad.component';
+import { ValidacionresultadosComponent } from './mantenimientos/validacionresultados/validacionresultados.component';
 const config: SocketIoConfig = { url: environment.url, options: {} };
 
 @NgModule({
   declarations: [
+
+    UnidadComponent,
+    UnidadedadComponent,
     StockbodegasComponent,
-    
+    TipofisiologicoComponent,
+    ValidacionresultadosComponent,
     DescargarbodegaComponent,
     TransferenciaComponent,
     ReportesResultadosComponent,

@@ -25,7 +25,7 @@ export class SidebarService {
         },
       ],
     },
-      {
+    {
       titulo: 'ORDENES',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -54,7 +54,7 @@ export class SidebarService {
           data: { titulo: 'carga-ordenes' },
         },
       ],
-    }, 
+    },
     /* 
     {
       titulo: 'AGENDAMIENTO',
@@ -131,7 +131,7 @@ export class SidebarService {
         },
       ],
     }, */
-    /*  {
+    {
       titulo: 'COMPRAS',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -146,9 +146,9 @@ export class SidebarService {
           roles: ['ADMIN', 'COMPRAS'],
         },
       ],
-    }, 
+    },
 
-  /*   {
+    /*   {
       titulo: 'COMERCIAL',
       icono: 'right fas fa-angle-left',
       submenu: [
@@ -290,6 +290,22 @@ export class SidebarService {
         {
           titulo: 'TIPOMUESTRA',
           url: 'tipomuestra',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'TIPO FISIOLOGICO',
+          url: 'tipofisiologico',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+        {
+          titulo: 'UNIDAD RESULTADO ',
+          url: 'unidad',
+          roles: ['ADMIN', 'IMPORT'],
+        },
+
+        {
+          titulo: 'UNIDAD DE EDAD ',
+          url: 'unidadedad',
           roles: ['ADMIN', 'IMPORT'],
         },
         {

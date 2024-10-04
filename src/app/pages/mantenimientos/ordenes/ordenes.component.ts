@@ -6,6 +6,8 @@ import { OrdenesService } from 'src/app/services/ordenes.service';
 import Swal from 'sweetalert2';
 
 import { AgendamientoService } from 'src/app/services/agendamiento.service';
+import { MantenimientosService } from 'src/app/services/mantenimientos.service';
+import { Ingresoordenes, Ordene } from 'src/app/interfaces/cargaIngresoordenes.interface';
 @Component({
   selector: 'app-ordenes',
   templateUrl: './ordenes.component.html',
@@ -15,6 +17,7 @@ export class OrdenesComponent implements OnInit {
   constructor(
     private ordenServicie: OrdenesService,
     public agendamientoService: AgendamientoService,
+    private manteniminetoService: MantenimientosService,
     private router: Router,
   ) {}
   public totalAceptas: number = 0;
@@ -25,12 +28,23 @@ export class OrdenesComponent implements OnInit {
   public ordenesTemp: Orden[] = [];
   public desde: number = 0;
   public page!: number;
+  public listaordenesingresdas:Ordene[]=[];
 
   public cargando: boolean = true;
   ngOnInit(): void {
     this.cargarOrdenes();
     this.escucharSocket();
+    this.getOrdenes();
   }
+
+  getOrdenes() {
+    this.manteniminetoService.getIngresoOrden().subscribe((ordenes) => {
+     console.log(ordenes);
+     this.listaordenesingresdas=ordenes;
+
+
+   }); 
+ }
   cargarOrdenes() {
     this.cargando = true;
     /*  this.ordenServicie.cargarOrdenes(this.desde) */
@@ -117,8 +131,8 @@ export class OrdenesComponent implements OnInit {
     });
   }
 
-  pdf2(orden: Orden) {
-    this.ordenServicie.getPdf(orden).subscribe((blob: Blob) => {
+  pdf2(orden: any) {
+  /*   this.ordenServicie.getPdf(orden).subscribe((blob: Blob) => {
       //console.log(resp)
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -126,7 +140,7 @@ export class OrdenesComponent implements OnInit {
       link.download = 'archivo.pdf';
       link.click();
       window.URL.revokeObjectURL(url);
-    });
+    }); */
   }
   imprimirOrden(orden) {
     console.log(`//////************`, orden.id);
